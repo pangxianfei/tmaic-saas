@@ -10,7 +10,6 @@ import (
 	"log"
 	"os"
 	"time"
-	"tmaic/app/common"
 	"tmaic/app/model"
 	"tmaic/config"
 	c "tmaic/vendors/framework/config"
@@ -25,6 +24,16 @@ func ConfigInit() {
 	// gorm配置
 	gormConf := &gorm.Config{}
 	// 初始化日志
+	InitializationLog(gormConf)
+	//debug.Dump(c.GetInterface("database.connections.mysql"))
+	// 连接数据库
+	if err := simple.OpenDB(c.GetString("database.dns"), gormConf, 10, 20, model.Models...); err != nil {
+		logrus.Error(err)
+	}
+}
+
+// InitializationLog 初始化日志
+func InitializationLog(gormConf *gorm.Config) bool {
 	if file, err := os.OpenFile(c.GetString("app.LogFile"), os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666); err == nil {
 		logrus.SetOutput(io.MultiWriter(os.Stdout, file))
 		if c.GetBool("database.show-sql") {
@@ -37,18 +46,7 @@ func ConfigInit() {
 	} else {
 		logrus.SetOutput(os.Stdout)
 		logrus.Error(err)
+		return false
 	}
-	logrus.Debug(c.GetInterface("database.connections.mysql"))
-	// 连接数据库
-	if err := simple.OpenDB(c.GetString("database.dns"), gormConf, 10, 20, model.Models...); err != nil {
-		logrus.Error(err)
-	}
-}
-
-// StartOn 开启定时任务
-func StartOn() {
-	if !common.IsProd() {
-		return
-	}
-	startSchedule()
+	return true
 }

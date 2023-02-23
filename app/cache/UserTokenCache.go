@@ -2,39 +2,22 @@ package cache
 
 import (
 	"encoding/json"
-	"errors"
-	"gitee.com/pangxianfei/simple"
-	"github.com/goburrow/cache"
-	"time"
+
 	helpers "tmaic/vendors/framework/helpers/cache"
 	tokenCache "tmaic/vendors/framework/helpers/tmaic"
 
 	///helpers "tmaic/vendors/framework/helpers/cache
 
 	"tmaic/app/model"
-	"tmaic/app/repositories"
 )
 
 var UserTokenCache = newUserTokenCache()
 
 type userTokenCache struct {
-	cache cache.LoadingCache
 }
 
 func newUserTokenCache() *userTokenCache {
-	return &userTokenCache{
-		cache: cache.NewLoadingCache(
-			func(key cache.Key) (value cache.Value, e error) {
-				value = repositories.UserTokenRepository.GetByToken(simple.DB(), key.(string))
-				if value == nil {
-					e = errors.New("数据不存在")
-				}
-				return
-			},
-			cache.WithMaximumSize(1000),
-			cache.WithExpireAfterAccess(60*time.Minute),
-		),
-	}
+	return &userTokenCache{}
 }
 
 func (c *userTokenCache) Get(token string) *model.UserToken {
@@ -53,6 +36,10 @@ func (c *userTokenCache) Get(token string) *model.UserToken {
 
 	newData := tokenCache.InterfaceToString(cacheData)
 
+	if len(newData) <= 0 {
+		return nil
+	}
+
 	err := json.Unmarshal([]byte(newData), &UserToken)
 	//debug.Dump(UserToken)
 	//debug.Dump(err)
@@ -66,5 +53,5 @@ func (c *userTokenCache) Get(token string) *model.UserToken {
 }
 
 func (c *userTokenCache) Invalidate(token string) {
-	c.cache.Invalidate(token)
+	//c.cache.Invalidate(token)
 }

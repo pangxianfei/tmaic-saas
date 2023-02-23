@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"context"
+	"fmt"
 	"gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/logger"
@@ -20,6 +21,7 @@ import (
 	"tmaic/resources/lang"
 	"tmaic/routes"
 	"tmaic/vendors/framework/cache"
+	"tmaic/vendors/framework/helpers/log"
 	"tmaic/vendors/framework/helpers/zone"
 	"tmaic/vendors/framework/queue"
 )
@@ -49,12 +51,14 @@ func Run(parentCtx context.Context, wg *sync.WaitGroup) {
 		app.Logger().SetLevel("warn")
 		app.Use(recover.New())
 		app.Use(logger.New())
-		// Globally allow options method to enable CORS
 		app.AllowMethods(iris.MethodOptions)
 		//跨域
 		app.Use(middleware.CORS)
 		//注册路由
 		route.Route(app)
+		RouteNameList(app)
+		//心路路由
+		ping(app)
 		httpServer := &http.Server{Addr: ":" + config.Instance.Port}
 		handleSignal(httpServer, parentCtx)
 		err := app.Run(iris.Server(httpServer), iris.WithConfiguration(iris.Configuration{
@@ -69,6 +73,7 @@ func Run(parentCtx context.Context, wg *sync.WaitGroup) {
 			TimeFormat:                        "2006-01-02 15:04:05",
 			Charset:                           "UTF-8",
 		}), iris.WithoutInterruptHandler)
+
 		if err != nil {
 			logrus.Error(err)
 			os.Exit(-1)
@@ -92,4 +97,21 @@ func handleSignal(server *http.Server, parentCtx context.Context) {
 		logrus.Infof("Exited")
 		os.Exit(0)
 	}()
+}
+
+// RouteNameList 打印路由列表
+func RouteNameList(app *iris.Application) {
+	routeList := app.GetRoutes()
+	for _, value := range routeList {
+		if value.Method == "POST" || value.Method == "GET" {
+			log.Info(fmt.Sprintf(" %-6s %-35s --> %-50s", value.Method, value.Path, value.Name))
+		}
+	}
+}
+
+// ping 心路路由
+func ping(app *iris.Application) {
+	app.Any("/ping", func(ctx iris.Context) {
+		ctx.JSON(iris.Map{"message": "yes"})
+	})
 }

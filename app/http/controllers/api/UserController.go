@@ -18,14 +18,12 @@ func (c *UserController) PostInfo() *simple.JsonResult {
 	//return simple.JsonData(jwtInfo)
 	//user := services.UserTokenService.GetUserInfo(c.Ctx)
 	//return simple.JsonData(user)
-	//logined := c.Ctx.Values().Get("UserInfo").(model.User)
-
+	//logined := c.Ctx.Values().Get("UserInfo").(*model.User)
 	//data, _ := json.Marshal(logined)
 	//cache.Put("pangxianfei", data)
-
 	//cache.SetNx("test", "pangxianfei")
-
 	return simple.JsonData(services.UserTokenService.GetUserInfo(c.Ctx))
+	//return simple.JsonData(logined.Email)
 
 }
 

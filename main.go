@@ -17,7 +17,7 @@ func main() {
 	wg.Add(1)
 	bootstrap.ConfigInit()
 	bootstrap.Initialize()
-	bootstrap.StartOn()
+	bootstrap.EnablingAscheduledTask()
 	bootstrap.Run(ctx, wg)
 
 	wg.Done()

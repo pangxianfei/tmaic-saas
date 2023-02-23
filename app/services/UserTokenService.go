@@ -12,6 +12,7 @@ import (
 	"tmaic/app/model/constants"
 	"tmaic/app/repositories"
 	"tmaic/vendors/framework/config"
+	"tmaic/vendors/framework/helpers/debug"
 )
 
 var UserTokenService = newUserTokenService()
@@ -35,7 +36,12 @@ func (s *userTokenService) GetCurrentUserId(ctx iris.Context) int64 {
 // GetUserInfo 获取当前登录用户
 func (s *userTokenService) GetUserInfo(ctx iris.Context) (user *model.User) {
 	token := s.GetUserToken(ctx)
+	debug.Dump(token)
 	userToken := cache.UserTokenCache.Get(token)
+
+	if userToken == nil {
+		return nil
+	}
 	user = UserService.Get(userToken.UserId)
 
 	// 没找到授权
@@ -98,30 +104,28 @@ func (s *userTokenService) Create(t *model.UserToken) error {
 }
 
 // CreateToken get jwt string with expiration time 20 minutes
-func (s *userTokenService) CreateToken(user model.User) (string, error) {
+func (s *userTokenService) CreateToken(user model.User) (tokenString string, err error) {
+	//tokenString, err = common.GetJWTInstantiation(user)
 
-	maxAge := 60 * 60 * 24
 	token := jwt.NewTokenWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		// 根据需求，可以存一些必要的数据
 		"UserName": user.UserName,
 		"UserInfo": user,
 		"UserId":   user.Id,
-		"TokenId":  1,
 		// 签发人
 		"iss": "tmaic",
 		// 签发时间
 		"iat": time.Now().Unix(),
-		// 设定过期时间，设置60分钟过期
-		"exp": time.Now().Add(time.Duration(maxAge) * time.Second).Unix(),
+		// 设定过期时间
+		"exp": config.GetInt64("cache.token_time"),
 	})
 
 	// 使用设置的秘钥，签名生成jwt字符串
-	tokenString, err := token.SignedString([]byte(config.GetString("auth.sign_key")))
+	tokenString, err = token.SignedString([]byte(config.GetString("auth.sign_key")))
+
 	if err != nil {
 		return "", err
 	}
-	//debug.Dump(tokenString)
-	//debug.Dump(tmaic.MD5(tokenString))
 	return tokenString, nil
 }
 

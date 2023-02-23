@@ -10,6 +10,7 @@ import (
 	"time"
 	"tmaic/app/common/validate"
 	"tmaic/app/model/constants"
+	"tmaic/vendors/framework/config"
 	"tmaic/vendors/framework/helpers/tmaic"
 
 	"tmaic/app/cache"
@@ -285,16 +286,15 @@ func (s *userService) SignIn(username string, password string) (*model.User, str
 	if err != nil {
 		return nil, "", err
 	}
-	maxAge := 60 * 60 * 24
 
+	//保存至DB
 	userToken := &model.UserToken{
 		Token:      token,
 		UserId:     user.Id,
-		ExpiredAt:  time.Now().Add(time.Duration(maxAge) * time.Second).Unix(),
+		ExpiredAt:  config.GetInt64("cache.token_time"),
 		Status:     0,
 		CreateTime: time.Now().Add(60 * time.Minute * time.Duration(1)).Unix(),
 	}
-	//保存至DB
 	err = UserTokenService.Create(userToken)
 
 	if err != nil {
@@ -303,7 +303,6 @@ func (s *userService) SignIn(username string, password string) (*model.User, str
 	//缓存token信息
 	userTokenData, _ := json.Marshal(userToken)
 	tokenKey := tmaic.MD5(token)
-	c.Put(tokenKey, userTokenData)
-
+	c.AddTokenCache(tokenKey, userTokenData)
 	return user, token, nil
 }

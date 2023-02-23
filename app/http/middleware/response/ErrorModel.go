@@ -1,7 +1,5 @@
 package response
 
-import "tmaic/vendors/framework/config"
-
 // ErrorModel 错误返回模型
 type ErrorModel struct {
 	Code   int64       `json:"code"`
@@ -10,7 +8,6 @@ type ErrorModel struct {
 	Data   interface{} `json:"Data"`
 }
 
-//
 // ErrorInsertDatabase 1-插入数据库失败
 func ErrorInsertDatabase(err error) ErrorModel {
 	return buildError(1, "插入数据库出错", err.Error(), "")
@@ -48,7 +45,17 @@ func ErrorBuildJWT(err error) ErrorModel {
 
 // ErrorUnauthorized 8-未认证登录
 func ErrorUnauthorized(err error) ErrorModel {
-	return buildError(8, "未认证登录", err.Error(), config.GetString("auth.sign_key"))
+	return buildError(8, "未认证登录", err.Error(), "")
+}
+
+// ErrorTokenInvalidation 8-未认证登录
+func ErrorTokenInvalidation() ErrorModel {
+	return ErrorModel{
+		Code:   401,
+		Msg:    "令牌失效",
+		Detail: "",
+		Data:   "令牌失效",
+	}
 }
 
 func buildError(code int64, msg string, detail string, data interface{}) ErrorModel {

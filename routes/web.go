@@ -11,16 +11,15 @@ func Route(app *iris.Application) {
 	routeStatic(app)
 	routeRedirect(app)
 
-	mvc.Configure(app.Party("/user"), func(m *mvc.Application) {
-		m.Party("/login").Handle(new(api.LoginController))
+	mvc.Configure(app.Party("/"), func(m *mvc.Application) {
+		m.Party("auth").Handle(new(api.LoginController))
 	})
 	mvc.Configure(app.Party("/api"), func(m *mvc.Application) {
-		m.Router.Use(middleware.JWT.Serve, middleware.Login)
+		m.Router.Use(middleware.Login)
 		m.Party("/article").Handle(new(api.ArticleController))
 		m.Party("/ev").Handle(new(api.EventsController))
 		m.Party("/user").Handle(new(api.UserController))
 		m.Party("/upload").Handle(new(api.UploadController))
-
 	})
 
 }

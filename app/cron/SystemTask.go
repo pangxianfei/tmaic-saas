@@ -1,22 +1,14 @@
-package bootstrap
+package cron
 
 import (
 	"github.com/robfig/cron"
 	"github.com/sirupsen/logrus"
 )
 
-func startSchedule() {
+func StartSchedule() {
 	c := cron.New()
-
-	addCronFunc(c, "@every 30m", func() {
-
-	})
-
-	// Generate sitemap
-	addCronFunc(c, "@every 2h", func() {
-
-	})
-
+	addCronFunc(c, "@every 30m", func() {})
+	addCronFunc(c, "@every 2h", func() {})
 	c.Start()
 }
 

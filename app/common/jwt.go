@@ -1,0 +1,27 @@
+package common
+
+import (
+	"github.com/iris-contrib/middleware/jwt"
+	"time"
+)
+
+// GetJWTString get jwt string with expiration time 20 minutes
+func GetJWTString(Name string, Id int64) (string, error) {
+	token := jwt.NewTokenWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		// 根据需求，可以存一些必要的数据
+		"userName": Name,
+		"userId":   Id,
+		// 签发人
+		"iss": "tmaic",
+		// 签发时间
+		"iat": time.Now().Unix(),
+		// 设定过期时间，设置20分钟过期
+		"exp": time.Now().Add(20 * time.Minute * time.Duration(10)).Unix(),
+	})
+	// 使用设置的秘钥，签名生成jwt字符串
+	tokenString, err := token.SignedString([]byte("An3WCdmMFtN2kGz2"))
+	if err != nil {
+		return "", err
+	}
+	return tokenString, nil
+}

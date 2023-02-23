@@ -12,7 +12,6 @@ import (
 	"tmaic/app/model/constants"
 	"tmaic/app/repositories"
 	"tmaic/vendors/framework/config"
-	"tmaic/vendors/framework/helpers/debug"
 )
 
 var UserTokenService = newUserTokenService()
@@ -36,7 +35,7 @@ func (s *userTokenService) GetCurrentUserId(ctx iris.Context) int64 {
 // GetUserInfo 获取当前登录用户
 func (s *userTokenService) GetUserInfo(ctx iris.Context) (user *model.User) {
 	token := s.GetUserToken(ctx)
-	debug.Dump(token)
+
 	userToken := cache.UserTokenCache.Get(token)
 
 	if userToken == nil {
@@ -50,7 +49,8 @@ func (s *userTokenService) GetUserInfo(ctx iris.Context) (user *model.User) {
 	}
 
 	// 授权过期
-	if userToken.ExpiredAt >= date.NowTimestamp() {
+	ExpiredAt := userToken.ExpiredAt + userToken.CreateTime
+	if ExpiredAt >= date.NowTimestamp() {
 		return nil
 	}
 	//用户被禁用

@@ -41,8 +41,6 @@ func (c *userTokenCache) Get(token string) *model.UserToken {
 	}
 
 	err := json.Unmarshal([]byte(newData), &UserToken)
-	//debug.Dump(UserToken)
-	//debug.Dump(err)
 
 	if err == nil {
 		return UserToken

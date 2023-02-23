@@ -1,11 +1,15 @@
 package cache
 
 import (
+	"encoding/json"
 	"errors"
-	"time"
-
 	"gitee.com/pangxianfei/simple"
 	"github.com/goburrow/cache"
+	"time"
+	helpers "tmaic/vendors/framework/helpers/cache"
+	tokenCache "tmaic/vendors/framework/helpers/tmaic"
+
+	///helpers "tmaic/vendors/framework/helpers/cache
 
 	"tmaic/app/model"
 	"tmaic/app/repositories"
@@ -37,14 +41,28 @@ func (c *userTokenCache) Get(token string) *model.UserToken {
 	if len(token) == 0 {
 		return nil
 	}
-	val, err := c.cache.Get(token)
-	if err != nil {
+	tokenKey := tokenCache.MD5(token)
+	cacheData := helpers.GetString(tokenKey)
+
+	//val, err := c.cache.Get(token)
+	if len(cacheData) <= 0 {
 		return nil
 	}
-	if val != nil {
-		return val.(*model.UserToken)
+
+	var UserToken *model.UserToken
+
+	newData := tokenCache.InterfaceToString(cacheData)
+
+	err := json.Unmarshal([]byte(newData), &UserToken)
+	//debug.Dump(UserToken)
+	//debug.Dump(err)
+
+	if err == nil {
+		return UserToken
 	}
+
 	return nil
+
 }
 
 func (c *userTokenCache) Invalidate(token string) {

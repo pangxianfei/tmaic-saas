@@ -1,6 +1,7 @@
 package services
 
 import (
+	"encoding/json"
 	"errors"
 	"gitee.com/pangxianfei/simple"
 	"gitee.com/pangxianfei/simple/date"
@@ -9,11 +10,12 @@ import (
 	"time"
 	"tmaic/app/common/validate"
 	"tmaic/app/model/constants"
+	"tmaic/vendors/framework/helpers/tmaic"
 
 	"tmaic/app/cache"
-
 	"tmaic/app/model"
 	"tmaic/app/repositories"
+	c "tmaic/vendors/framework/helpers/cache"
 )
 
 // 邮箱验证邮件有效期（小时）
@@ -283,28 +285,25 @@ func (s *userService) SignIn(username string, password string) (*model.User, str
 	if err != nil {
 		return nil, "", err
 	}
-	/*
-		user := &model.User{
-			UserName:   username,
-			Email:      email,
-			Nickname:   nickname,
-			Password:   simple.EncodePassword(password),
-			Status:     constants.StatusOk,
-			CreateTime: date.NowTimestamp(),
-			UpdateTime: date.NowTimestamp(),
-		}
-	*/
+	maxAge := 60 * 60 * 24
+
 	userToken := &model.UserToken{
 		Token:      token,
 		UserId:     user.Id,
-		ExpiredAt:  time.Now().Unix(),
-		Status:     1,
+		ExpiredAt:  time.Now().Add(time.Duration(maxAge) * time.Second).Unix(),
+		Status:     0,
 		CreateTime: time.Now().Add(60 * time.Minute * time.Duration(1)).Unix(),
 	}
+	//保存至DB
 	err = UserTokenService.Create(userToken)
 
 	if err != nil {
 		return nil, "", err
 	}
+	//缓存token信息
+	userTokenData, _ := json.Marshal(userToken)
+	tokenKey := tmaic.MD5(token)
+	c.Put(tokenKey, userTokenData)
+
 	return user, token, nil
 }

@@ -2,19 +2,16 @@ package services
 
 import (
 	"errors"
+	"gitee.com/pangxianfei/simple"
 	"gitee.com/pangxianfei/simple/date"
 	"github.com/iris-contrib/middleware/jwt"
-	"tmaic/vendors/framework/config"
-
-	"time"
-	"tmaic/app/model/constants"
-
-	"gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
-
+	"time"
 	"tmaic/app/cache"
 	"tmaic/app/model"
+	"tmaic/app/model/constants"
 	"tmaic/app/repositories"
+	"tmaic/vendors/framework/config"
 )
 
 var UserTokenService = newUserTokenService()
@@ -39,18 +36,22 @@ func (s *userTokenService) GetCurrentUserId(ctx iris.Context) int64 {
 func (s *userTokenService) GetUserInfo(ctx iris.Context) (user *model.User) {
 	token := s.GetUserToken(ctx)
 	userToken := cache.UserTokenCache.Get(token)
+	user = UserService.Get(userToken.UserId)
+
 	// 没找到授权
 	if userToken == nil || userToken.Status == constants.StatusDeleted {
 		return nil
 	}
+
 	// 授权过期
-	if userToken.ExpiredAt <= date.NowTimestamp() {
+	if userToken.ExpiredAt >= date.NowTimestamp() {
 		return nil
 	}
-	user = cache.UserCache.Get(userToken.UserId)
+	//用户被禁用
 	if user == nil || user.Status != constants.StatusOk {
 		return nil
 	}
+
 	return user
 }
 
@@ -75,12 +76,17 @@ func (s *userTokenService) Signout(ctx iris.Context) error {
 
 // GetUserToken 从请求体中获取UserToken
 func (s *userTokenService) GetUserToken(ctx iris.Context) string {
-	userToken := ctx.FormValue("Authorization")
+
+	userToken := ctx.GetHeader("Authorization")
 
 	if len(userToken) > 0 {
+		userToken := userToken[7:]
 		return userToken
 	}
-	return ctx.GetHeader("X-User-Token")
+	userToken = ctx.GetHeader("X-User-Token")
+	userToken = userToken[7:]
+	return userToken
+
 }
 func (s *userTokenService) Create(t *model.UserToken) error {
 	err := repositories.UserTokenRepository.Create(simple.DB(), t)
@@ -93,6 +99,8 @@ func (s *userTokenService) Create(t *model.UserToken) error {
 
 // CreateToken get jwt string with expiration time 20 minutes
 func (s *userTokenService) CreateToken(user model.User) (string, error) {
+
+	maxAge := 60 * 60 * 24
 	token := jwt.NewTokenWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		// 根据需求，可以存一些必要的数据
 		"UserName": user.UserName,
@@ -104,7 +112,7 @@ func (s *userTokenService) CreateToken(user model.User) (string, error) {
 		// 签发时间
 		"iat": time.Now().Unix(),
 		// 设定过期时间，设置60分钟过期
-		"exp": time.Now().Add(60 * time.Minute * time.Duration(1)).Unix(),
+		"exp": time.Now().Add(time.Duration(maxAge) * time.Second).Unix(),
 	})
 
 	// 使用设置的秘钥，签名生成jwt字符串
@@ -112,7 +120,8 @@ func (s *userTokenService) CreateToken(user model.User) (string, error) {
 	if err != nil {
 		return "", err
 	}
-
+	//debug.Dump(tokenString)
+	//debug.Dump(tmaic.MD5(tokenString))
 	return tokenString, nil
 }
 

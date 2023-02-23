@@ -1,11 +1,11 @@
 package api
 
 import (
-	"encoding/json"
 	"gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
-	"tmaic/app/model"
-	"tmaic/vendors/framework/helpers/cache"
+	"tmaic/app/services"
+	//"tmaic/vendors/framework/helpers/cache"
+	//"tmaic/vendors/framework/helpers/tmaic"
 )
 
 type UserController struct {
@@ -16,19 +16,16 @@ type UserController struct {
 func (c *UserController) PostInfo() *simple.JsonResult {
 	//jwtInfo := c.Ctx.Values().Get("jwt")
 	//return simple.JsonData(jwtInfo)
-
 	//user := services.UserTokenService.GetUserInfo(c.Ctx)
-
 	//return simple.JsonData(user)
+	//logined := c.Ctx.Values().Get("UserInfo").(model.User)
 
-	logined := c.Ctx.Values().Get("UserInfo").(model.User)
+	//data, _ := json.Marshal(logined)
+	//cache.Put("pangxianfei", data)
 
-	data, _ := json.Marshal(logined)
-	cache.Put("pangxianfei", data)
-	//cache.Get("pangxianfei")
-	cache.SetNx("test", "pangxianfei")
+	//cache.SetNx("test", "pangxianfei")
 
-	return simple.JsonData(cache.GetString("test"))
+	return simple.JsonData(services.UserTokenService.GetUserInfo(c.Ctx))
 
 }
 

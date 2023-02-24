@@ -20,6 +20,7 @@ type Config struct {
 	// 数据库配置
 	DB struct {
 		Url          string `yaml:"Url"`
+		Prefix       string `yaml:"Prefix"`
 		MaxIdleConns int    `yaml:"MaxIdleConns"`
 		MaxOpenConns int    `yaml:"MaxOpenConns"`
 	} `yaml:"DB"`

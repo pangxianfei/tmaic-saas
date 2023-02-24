@@ -2,7 +2,7 @@ package model
 
 // 文章
 type Article struct {
-	Model
+	BaseModel
 	UserId      int64  `gorm:"index:idx_article_user_id" json:"userId" form:"userId"`             // 所属用户编号
 	Title       string `gorm:"size:128;not null;" json:"title" form:"title"`                      // 标题
 	Summary     string `gorm:"type:text" json:"summary" form:"summary"`                           // 摘要

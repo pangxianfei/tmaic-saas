@@ -1,7 +1,7 @@
 package model
 
 type UserToken struct {
-	Model
+	BaseModel
 	//Token      string `gorm:"size:512;unique;not null" json:"token" form:"token"`
 	Token      string `gorm:"column:token;type:longtext"`
 	UserId     int64  `gorm:"column:user_id;not null;index:idx_user_token_user_id;" json:"userId" form:"userId"`

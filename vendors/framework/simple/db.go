@@ -13,7 +13,7 @@ var (
 	sqlDB *sql.DB
 )
 
-func OpenDB(dsn string, TablePrefix string, config *gorm.Config, maxIdleConns int, maxOpenConns int) (err error) {
+func OpenDB(dsn string, TablePrefix string, config *gorm.Config, maxIdleConns, maxOpenConns int, models ...interface{}) (err error) {
 	if config == nil {
 		config = &gorm.Config{}
 	}
@@ -37,11 +37,10 @@ func OpenDB(dsn string, TablePrefix string, config *gorm.Config, maxIdleConns in
 		log.Error(err)
 	}
 
-	/*
-		if err = db.AutoMigrate(models...); nil != err {
-			log.Errorf("auto migrate tables failed: %s", err.Error())
-		}
-	*/
+	if err = db.AutoMigrate(models...); nil != err {
+		log.Errorf("auto migrate tables failed: %s", err.Error())
+	}
+
 	return
 }
 

@@ -2,7 +2,6 @@ package bootstrap
 
 import (
 	"context"
-	"fmt"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/logger"
 	"github.com/kataras/iris/v12/middleware/recover"
@@ -10,7 +9,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
-	"sync"
+	"strings"
 	"syscall"
 	"tmaic/app/events"
 	"tmaic/app/http/middleware"
@@ -20,7 +19,7 @@ import (
 	"tmaic/resources/lang"
 	"tmaic/routes"
 	"tmaic/vendors/framework/cache"
-	"tmaic/vendors/framework/helpers/log"
+	"tmaic/vendors/framework/console"
 	"tmaic/vendors/framework/helpers/zone"
 	"tmaic/vendors/framework/queue"
 	"tmaic/vendors/framework/simple"
@@ -44,41 +43,37 @@ func Initialize() {
 
 }
 
-func Run(parentCtx context.Context, wg *sync.WaitGroup) {
+func Run(parentCtx context.Context) {
 
-	go func() {
-		app := iris.New()
-		app.Logger().SetLevel("warn")
-		app.Use(recover.New())
-		app.Use(logger.New())
-		app.AllowMethods(iris.MethodOptions)
-		//跨域
-		app.Use(middleware.CORS)
-		//注册路由
-		route.Route(app)
-		RouteNameList(app)
-		httpServer := &http.Server{Addr: ":" + config.Instance.Port}
-		handleSignal(httpServer, parentCtx)
-		err := app.Run(iris.Server(httpServer), iris.WithConfiguration(iris.Configuration{
-			DisableStartupLog:                 false,
-			DisableInterruptHandler:           false,
-			DisablePathCorrection:             false,
-			EnablePathEscape:                  false,
-			FireMethodNotAllowed:              false,
-			DisableBodyConsumptionOnUnmarshal: false,
-			DisableAutoFireStatusCode:         false,
-			EnableOptimizations:               true,
-			TimeFormat:                        "2006-01-02 15:04:05",
-			Charset:                           "UTF-8",
-		}), iris.WithoutInterruptHandler)
+	app := iris.New()
+	app.Logger().SetLevel("warn")
+	app.Use(recover.New())
+	app.Use(logger.New())
+	app.AllowMethods(iris.MethodOptions)
+	//跨域
+	app.Use(middleware.CORS)
+	//注册路由
+	route.Route(app)
+	RouteNameList(app)
+	httpServer := &http.Server{Addr: ":" + config.Instance.Port}
+	handleSignal(httpServer, parentCtx)
+	err := app.Run(iris.Server(httpServer), iris.WithConfiguration(iris.Configuration{
+		DisableStartupLog:                 false,
+		DisableInterruptHandler:           false,
+		DisablePathCorrection:             false,
+		EnablePathEscape:                  false,
+		FireMethodNotAllowed:              false,
+		DisableBodyConsumptionOnUnmarshal: false,
+		DisableAutoFireStatusCode:         false,
+		EnableOptimizations:               true,
+		TimeFormat:                        "2006-01-02 15:04:05",
+		Charset:                           "UTF-8",
+	}), iris.WithoutInterruptHandler)
 
-		if err != nil {
-			logrus.Error(err)
-			os.Exit(-1)
-		}
-	}()
-	_, cancel := context.WithTimeout(parentCtx, 5*zone.Second)
-	defer cancel()
+	if err != nil {
+		logrus.Error(err)
+		os.Exit(-1)
+	}
 	<-parentCtx.Done()
 }
 
@@ -100,9 +95,16 @@ func handleSignal(server *http.Server, parentCtx context.Context) {
 // RouteNameList 打印路由列表
 func RouteNameList(app *iris.Application) {
 	routeList := app.GetRoutes()
+	var index int = 1
 	for _, value := range routeList {
-		if value.Method == "POST" || value.Method == "GET" {
-			log.Info(fmt.Sprintf(" %-6s %-35s --> %-50s", value.Method, value.Path, value.Name))
+		if strings.Contains(value.MainHandlerName, "tmaic") || strings.Contains(value.MainHandlerName, "iris") {
+			continue
 		}
+
+		if value.Method == "POST" || value.Method == "GET" {
+			console.Println(console.CODE_SUCCESS, " "+console.Sprintf(console.CODE_SUCCESS, "%-6d", index)+console.Sprintf(console.CODE_SUCCESS, "%-50s", value.MainHandlerName)+console.Sprintf(console.CODE_SUCCESS, "%-6s", value.Method)+" "+console.Sprintf(console.CODE_SUCCESS, "%-35s", value.Path))
+			index++
+		}
+
 	}
 }

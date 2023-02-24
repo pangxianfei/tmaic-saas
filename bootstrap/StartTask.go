@@ -5,8 +5,8 @@ import (
 	"tmaic/app/cron"
 )
 
-// EnablingAscheduledTask 开启定时任务
-func EnablingAscheduledTask() {
+// EnablingScheduledTask 开启定时任务
+func EnablingScheduledTask() {
 	if !common.IsProd() {
 		return
 	}

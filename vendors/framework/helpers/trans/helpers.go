@@ -1,6 +1,7 @@
 package trans
 
 import (
+	"tmaic/vendors/framework/config"
 	"tmaic/vendors/framework/resources/lang"
 
 	"gopkg.in/go-playground/validator.v9"
@@ -12,5 +13,5 @@ func ValidationTranslate(v *validator.Validate, langName string, e validator.Val
 	return helper.ValidationTranslate(v, langName, e)
 }
 func CustomTranslate(messageID string, data map[string]interface{}) string {
-	return helper.CustomTranslate(messageID, data, "zh")
+	return helper.CustomTranslate(messageID, data, config.GetString("app.locale"))
 }

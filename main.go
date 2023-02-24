@@ -2,23 +2,17 @@ package main
 
 import (
 	"context"
-	"sync"
 	"tmaic/bootstrap"
 	_ "tmaic/vendors/framework/config"
 )
 
-func init() {
-
-}
+func init() {}
 
 func main() {
-	ctx, _ := context.WithCancel(context.Background())
-	wg := &sync.WaitGroup{}
-	wg.Add(1)
+	ctx, cancel := context.WithCancel(context.Background())
 	bootstrap.ConfigInit()
 	bootstrap.Initialize()
-	bootstrap.EnablingAscheduledTask()
-	bootstrap.Run(ctx, wg)
-
-	wg.Done()
+	bootstrap.EnablingScheduledTask()
+	bootstrap.Run(ctx)
+	defer cancel()
 }

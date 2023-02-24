@@ -20,7 +20,6 @@ require (
 	github.com/iris-contrib/middleware/jwt v0.0.0-20221109225525-f806663b83a0
 	github.com/jinzhu/copier v0.3.5
 	github.com/kataras/iris/v12 v12.2.0-beta6
-	github.com/mitchellh/mapstructure v1.4.1 // indirect
 	github.com/nsqio/go-nsq v1.1.0
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/pkg/errors v0.9.1

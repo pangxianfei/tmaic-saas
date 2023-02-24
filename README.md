@@ -19,6 +19,12 @@ tmaic 是一套简洁、优雅的Golang API Web开发框架(GoLang Web Framework
     go mod tidy // 加载依赖包
     go mod vendor // 将依赖包拷贝到项目目录中去
     go run main.go
+###使用说明
+
+1.  获取上下文
+	logined := c.Ctx.Values().Get("UserInfo").(*model.User)
+2.  
+	
 
 #### 参与贡献
 

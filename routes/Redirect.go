@@ -3,7 +3,7 @@ package route
 import "github.com/kataras/iris/v12"
 
 func routeRedirect(app *iris.Application) {
-	// app.Get("/", func(ctx iris.Context) {
-	// 	ctx.Redirect("/index.html")
-	// })
+	app.Any("/", func(ctx iris.Context) {
+		ctx.JSON(iris.Map{"code": 200, "status": true})
+	})
 }

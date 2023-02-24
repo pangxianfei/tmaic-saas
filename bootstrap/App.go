@@ -57,8 +57,6 @@ func Run(parentCtx context.Context, wg *sync.WaitGroup) {
 		//注册路由
 		route.Route(app)
 		RouteNameList(app)
-		//心路路由
-		ping(app)
 		httpServer := &http.Server{Addr: ":" + config.Instance.Port}
 		handleSignal(httpServer, parentCtx)
 		err := app.Run(iris.Server(httpServer), iris.WithConfiguration(iris.Configuration{
@@ -107,11 +105,4 @@ func RouteNameList(app *iris.Application) {
 			log.Info(fmt.Sprintf(" %-6s %-35s --> %-50s", value.Method, value.Path, value.Name))
 		}
 	}
-}
-
-// ping 心路路由
-func ping(app *iris.Application) {
-	app.Any("/ping", func(ctx iris.Context) {
-		ctx.JSON(iris.Map{"code": 200, "status": true})
-	})
 }

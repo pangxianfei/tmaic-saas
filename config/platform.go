@@ -15,7 +15,14 @@ type Config struct {
 	LogFile    string `yaml:"LogFile"`    // 日志文件
 	ShowSql    bool   `yaml:"ShowSql"`    // 是否显示日志
 	StaticPath string `yaml:"StaticPath"` // 静态文件目录
-	MySqlUrl   string `yaml:"MySqlUrl"`   // 数据库连接地址
+	//MySqlUrl   string `yaml:"MySqlUrl"`   // 数据库连接地址
+
+	// 数据库配置
+	DB struct {
+		Url          string `yaml:"Url"`
+		MaxIdleConns int    `yaml:"MaxIdleConns"`
+		MaxOpenConns int    `yaml:"MaxOpenConns"`
+	} `yaml:"DB"`
 
 	// Github
 	Github struct {

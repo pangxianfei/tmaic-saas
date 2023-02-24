@@ -9,8 +9,7 @@ import (
 	"log"
 	"os"
 	"time"
-	"tmaic/app/model"
-	"tmaic/config"
+	config "tmaic/config"
 	c "tmaic/vendors/framework/config"
 	"tmaic/vendors/framework/simple"
 )
@@ -25,12 +24,12 @@ func ConfigInit() {
 	gormConf := &gorm.Config{}
 	// 初始化日志
 	InitializationLog(gormConf)
-
+	DbInit(gormConf)
 }
 
 // DbInit 连接数据库
 func DbInit(gormConf *gorm.Config) {
-	if err := simple.OpenDB(c.GetString("database.dns"), c.GetString("database.db_prefix"), gormConf, 10, 20, model.Models...); err != nil {
+	if err := simple.OpenDB(config.Instance.DB.Url, c.GetString("database.db_prefix"), gormConf, config.Instance.DB.MaxIdleConns, config.Instance.DB.MaxOpenConns); err != nil {
 		logrus.Error(err)
 	}
 }

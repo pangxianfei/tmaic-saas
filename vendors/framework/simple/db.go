@@ -8,10 +8,6 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-type GormModel struct {
-	Id int64 `gorm:"primaryKey;autoIncrement" json:"id" form:"id"`
-}
-
 var (
 	db    *gorm.DB
 	sqlDB *sql.DB
@@ -47,12 +43,12 @@ func OpenDB(dsn string, TablePrefix string, config *gorm.Config, maxIdleConns, m
 	return
 }
 
-// 获取数据库链接
+// DB 获取数据库链接
 func DB() *gorm.DB {
 	return db
 }
 
-// 关闭连接
+// CloseDB 关闭连接
 func CloseDB() {
 	if sqlDB == nil {
 		return

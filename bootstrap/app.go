@@ -112,6 +112,6 @@ func RouteNameList(app *iris.Application) {
 // ping 心路路由
 func ping(app *iris.Application) {
 	app.Any("/ping", func(ctx iris.Context) {
-		ctx.JSON(iris.Map{"message": "yes"})
+		ctx.JSON(iris.Map{"code": 200, "status": true})
 	})
 }

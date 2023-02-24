@@ -9,18 +9,24 @@ import (
 var Instance *Config
 
 type Config struct {
+	AppName    string `yaml:"AppName"`    // 应用名
 	Env        string `yaml:"Env"`        // 环境：prod、dev
 	BaseUrl    string `yaml:"BaseUrl"`    // base url
 	Port       string `yaml:"Port"`       // 端口
 	LogFile    string `yaml:"LogFile"`    // 日志文件
 	ShowSql    bool   `yaml:"ShowSql"`    // 是否显示日志
 	StaticPath string `yaml:"StaticPath"` // 静态文件目录
-	//MySqlUrl   string `yaml:"MySqlUrl"`   // 数据库连接地址
 
 	// 数据库配置
 	DB struct {
-		Url          string `yaml:"Url"`
+		Dns          string `yaml:"Dns"`
+		Host         string `yaml:"Host"`
+		DbName       string `yaml:"DbName"`
+		UserName     string `yaml:"UserName"`
+		Password     string `yaml:"Password"`
 		Prefix       string `yaml:"Prefix"`
+		DbPort       int    `yaml:"DbPort"`
+		Charset      int    `yaml:"Charset"`
 		MaxIdleConns int    `yaml:"MaxIdleConns"`
 		MaxOpenConns int    `yaml:"MaxOpenConns"`
 	} `yaml:"DB"`

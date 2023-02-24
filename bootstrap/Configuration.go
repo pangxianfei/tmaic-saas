@@ -12,6 +12,7 @@ import (
 	"tmaic/app/model"
 	config "tmaic/config"
 	c "tmaic/vendors/framework/config"
+	"tmaic/vendors/framework/helpers/debug"
 	"tmaic/vendors/framework/simple"
 )
 
@@ -30,7 +31,9 @@ func ConfigInit() {
 
 // DbInit 连接数据库
 func DbInit(gormConf *gorm.Config) {
-	if err := simple.OpenDB(config.Instance.DB.Url, config.Instance.DB.Prefix, gormConf, config.Instance.DB.MaxIdleConns, config.Instance.DB.MaxOpenConns, model.CreateTableModels); err != nil {
+
+	debug.Dump(config.Instance.DB.Dns)
+	if err := simple.OpenDB(config.Instance.DB.Dns, config.Instance.DB.Prefix, gormConf, config.Instance.DB.MaxIdleConns, config.Instance.DB.MaxOpenConns, model.CreateTableModels...); err != nil {
 		logrus.Error(err)
 	}
 }

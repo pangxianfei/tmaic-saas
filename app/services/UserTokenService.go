@@ -2,14 +2,12 @@ package services
 
 import (
 	"errors"
-	"github.com/iris-contrib/middleware/jwt"
 	"github.com/kataras/iris/v12"
-	"time"
 	"tmaic/app/cache"
+	"tmaic/app/common"
 	"tmaic/app/common/constants"
 	"tmaic/app/model"
 	"tmaic/app/repositories"
-	"tmaic/vendors/framework/config"
 	"tmaic/vendors/framework/simple"
 	"tmaic/vendors/framework/simple/date"
 )
@@ -105,28 +103,8 @@ func (s *userTokenService) Create(t *model.UserToken) error {
 
 // CreateToken get jwt string with expiration time 20 minutes
 func (s *userTokenService) CreateToken(user model.User) (tokenString string, err error) {
-	//tokenString, err = common.GetJWTInstantiation(user)
-
-	token := jwt.NewTokenWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		// 根据需求，可以存一些必要的数据
-		"UserName": user.UserName,
-		"UserInfo": user,
-		"UserId":   user.Id,
-		// 签发人
-		"iss": "tmaic",
-		// 签发时间
-		"iat": time.Now().Unix(),
-		// 设定过期时间
-		"exp": config.GetInt64("cache.token_time"),
-	})
-
-	// 使用设置的秘钥，签名生成jwt字符串
-	tokenString, err = token.SignedString([]byte(config.GetString("auth.sign_key")))
-
-	if err != nil {
-		return "", err
-	}
-	return tokenString, nil
+	tokenString, err = common.GetJWTInstantiation(user)
+	return "", err
 }
 
 // Disable 禁用

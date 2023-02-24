@@ -9,6 +9,7 @@ import (
 	"tmaic/app/common/constants"
 	"tmaic/app/common/validate"
 	"tmaic/vendors/framework/config"
+	"tmaic/vendors/framework/helpers/debug"
 	"tmaic/vendors/framework/helpers/tmaic"
 	"tmaic/vendors/framework/simple"
 	"tmaic/vendors/framework/simple/date"
@@ -272,6 +273,7 @@ func (s *userService) SignIn(username string, password string) (*model.User, str
 	} else {
 		user = s.GetByUsername(username)
 	}
+	debug.Dump(user)
 
 	if user == nil || user.Status != constants.StatusOk {
 		return nil, "", errors.New("用户不存在或被禁用")

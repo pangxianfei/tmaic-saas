@@ -1,10 +1,10 @@
 package model
 
-// 文章
+// Article 文章
 type Article struct {
-	BaseModel
+	Id          int64  `gorm:"primaryKey;autoIncrement" json:"id" form:"id"`
 	UserId      int64  `gorm:"index:idx_article_user_id" json:"userId" form:"userId"`             // 所属用户编号
-	Title       string `gorm:"size:128;not null;" json:"title" form:"title"`                      // 标题
+	Title       string `gorm:"size:255;not null;" json:"title" form:"title"`                      // 标题
 	Summary     string `gorm:"type:text" json:"summary" form:"summary"`                           // 摘要
 	Content     string `gorm:"type:longtext;not null;" json:"content" form:"content"`             // 内容
 	ContentType string `gorm:"type:varchar(32);not null" json:"contentType" form:"contentType"`   // 内容类型：markdown、html

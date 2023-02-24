@@ -3,11 +3,11 @@ package migrations
 import (
 	"gorm.io/gorm"
 
-	"gitee.com/pangxianfei/frame/database/migration"
-	"gitee.com/pangxianfei/frame/helpers/zone"
+	"tmaic/vendors/framework/database/migration"
+	"tmaic/vendors/framework/helpers/zone"
 )
 
-//_ = simple.DB().AutoMigrate(&migrations.FailedQueue{})
+// _ = simple.DB().AutoMigrate(&migrations.FailedQueue{})
 func init() {
 	migration.AddMigrator(&CreateFailedQueueTable1556612225{})
 }

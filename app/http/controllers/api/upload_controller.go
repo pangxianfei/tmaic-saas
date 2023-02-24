@@ -1,8 +1,8 @@
 package api
 
 import (
-	"gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
+	"tmaic/vendors/framework/simple"
 )
 
 const uploadMaxBytes int64 = 1024 * 1024 * 3

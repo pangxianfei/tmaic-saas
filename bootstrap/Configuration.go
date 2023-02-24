@@ -2,7 +2,6 @@ package bootstrap
 
 import (
 	"flag"
-	"gitee.com/pangxianfei/simple"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -13,6 +12,7 @@ import (
 	"tmaic/app/model"
 	"tmaic/config"
 	c "tmaic/vendors/framework/config"
+	"tmaic/vendors/framework/simple"
 )
 
 // ConfigInit 出始化配置

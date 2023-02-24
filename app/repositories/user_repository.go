@@ -1,9 +1,9 @@
 package repositories
 
 import (
-	"gitee.com/pangxianfei/simple"
 	"gorm.io/gorm"
 	"tmaic/app/model"
+	"tmaic/vendors/framework/simple"
 )
 
 var UserRepository = new(userRepository)

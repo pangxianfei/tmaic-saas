@@ -1,6 +1,6 @@
 package common
 
-import "gitee.com/pangxianfei/simple"
+import "tmaic/vendors/framework/simple"
 
 var (
 	CaptchaError        = simple.NewError(1000, "验证码错误")

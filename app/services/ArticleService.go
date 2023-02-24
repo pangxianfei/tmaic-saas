@@ -1,8 +1,8 @@
 package services
 
 import (
-	"gitee.com/pangxianfei/simple"
 	"tmaic/app/model"
+	"tmaic/vendors/framework/simple"
 )
 
 var ArticleService = newArticleService()

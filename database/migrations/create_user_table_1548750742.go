@@ -3,9 +3,9 @@ package migrations
 import (
 	"gorm.io/gorm"
 
-	"gitee.com/pangxianfei/frame/database/migration"
-	"gitee.com/pangxianfei/frame/helpers/zone"
-	"gitee.com/pangxianfei/frame/model"
+	"tmaic/vendors/framework/database/migration"
+	"tmaic/vendors/framework/helpers/zone"
+	"tmaic/vendors/framework/model"
 )
 
 func init() {

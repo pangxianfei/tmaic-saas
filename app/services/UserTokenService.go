@@ -2,8 +2,6 @@ package services
 
 import (
 	"errors"
-	"gitee.com/pangxianfei/simple"
-	"gitee.com/pangxianfei/simple/date"
 	"github.com/iris-contrib/middleware/jwt"
 	"github.com/kataras/iris/v12"
 	"time"
@@ -12,6 +10,8 @@ import (
 	"tmaic/app/model/constants"
 	"tmaic/app/repositories"
 	"tmaic/vendors/framework/config"
+	"tmaic/vendors/framework/simple"
+	"tmaic/vendors/framework/simple/date"
 )
 
 var UserTokenService = newUserTokenService()

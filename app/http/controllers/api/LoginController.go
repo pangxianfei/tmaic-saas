@@ -1,10 +1,10 @@
 package api
 
 import (
-	. "gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
 	"tmaic/app/services"
 	"tmaic/vendors/framework/helpers/tmaic"
+	. "tmaic/vendors/framework/simple"
 )
 
 type LoginController struct {

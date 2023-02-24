@@ -1,8 +1,8 @@
 package repositories
 
 import (
-	"gitee.com/pangxianfei/simple"
 	"gorm.io/gorm"
+	"tmaic/vendors/framework/simple"
 
 	"tmaic/app/model"
 )

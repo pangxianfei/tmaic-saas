@@ -1,6 +1,6 @@
 package migrations
 
-import "gitee.com/pangxianfei/frame/cmd/commands/migration"
+import "tmaic/vendors/framework/cmd/commands/migration"
 
 func Initialize() {
 	migration.Initialize()

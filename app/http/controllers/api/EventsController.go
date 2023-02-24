@@ -1,7 +1,6 @@
 package api
 
 import (
-	"gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
 	"tmaic/app/events"
 	pbs "tmaic/app/events/protocol_model/listenmodel"
@@ -10,6 +9,7 @@ import (
 	"tmaic/vendors/framework/helpers/tmaic"
 	"tmaic/vendors/framework/hub"
 	jobber "tmaic/vendors/framework/job"
+	"tmaic/vendors/framework/simple"
 
 	ab "tmaic/app/jobs"
 )

@@ -7,8 +7,8 @@ import (
 	"tmaic/app/model"
 	"tmaic/app/repositories"
 
-	"gitee.com/pangxianfei/simple"
 	"github.com/goburrow/cache"
+	"tmaic/vendors/framework/simple"
 )
 
 type userCache struct {

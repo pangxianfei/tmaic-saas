@@ -3,7 +3,6 @@ package bootstrap
 import (
 	"context"
 	"fmt"
-	"gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/logger"
 	"github.com/kataras/iris/v12/middleware/recover"
@@ -24,6 +23,7 @@ import (
 	"tmaic/vendors/framework/helpers/log"
 	"tmaic/vendors/framework/helpers/zone"
 	"tmaic/vendors/framework/queue"
+	"tmaic/vendors/framework/simple"
 )
 
 // Initialize 出始化框架

@@ -94,6 +94,7 @@ require (
 	github.com/nats-io/nats.go v1.16.0 // indirect
 	github.com/nats-io/nkeys v0.3.0 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
+	github.com/nicksnyder/go-i18n/v2 v2.2.1 // indirect
 	github.com/pelletier/go-toml v1.9.3 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/schollz/closestmatch v2.1.0+incompatible // indirect

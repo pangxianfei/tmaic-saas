@@ -25,9 +25,12 @@ func ConfigInit() {
 	gormConf := &gorm.Config{}
 	// 初始化日志
 	InitializationLog(gormConf)
-	//debug.Dump(c.GetInterface("database.connections.mysql"))
-	// 连接数据库
-	if err := simple.OpenDB(c.GetString("database.dns"), gormConf, 10, 20, model.Models...); err != nil {
+
+}
+
+// DbInit 连接数据库
+func DbInit(gormConf *gorm.Config) {
+	if err := simple.OpenDB(c.GetString("database.dns"), c.GetString("database.db_prefix"), gormConf, 10, 20, model.Models...); err != nil {
 		logrus.Error(err)
 	}
 }

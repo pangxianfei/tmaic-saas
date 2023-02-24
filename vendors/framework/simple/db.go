@@ -17,14 +17,14 @@ var (
 	sqlDB *sql.DB
 )
 
-func OpenDB(dsn string, config *gorm.Config, maxIdleConns, maxOpenConns int, models ...interface{}) (err error) {
+func OpenDB(dsn string, TablePrefix string, config *gorm.Config, maxIdleConns, maxOpenConns int, models ...interface{}) (err error) {
 	if config == nil {
 		config = &gorm.Config{}
 	}
 
 	if config.NamingStrategy == nil {
 		config.NamingStrategy = schema.NamingStrategy{
-			TablePrefix:   "tmaic_",
+			TablePrefix:   TablePrefix,
 			SingularTable: true,
 		}
 	}

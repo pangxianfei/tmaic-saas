@@ -8,7 +8,7 @@ func init() {
 	database := make(map[string]interface{})
 
 	database["default"] = Env("DB_CONNECTION", "mysql")
-	database["DB_PREFIX"] = Env("DB_PREFIX", "tmaic_")
+	database["db_prefix"] = Env("DB_PREFIX", "tmaic_")
 	database["show-sql"] = Env("SHOW_SQL", false)
 	database["dns"] = Env("DNS")
 

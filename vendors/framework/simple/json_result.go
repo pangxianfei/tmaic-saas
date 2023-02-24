@@ -10,25 +10,25 @@ type JsonResult struct {
 func Json(code int, message string, data interface{}, success bool) *JsonResult {
 	return &JsonResult{
 		Code:    code,
+		Success: success,
 		Message: message,
 		Data:    data,
-		Success: success,
 	}
 }
 
 func JsonData(data interface{}) *JsonResult {
 	return &JsonResult{
 		Code:    0,
-		Data:    data,
 		Success: true,
+		Data:    data,
 	}
 }
 
 func JsonItemList(data []interface{}) *JsonResult {
 	return &JsonResult{
 		Code:    0,
-		Data:    data,
 		Success: true,
+		Data:    data,
 	}
 }
 
@@ -50,44 +50,44 @@ func JsonCursorData(results interface{}, cursor string, hasMore bool) *JsonResul
 func JsonSuccess() *JsonResult {
 	return &JsonResult{
 		Code:    0,
-		Data:    nil,
 		Success: true,
+		Data:    nil,
 	}
 }
 
 func JsonError(err *CodeError) *JsonResult {
 	return &JsonResult{
 		Code:    err.Code,
+		Success: true,
 		Message: err.Message,
 		Data:    err.Data,
-		Success: false,
 	}
 }
 
 func JsonErrorMsg(message string) *JsonResult {
 	return &JsonResult{
 		Code:    0,
+		Success: false,
 		Message: message,
 		Data:    nil,
-		Success: false,
 	}
 }
 
 func JsonCode(code int, message string) *JsonResult {
 	return &JsonResult{
 		Code:    code,
+		Success: false,
 		Message: message,
 		Data:    nil,
-		Success: false,
 	}
 }
 
 func JsonErrorData(code int, message string, data interface{}) *JsonResult {
 	return &JsonResult{
 		Code:    code,
+		Success: false,
 		Message: message,
 		Data:    data,
-		Success: false,
 	}
 }
 

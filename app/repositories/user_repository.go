@@ -87,3 +87,7 @@ func (r *userRepository) GetByEmail(db *gorm.DB, email string) *model.User {
 func (r *userRepository) GetByUsername(db *gorm.DB, username string) *model.User {
 	return r.Take(db, "username = ?", username)
 }
+
+func (r *userRepository) GetByMobile(db *gorm.DB, mobile string) *model.User {
+	return r.Take(db, "mobile = ?", mobile)
+}

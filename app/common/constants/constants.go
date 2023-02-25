@@ -20,6 +20,7 @@ const (
 	SysConfigTopicCaptcha       = "topicCaptcha"       // 是否开启发帖验证码
 	SysConfigUserObserveSeconds = "userObserveSeconds" // 新用户观察期
 	SysConfigTokenExpireDays    = "tokenExpireDays"    // 登录Token有效天数
+	SysConfigLoginMethod        = "loginMethod"        // 登录方式
 )
 
 // EntityType

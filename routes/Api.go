@@ -10,7 +10,7 @@ import (
 func routeApi(app *iris.Application) {
 	mvc.Configure(app.Party("/api"), func(m *mvc.Application) {
 		m.Router.Use(middleware.Login)
-		m.Party("/article").Handle(new(api.ArticleController))
+		m.Party("/article").Handle(new(api.ArticleController)).Name = "ddddd"
 		m.Party("/ev").Handle(new(api.EventsController))
 		m.Party("/upload").Handle(new(api.UploadController))
 	})

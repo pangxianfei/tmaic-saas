@@ -13,7 +13,28 @@ type LoginController struct {
 
 // PostRegister 注册
 func (c *LoginController) PostRegister() *JsonResult {
-	return JsonSuccess()
+	var (
+		//email      = c.Ctx.PostValueTrim("email")
+		//username   = c.Ctx.PostValueTrim("username")
+		mobile     = c.Ctx.PostValueTrim("mobile")
+		password   = c.Ctx.PostValueTrim("password")
+		rePassword = c.Ctx.PostValueTrim("rePassword")
+		//nickname   = c.Ctx.PostValueTrim("nickname")
+	)
+	loginMethod := services.SysConfigService.GetLoginMethod()
+	if !loginMethod.Password {
+		return JsonErrorMsg("账号密码登录/注册已禁用")
+	}
+
+	user, err := services.UserService.SignUp(mobile, password, rePassword)
+	if err != nil {
+		return JsonError(&CodeError{
+			Code:    401,
+			Message: err.Error(),
+			Data:    nil,
+		})
+	}
+	return JsonData(user)
 }
 
 // PostLogin 用户名密码登录

@@ -26,7 +26,7 @@ type Config struct {
 		Password     string `yaml:"Password"`
 		Prefix       string `yaml:"Prefix"`
 		DbPort       int    `yaml:"DbPort"`
-		Charset      int    `yaml:"Charset"`
+		Charset      string `yaml:"Charset"`
 		MaxIdleConns int    `yaml:"MaxIdleConns"`
 		MaxOpenConns int    `yaml:"MaxOpenConns"`
 	} `yaml:"DB"`

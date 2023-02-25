@@ -20,6 +20,7 @@ import (
 	"tmaic/routes"
 	"tmaic/vendors/framework/cache"
 	"tmaic/vendors/framework/console"
+	"tmaic/vendors/framework/helpers/debug"
 	"tmaic/vendors/framework/helpers/zone"
 	"tmaic/vendors/framework/queue"
 	"tmaic/vendors/framework/simple"
@@ -102,9 +103,12 @@ func RouteNameList(app *iris.Application) {
 		}
 
 		if value.Method == "POST" || value.Method == "GET" {
-			console.Println(console.CODE_SUCCESS, " "+console.Sprintf(console.CODE_SUCCESS, "%-6d", index)+console.Sprintf(console.CODE_SUCCESS, "%-50s", value.MainHandlerName)+console.Sprintf(console.CODE_SUCCESS, "%-6s", value.Method)+" "+console.Sprintf(console.CODE_SUCCESS, "%-35s", value.Path))
+			console.Println(console.CODE_SUCCESS, " "+console.Sprintf(console.CODE_SUCCESS, "%-4d", index)+console.Sprintf(console.CODE_SUCCESS, "%-40s", value.MainHandlerName)+console.Sprintf(console.CODE_SUCCESS, "%-5s", value.Method)+" "+console.Sprintf(console.CODE_SUCCESS, "%-45s", value.Path)+console.Sprintf(console.CODE_SUCCESS, "%-30s", value.FormattedPath)+console.Sprintf(console.CODE_SUCCESS, "%-20s", value.RegisterFileName))
 			index++
 		}
 
+	}
+	if index > 1 {
+		debug.Dump()
 	}
 }

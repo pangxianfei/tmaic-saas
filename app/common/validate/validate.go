@@ -3,6 +3,7 @@ package validate
 import (
 	"errors"
 	"regexp"
+	"strconv"
 	"strings"
 	"tmaic/vendors/framework/simple"
 )
@@ -21,6 +22,18 @@ func IsUsername(username string) error {
 		return errors.New("用户名必须由5-12位(数字、字母、_、-)组成，且必须以字母开头")
 	}
 	return nil
+}
+
+func IsNumber(number string) bool {
+	_, err := strconv.ParseFloat(number, 64)
+	return err == nil
+}
+
+// IsMobile 检验手机号
+func IsMobile(phone string) bool {
+	regRuler := "^1[345789]{1}\\d{9}$"
+	reg := regexp.MustCompile(regRuler)
+	return reg.MatchString(phone)
 }
 
 // IsEmail 验证是否是合法的邮箱

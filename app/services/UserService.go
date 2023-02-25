@@ -6,18 +6,16 @@ import (
 	"gorm.io/gorm"
 	"strings"
 	"time"
+	"tmaic/app/cache"
 	"tmaic/app/common/constants"
 	"tmaic/app/common/validate"
+	"tmaic/app/model"
+	"tmaic/app/repositories"
 	"tmaic/vendors/framework/config"
-	"tmaic/vendors/framework/helpers/debug"
+	c "tmaic/vendors/framework/helpers/cache"
 	"tmaic/vendors/framework/helpers/tmaic"
 	"tmaic/vendors/framework/simple"
 	"tmaic/vendors/framework/simple/date"
-
-	"tmaic/app/cache"
-	"tmaic/app/model"
-	"tmaic/app/repositories"
-	c "tmaic/vendors/framework/helpers/cache"
 )
 
 // 邮箱验证邮件有效期（小时）
@@ -110,54 +108,70 @@ func (s *userService) GetByUsername(username string) *model.User {
 	return repositories.UserRepository.GetByUsername(simple.DB(), username)
 }
 
-// SignUp 注册
-func (s *userService) SignUp(username, email, nickname, password, rePassword string) (*model.User, error) {
-	username = strings.TrimSpace(username)
-	email = strings.TrimSpace(email)
-	nickname = strings.TrimSpace(nickname)
+// GetByMobile 根据用户名查找
+func (s *userService) GetByMobile(mobile string) *model.User {
+	return repositories.UserRepository.GetByMobile(simple.DB(), mobile)
+}
 
-	// 验证昵称
-	if len(nickname) == 0 {
-		return nil, errors.New("昵称不能为空")
+// SignUp 注册
+func (s *userService) SignUp(mobile, password, rePassword string) (*model.User, error) {
+	mobile = strings.TrimSpace(mobile)
+	//username = strings.TrimSpace(username)
+	//email = strings.TrimSpace(email)
+	//nickname = strings.TrimSpace(nickname)
+
+	if len(mobile) == 0 {
+		return nil, errors.New("手机号不能为空")
 	}
 
-	// 验证密码
+	/*
+		// 验证昵称
+		if len(nickname) == 0 {
+			return nil, errors.New("昵称不能为空")
+		}
+	*/
+
 	err := validate.IsPassword(password, rePassword)
 	if err != nil {
 		return nil, err
 	}
-
-	// 验证邮箱
-	if len(email) > 0 {
-		if err := validate.IsEmail(email); err != nil {
-			return nil, err
-		}
-		if s.GetByEmail(email) != nil {
-			return nil, errors.New("邮箱：" + email + " 已被占用")
-		}
-	} else {
-		return nil, errors.New("请输入邮箱")
-	}
-
-	// 验证用户名
-	if len(username) > 0 {
-		if err := validate.IsUsername(username); err != nil {
-			return nil, err
-		}
-		if s.isUsernameExists(username) {
-			return nil, errors.New("用户名：" + username + " 已被占用")
+	user := &model.User{}
+	user.Nickname = mobile
+	// 验证手机号
+	if validate.IsMobile(mobile) {
+		if s.GetByMobile(mobile) != nil {
+			return nil, errors.New("手机号：" + mobile + " 已被占用")
 		}
 	}
 
-	user := &model.User{
-		UserName:   username,
-		Email:      email,
-		Nickname:   nickname,
-		Password:   simple.EncodePassword(password),
-		Status:     constants.StatusOk,
-		CreateTime: date.NowTimestamp(),
-		UpdateTime: date.NowTimestamp(),
-	}
+	/*
+		if validate.IsNumber(email) && validate.IsMobile(email) {
+			if s.GetByMobile(email) != nil {
+				return nil, errors.New("手机号：" + email + " 已被占用")
+			}
+			user.Mobile = email
+		}
+
+			else if err := validate.IsEmail(email); err == nil {
+				if s.GetByEmail(email) != nil {
+					return nil, errors.New("邮箱：" + email + " 已被占用")
+				}
+				user.Email = email
+			} else if len(username) > 0 { // 验证用户名
+				if err := validate.IsUsername(username); err != nil {
+					return nil, err
+				}
+				if s.isUsernameExists(username) {
+					return nil, errors.New("用户名：" + username + " 已被占用")
+				}
+			}
+	*/
+	user.Mobile = mobile
+	user.UserName = mobile
+	user.Password = simple.EncodePassword(password)
+	user.Status = constants.StatusOk
+	user.CreateTime = date.NowTimestamp()
+	user.UpdateTime = date.NowTimestamp()
 
 	err = simple.DB().Transaction(func(tx *gorm.DB) error {
 		if err := repositories.UserRepository.Create(tx, user); err != nil {
@@ -178,6 +192,7 @@ func (s *userService) SignUp(username, email, nickname, password, rePassword str
 	if err != nil {
 		return nil, err
 	}
+
 	return user, nil
 }
 
@@ -268,12 +283,18 @@ func (s *userService) SignIn(username string, password string) (*model.User, str
 		return nil, "", errors.New("密码不能为空")
 	}
 	user := new(model.User)
+
 	if err := validate.IsEmail(username); err == nil { // 如果用户输入的是邮箱
+
 		user = s.GetByEmail(username)
-	} else {
+
+	} else if err := validate.IsEmail(username); err == nil { //手机号登陆
+
+		user = s.GetByUsername(username)
+
+	} else { //用户名登陆
 		user = s.GetByUsername(username)
 	}
-	debug.Dump(user)
 
 	if user == nil || user.Status != constants.StatusOk {
 		return nil, "", errors.New("用户不存在或被禁用")

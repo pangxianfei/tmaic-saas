@@ -2,6 +2,7 @@ package model
 
 type User struct {
 	Id               int64  `gorm:"primaryKey;autoIncrement" json:"id" form:"id"`
+	Mobile           string `gorm:"size:11;unique;" json:"mobile" form:"mobile"`                        // 用户名
 	UserName         string `gorm:"size:255;unique;" json:"username" form:"username"`                   // 用户名
 	Email            string `gorm:"size:255;unique;" json:"email" form:"email"`                         // 邮箱
 	EmailVerified    bool   `gorm:"not null;default:false" json:"emailVerified" form:"emailVerified"`   // 邮箱是否验证

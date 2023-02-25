@@ -104,7 +104,7 @@ func (s *userTokenService) Create(t *model.UserToken) error {
 // CreateToken get jwt string with expiration time 20 minutes
 func (s *userTokenService) CreateToken(user model.User) (tokenString string, err error) {
 	tokenString, err = common.GetJWTInstantiation(user)
-	return "", err
+	return tokenString, err
 }
 
 // Disable 禁用

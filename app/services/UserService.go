@@ -277,14 +277,16 @@ func (s *userService) VerifyEmail(userId int64, token string) error {
 // SignIn 登录
 func (s *userService) SignIn(username string, password string) (*model.User, string, error) {
 	if len(username) == 0 {
-		return nil, "", errors.New("用户名/邮箱不能为空")
+		return nil, "", errors.New("手机号/用户名/邮箱不能为空")
 	}
 	if len(password) == 0 {
 		return nil, "", errors.New("密码不能为空")
 	}
 	user := new(model.User)
 
-	if err := validate.IsEmail(username); err == nil { // 如果用户输入的是邮箱
+	if validate.IsNumber(username) {
+		user = s.GetByMobile(username)
+	} else if err := validate.IsEmail(username); err == nil { // 如果用户输入的是邮箱
 
 		user = s.GetByEmail(username)
 

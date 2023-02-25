@@ -11,6 +11,7 @@ func GetJWTInstantiation(user model.User) (tokenString string, err error) {
 	token := jwt.NewTokenWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		// 根据需求，可以存一些必要的数据
 		"UserName": user.UserName,
+		"Mobile":   user.Mobile,
 		"UserInfo": user,
 		"UserId":   user.Id,
 		// 签发人

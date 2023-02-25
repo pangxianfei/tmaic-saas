@@ -40,10 +40,10 @@ func (c *LoginController) PostRegister() *JsonResult {
 // PostLogin 用户名密码登录
 func (c *LoginController) PostLogin() *JsonResult {
 	var (
-		username = c.Ctx.PostValueTrim("username")
+		mobile   = c.Ctx.PostValueTrim("mobile")
 		password = c.Ctx.PostValueTrim("password")
 	)
-	user, token, err := services.UserService.SignIn(username, password)
+	user, token, err := services.UserService.SignIn(mobile, password)
 	if err != nil {
 		return JsonErrorMsg(err.Error())
 	}

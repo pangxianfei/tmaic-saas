@@ -1,4 +1,4 @@
-package cache
+package buffer
 
 import (
 	"github.com/goburrow/cache"

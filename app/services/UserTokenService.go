@@ -3,11 +3,15 @@ package services
 import (
 	"errors"
 	"github.com/kataras/iris/v12"
-	"tmaic/app/cache"
+	"time"
+	"tmaic/app/buffer"
 	"tmaic/app/common"
 	"tmaic/app/common/constants"
 	"tmaic/app/model"
 	"tmaic/app/repositories"
+	"tmaic/vendors/framework/config"
+	"tmaic/vendors/framework/helpers/debug"
+	"tmaic/vendors/framework/helpers/tmaic"
 	"tmaic/vendors/framework/simple"
 	"tmaic/vendors/framework/simple/date"
 )
@@ -34,7 +38,7 @@ func (s *userTokenService) GetCurrentUserId(ctx iris.Context) int64 {
 func (s *userTokenService) GetUserInfo(ctx iris.Context) (user *model.User) {
 	token := s.GetUserToken(ctx)
 
-	userToken := cache.UserTokenCache.Get(token)
+	userToken := buffer.UserTokenCache.Get(token)
 
 	if userToken == nil {
 		return nil
@@ -47,8 +51,7 @@ func (s *userTokenService) GetUserInfo(ctx iris.Context) (user *model.User) {
 	}
 
 	// 授权过期
-	ExpiredAt := userToken.ExpiredAt + userToken.CreateTime
-	if ExpiredAt >= date.NowTimestamp() {
+	if userToken.ExpiredAt >= date.NowTimestamp() {
 		return nil
 	}
 	//用户被禁用
@@ -75,33 +78,45 @@ func (s *userTokenService) Signout(ctx iris.Context) error {
 	if userToken == nil {
 		return nil
 	}
+	//退出登陆清除token缓存
+	buffer.UserTokenCache.Invalidate(token)
+	debug.Dump(token)
 	return repositories.UserTokenRepository.UpdateColumn(simple.DB(), userToken.Id, "status", constants.StatusDeleted)
 }
 
 // GetUserToken 从请求体中获取UserToken
 func (s *userTokenService) GetUserToken(ctx iris.Context) string {
-
 	userToken := ctx.GetHeader("Authorization")
-
 	if len(userToken) > 0 {
 		userToken := userToken[7:]
 		return userToken
 	}
-	userToken = ctx.GetHeader("X-User-Token")
-	userToken = userToken[7:]
-	return userToken
-
+	return ""
 }
-func (s *userTokenService) Create(t *model.UserToken) error {
-	err := repositories.UserTokenRepository.Create(simple.DB(), t)
-	if err != nil {
-		return errors.New("token创建失败")
+
+// Create 存入DB
+func (s *userTokenService) Create(user *model.User, token string) (*model.UserToken, error) {
+	var iat int64 = time.Now().Unix()
+	var exp int64 = config.GetInt64("cache.token_time")
+	//保存至DB
+	userToken := &model.UserToken{
+		Token:      token,
+		UserId:     user.Id,
+		Mobile:     user.Mobile,
+		ExpiredAt:  iat + exp,
+		Status:     0,
+		CreateTime: iat,
+		Md5Token:   tmaic.MD5(token),
 	}
-	cache.UserTokenCache.Invalidate(t.Token)
-	return nil
+	err := repositories.UserTokenRepository.Create(simple.DB(), userToken)
+	if err != nil {
+		return nil, errors.New("token创建失败")
+	}
+	buffer.UserTokenCache.Invalidate(token)
+	return userToken, nil
 }
 
-// CreateToken get jwt string with expiration time 20 minutes
+// CreateToken 生成token 串
 func (s *userTokenService) CreateToken(user model.User) (tokenString string, err error) {
 	tokenString, err = common.GetJWTInstantiation(user)
 	return tokenString, err
@@ -115,7 +130,7 @@ func (s *userTokenService) Disable(token string) error {
 	}
 	err := repositories.UserTokenRepository.UpdateColumn(simple.DB(), t.Id, "status", constants.StatusDeleted)
 	if err != nil {
-		cache.UserTokenCache.Invalidate(token)
+		buffer.UserTokenCache.Invalidate(token)
 	}
 	return err
 }

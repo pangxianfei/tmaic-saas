@@ -13,14 +13,11 @@ type LoginController struct {
 
 // PostRegister 注册
 func (c *LoginController) PostRegister() *JsonResult {
-	var (
-		//email      = c.Ctx.PostValueTrim("email")
-		//username   = c.Ctx.PostValueTrim("username")
-		mobile     = c.Ctx.PostValueTrim("mobile")
-		password   = c.Ctx.PostValueTrim("password")
-		rePassword = c.Ctx.PostValueTrim("rePassword")
-		//nickname   = c.Ctx.PostValueTrim("nickname")
-	)
+
+	var mobile = c.Ctx.PostValueTrim("mobile")
+	var password = c.Ctx.PostValueTrim("password")
+	var rePassword = c.Ctx.PostValueTrim("rePassword")
+
 	loginMethod := services.SysConfigService.GetLoginMethod()
 	if !loginMethod.Password {
 		return JsonErrorMsg("账号密码登录/注册已禁用")
@@ -39,10 +36,10 @@ func (c *LoginController) PostRegister() *JsonResult {
 
 // PostLogin 用户名密码登录
 func (c *LoginController) PostLogin() *JsonResult {
-	var (
-		mobile   = c.Ctx.PostValueTrim("mobile")
-		password = c.Ctx.PostValueTrim("password")
-	)
+
+	var mobile = c.Ctx.PostValueTrim("mobile")
+	var password = c.Ctx.PostValueTrim("password")
+
 	user, token, err := services.UserService.SignIn(mobile, password)
 	if err != nil {
 		return JsonErrorMsg(err.Error())
@@ -53,5 +50,9 @@ func (c *LoginController) PostLogin() *JsonResult {
 
 // GetSignout 退出登录
 func (c *LoginController) GetSignout() *JsonResult {
+	err := services.UserTokenService.Signout(c.Ctx)
+	if err != nil {
+		return JsonError(NewErrorMsg("登出失败"))
+	}
 	return JsonSuccess()
 }

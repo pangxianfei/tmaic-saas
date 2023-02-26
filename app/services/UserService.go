@@ -1,19 +1,14 @@
 package services
 
 import (
-	"encoding/json"
 	"errors"
 	"gorm.io/gorm"
 	"strings"
-	"time"
-	"tmaic/app/cache"
+	"tmaic/app/buffer"
 	"tmaic/app/common/constants"
 	"tmaic/app/common/validate"
 	"tmaic/app/model"
 	"tmaic/app/repositories"
-	"tmaic/vendors/framework/config"
-	c "tmaic/vendors/framework/helpers/cache"
-	"tmaic/vendors/framework/helpers/tmaic"
 	"tmaic/vendors/framework/simple"
 	"tmaic/vendors/framework/simple/date"
 )
@@ -57,32 +52,32 @@ func (s *userService) FindPageByCnd(cnd *simple.SqlCnd) (list []model.User, pagi
 func (s *userService) Create(t *model.User) error {
 	err := repositories.UserRepository.Create(simple.DB(), t)
 	if err == nil {
-		cache.UserCache.Invalidate(t.Id)
+		buffer.UserCache.Invalidate(t.Id)
 	}
 	return nil
 }
 
 func (s *userService) Update(t *model.User) error {
 	err := repositories.UserRepository.Update(simple.DB(), t)
-	cache.UserCache.Invalidate(t.Id)
+	buffer.UserCache.Invalidate(t.Id)
 	return err
 }
 
 func (s *userService) Updates(id int64, columns map[string]interface{}) error {
 	err := repositories.UserRepository.Updates(simple.DB(), id, columns)
-	cache.UserCache.Invalidate(id)
+	buffer.UserCache.Invalidate(id)
 	return err
 }
 
 func (s *userService) UpdateColumn(id int64, name string, value interface{}) error {
 	err := repositories.UserRepository.UpdateColumn(simple.DB(), id, name, value)
-	cache.UserCache.Invalidate(id)
+	buffer.UserCache.Invalidate(id)
 	return err
 }
 
 func (s *userService) Delete(id int64) {
 	repositories.UserRepository.Delete(simple.DB(), id)
-	cache.UserCache.Invalidate(id)
+	buffer.UserCache.Invalidate(id)
 }
 
 // Scan 扫描
@@ -116,21 +111,9 @@ func (s *userService) GetByMobile(mobile string) *model.User {
 // SignUp 注册
 func (s *userService) SignUp(mobile, password, rePassword string) (*model.User, error) {
 	mobile = strings.TrimSpace(mobile)
-	//username = strings.TrimSpace(username)
-	//email = strings.TrimSpace(email)
-	//nickname = strings.TrimSpace(nickname)
-
 	if len(mobile) == 0 {
 		return nil, errors.New("手机号不能为空")
 	}
-
-	/*
-		// 验证昵称
-		if len(nickname) == 0 {
-			return nil, errors.New("昵称不能为空")
-		}
-	*/
-
 	err := validate.IsPassword(password, rePassword)
 	if err != nil {
 		return nil, err
@@ -143,29 +126,6 @@ func (s *userService) SignUp(mobile, password, rePassword string) (*model.User, 
 			return nil, errors.New("手机号：" + mobile + " 已被占用")
 		}
 	}
-
-	/*
-		if validate.IsNumber(email) && validate.IsMobile(email) {
-			if s.GetByMobile(email) != nil {
-				return nil, errors.New("手机号：" + email + " 已被占用")
-			}
-			user.Mobile = email
-		}
-
-			else if err := validate.IsEmail(email); err == nil {
-				if s.GetByEmail(email) != nil {
-					return nil, errors.New("邮箱：" + email + " 已被占用")
-				}
-				user.Email = email
-			} else if len(username) > 0 { // 验证用户名
-				if err := validate.IsUsername(username); err != nil {
-					return nil, err
-				}
-				if s.isUsernameExists(username) {
-					return nil, errors.New("用户名：" + username + " 已被占用")
-				}
-			}
-	*/
 	user.Mobile = mobile
 	user.UserName = mobile
 	user.Password = simple.EncodePassword(password)
@@ -275,12 +235,12 @@ func (s *userService) VerifyEmail(userId int64, token string) error {
 }
 
 // SignIn 登录
-func (s *userService) SignIn(username string, password string) (*model.User, string, error) {
+func (s *userService) SignIn(username string, password string) (*model.User, *model.UserToken, error) {
 	if len(username) == 0 {
-		return nil, "", errors.New("手机号/用户名/邮箱不能为空")
+		return nil, nil, errors.New("手机号/用户名/邮箱不能为空")
 	}
 	if len(password) == 0 {
-		return nil, "", errors.New("密码不能为空")
+		return nil, nil, errors.New("密码不能为空")
 	}
 	user := new(model.User)
 
@@ -299,35 +259,27 @@ func (s *userService) SignIn(username string, password string) (*model.User, str
 	}
 
 	if user == nil || user.Status != constants.StatusOk {
-		return nil, "", errors.New("用户不存在或被禁用")
+		return nil, nil, errors.New("用户不存在或被禁用")
 	}
 
 	//检验密码比较耗时 大约90毫秒
 	if !simple.ValidatePassword(user.Password, password) {
-		return nil, "", errors.New("密码错误")
+		return nil, nil, errors.New("密码错误")
 	}
 
+	//生成token
 	token, err := UserTokenService.CreateToken(*user)
 	if err != nil {
-		return nil, "", err
+		return nil, nil, err
 	}
 
-	//保存至DB
-	userToken := &model.UserToken{
-		Token:      token,
-		UserId:     user.Id,
-		ExpiredAt:  config.GetInt64("cache.token_time"),
-		Status:     0,
-		CreateTime: time.Now().Add(60 * time.Minute * time.Duration(1)).Unix(),
-	}
-	err = UserTokenService.Create(userToken)
+	var UserToken *model.UserToken
+	UserToken, err = UserTokenService.Create(user, token)
 
 	if err != nil {
-		return nil, "", err
+		return nil, nil, err
 	}
 	//缓存token信息
-	userTokenData, _ := json.Marshal(userToken)
-	tokenKey := tmaic.MD5(token)
-	c.AddTokenCache(tokenKey, userTokenData)
-	return user, token, nil
+	buffer.UserTokenCache.SetCacheUserToken(token, UserToken)
+	return user, UserToken, nil
 }

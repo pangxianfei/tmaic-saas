@@ -2,7 +2,7 @@ package services
 
 import (
 	"strconv"
-	"tmaic/app/cache"
+	"tmaic/app/buffer"
 	"tmaic/app/common/constants"
 	"tmaic/app/model"
 
@@ -40,7 +40,7 @@ func (s *sysConfigService) Set(key, value, name, description string) error {
 */
 
 func (s *sysConfigService) GetTokenExpireDays() int {
-	tokenExpireDaysStr := cache.SysConfigCache.GetValue(constants.SysConfigTokenExpireDays)
+	tokenExpireDaysStr := buffer.SysConfigCache.GetValue(constants.SysConfigTokenExpireDays)
 	tokenExpireDays, err := strconv.Atoi(tokenExpireDaysStr)
 	if err != nil {
 		tokenExpireDays = constants.DefaultTokenExpireDays
@@ -52,7 +52,7 @@ func (s *sysConfigService) GetTokenExpireDays() int {
 }
 
 func (s *sysConfigService) GetLoginMethod() model.LoginMethod {
-	loginMethodStr := cache.SysConfigCache.GetValue(constants.SysConfigLoginMethod)
+	loginMethodStr := buffer.SysConfigCache.GetValue(constants.SysConfigLoginMethod)
 
 	useDefault := true
 	var loginMethod model.LoginMethod
@@ -74,7 +74,7 @@ func (s *sysConfigService) GetLoginMethod() model.LoginMethod {
 }
 
 func (s *sysConfigService) GetStr(key, def string) (value string) {
-	value = cache.SysConfigCache.GetValue(key)
+	value = buffer.SysConfigCache.GetValue(key)
 	if strs.IsBlank(value) {
 		value = def
 	}
@@ -82,7 +82,7 @@ func (s *sysConfigService) GetStr(key, def string) (value string) {
 }
 
 func (s *sysConfigService) GetInt(key string, def int) (value int) {
-	str := cache.SysConfigCache.GetValue(key)
+	str := buffer.SysConfigCache.GetValue(key)
 	if strs.IsBlank(str) {
 		value = def
 		return

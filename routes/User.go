@@ -19,7 +19,8 @@ func routeUser(app *iris.Application) {
 	})
 
 	mvc.Configure(app.Party("/api"), func(m *mvc.Application) {
-		m.Router.Use(middleware.Login)
+		m.Router.Use(middleware.Login, middleware.Tenant)
 		m.Party("/user").Handle(new(api.UserController))
+		m.Party("/saas").Handle(new(api.SaasController))
 	})
 }

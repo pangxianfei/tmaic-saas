@@ -10,7 +10,6 @@ import (
 	"tmaic/app/model"
 	"tmaic/app/repositories"
 	"tmaic/vendors/framework/config"
-	"tmaic/vendors/framework/helpers/debug"
 	"tmaic/vendors/framework/helpers/tmaic"
 	"tmaic/vendors/framework/simple"
 	"tmaic/vendors/framework/simple/date"
@@ -80,18 +79,17 @@ func (s *userTokenService) Signout(ctx iris.Context) error {
 	}
 	//退出登陆清除token缓存
 	buffer.UserTokenCache.Invalidate(token)
-	debug.Dump(token)
 	return repositories.UserTokenRepository.UpdateColumn(simple.DB(), userToken.Id, "status", constants.StatusDeleted)
 }
 
 // GetUserToken 从请求体中获取UserToken
-func (s *userTokenService) GetUserToken(ctx iris.Context) string {
-	userToken := ctx.GetHeader("Authorization")
+func (s *userTokenService) GetUserToken(ctx iris.Context) (userToken string) {
+	userToken = ctx.GetHeader("Authorization")
 	if len(userToken) > 0 {
 		userToken := userToken[7:]
 		return userToken
 	}
-	return ""
+	return userToken
 }
 
 // Create 存入DB

@@ -23,7 +23,7 @@ func init() {
 	app["read_timeout_seconds"] = 10
 	app["write_timeout_seconds"] = 10
 	app["storage"] = Env("STORAGE", "storage")
-	app["LogFile"] = Env("LOGFILE")
+	app["Log_file"] = Env("LOGFILE")
 
 	Add("app", app)
 }

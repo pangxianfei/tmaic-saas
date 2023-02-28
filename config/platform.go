@@ -31,17 +31,29 @@ type Config struct {
 		MaxOpenConns int    `yaml:"MaxOpenConns"`
 	} `yaml:"DB"`
 
-	// Github
-	Github struct {
-		ClientID     string `yaml:"ClientID"`
-		ClientSecret string `yaml:"ClientSecret"`
-	} `yaml:"Github"`
+	// 数据库配置
+	MSSQLDB struct {
+		Sqlserver          string `yaml:"Sqlserver"`
+		Host               string `yaml:"Host"`
+		DbName             string `yaml:"DbName"`
+		UserName           string `yaml:"UserName"`
+		Password           string `yaml:"Password"`
+		Prefix             string `yaml:"Prefix"`
+		DbPort             int    `yaml:"DbPort"`
+		SetMaxIdleConns    int    `yaml:"SetMaxIdleConns"`
+		SetMaxOpenConns    int    `yaml:"SetMaxOpenConns"`
+		SetConnMaxLifetime int    `yaml:"SetConnMaxLifetime"`
+	} `yaml:"MSSQLDB"`
 
-	// QQ登录
-	QQConnect struct {
-		AppId  string `yaml:"AppId"`
-		AppKey string `yaml:"AppKey"`
-	} `yaml:"QQConnect"`
+	// 数据库类型
+	DatabaseType struct {
+		UseDbType string `yaml:"UseDbType"`
+	} `yaml:"DatabaseType"`
+
+	// 数据库日志文件
+	DbLogFile struct {
+		LogFile string `yaml:"LogFile"`
+	} `yaml:"DbLogFile"`
 
 	// 阿里云oss配置
 	Uploader struct {
@@ -63,12 +75,6 @@ type Config struct {
 			Path string `yaml:"Path"`
 		} `yaml:"Local"`
 	} `yaml:"Uploader"`
-
-	// 百度ai
-	BaiduAi struct {
-		ApiKey    string `yaml:"ApiKey"`
-		SecretKey string `yaml:"SecretKey"`
-	} `yaml:"BaiduAi"`
 
 	// smtp
 	Smtp struct {

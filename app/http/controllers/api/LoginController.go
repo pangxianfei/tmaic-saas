@@ -39,7 +39,6 @@ func (c *LoginController) PostLogin() *JsonResult {
 
 	var mobile = c.Ctx.PostValueTrim("mobile")
 	var password = c.Ctx.PostValueTrim("password")
-
 	user, token, err := services.UserService.SignIn(mobile, password)
 	if err != nil {
 		return JsonErrorMsg(err.Error())

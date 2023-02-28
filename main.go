@@ -6,6 +6,7 @@ import (
 	_ "tmaic/vendors/framework/config"
 )
 
+// gitee.com:pangxianfei/library v1.0.1
 func init() {}
 
 func main() {

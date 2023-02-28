@@ -2,10 +2,12 @@ package simple
 
 import (
 	"database/sql"
-	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/mysql"
+	"gorm.io/driver/sqlserver"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
+	"time"
+	"tmaic/vendors/framework/helpers/debug"
 )
 
 var (
@@ -13,7 +15,7 @@ var (
 	sqlDB *sql.DB
 )
 
-func OpenDB(dsn string, TablePrefix string, config *gorm.Config, maxIdleConns, maxOpenConns int, models ...interface{}) (err error) {
+func OpenDB(DbType string, dsn string, TablePrefix string, config *gorm.Config, maxIdleConns, maxOpenConns int, models ...interface{}) (err error) {
 	if config == nil {
 		config = &gorm.Config{}
 	}
@@ -24,21 +26,32 @@ func OpenDB(dsn string, TablePrefix string, config *gorm.Config, maxIdleConns, m
 			SingularTable: true,
 		}
 	}
+	var dberr error
+	if DbType == "mssql" {
+		db, dberr = gorm.Open(sqlserver.Open(dsn), config)
+	} else if DbType == "mysql" {
+		db, err = gorm.Open(mysql.Open(dsn), config)
+	}
 
-	if db, err = gorm.Open(mysql.Open(dsn), config); err != nil {
-		log.Errorf("opens database failed: %s", err.Error())
-		return
+	if dberr != nil {
+		//log.Fatal("Error creating connection pool: ", dberr.Error())
+		debug.Dd("Error creating connection pool: ", dberr.Error())
+		return dberr
 	}
 
 	if sqlDB, err = db.DB(); err == nil {
 		sqlDB.SetMaxIdleConns(maxIdleConns)
 		sqlDB.SetMaxOpenConns(maxOpenConns)
+		sqlDB.SetConnMaxLifetime(time.Hour)
 	} else {
-		log.Error(err)
+		//log.Error(err)
+		debug.Dd(err.Error())
+		return err
 	}
 
 	if err = db.AutoMigrate(models...); nil != err {
-		log.Errorf("auto migrate tables failed: %s", err.Error())
+		//log.Errorf("auto migrate tables failed: %s", err.Error())
+		debug.Dd("数据表创建失败:", err.Error())
 	}
 
 	return
@@ -55,6 +68,6 @@ func CloseDB() {
 		return
 	}
 	if err := sqlDB.Close(); nil != err {
-		log.Errorf("Disconnect from database failed: %s", err.Error())
+		debug.Dd("Disconnect from database failed: %s", err.Error())
 	}
 }

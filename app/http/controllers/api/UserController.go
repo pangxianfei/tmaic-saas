@@ -15,11 +15,6 @@ func (c *UserController) PostInfo() *simple.JsonResult {
 	return simple.JsonData(services.UserTokenService.GetUserInfo(c.Ctx))
 }
 
-// GetCurrent 获取当前登录用户
-func (c *UserController) GetCurrent() *simple.JsonResult {
-	return simple.JsonData(c.Ctx.User().GetUsername)
-}
-
 // GetBy 用户详情
 func (c *UserController) GetBy(userId int64) *simple.JsonResult {
 

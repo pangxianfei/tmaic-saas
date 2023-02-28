@@ -10,5 +10,6 @@ func init() {
 	once.Do(func() {
 		initCORS()
 		initUserInfo()
+		TenantInfo()
 	})
 }

@@ -9,22 +9,6 @@ import (
 	uuid "github.com/iris-contrib/go.uuid"
 )
 
-/*
-IsBlank checks if a string is whitespace or empty (""). Observe the following behavior:
-
-	goutils.IsBlank("")        = true
-	goutils.IsBlank(" ")       = true
-	goutils.IsBlank("bob")     = false
-	goutils.IsBlank("  bob  ") = false
-
-Parameter:
-
-	str - the string to check
-
-Returns:
-
-	true - if the string is whitespace or empty ("")
-*/
 func IsBlank(str string) bool {
 	strLen := len(str)
 	if str == "" || strLen == 0 {
@@ -42,8 +26,8 @@ func IsNotBlank(str string) bool {
 	return !IsBlank(str)
 }
 
-func IsAnyBlank(strs ...string) bool {
-	for _, str := range strs {
+func IsAnyBlank(stars ...string) bool {
+	for _, str := range stars {
 		if IsBlank(str) {
 			return true
 		}

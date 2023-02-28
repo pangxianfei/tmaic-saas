@@ -27,18 +27,6 @@ func (s *sysConfigService) Get(id int64) *model.SysConfig {
 	return nil
 }
 
-// Set 设置配置，如果配置不存在，那么创建
-/*
-func (s *sysConfigService) Set(key, value, name, description string) error {
-	return sqls.DB().Transaction(func(tx *gorm.DB) error {
-		if err := s.setSingle(tx, key, value, name, description); err != nil {
-			return err
-		}
-		return nil
-	})
-}
-*/
-
 func (s *sysConfigService) GetTokenExpireDays() int {
 	tokenExpireDaysStr := buffer.SysConfigCache.GetValue(constants.SysConfigTokenExpireDays)
 	tokenExpireDays, err := strconv.Atoi(tokenExpireDaysStr)

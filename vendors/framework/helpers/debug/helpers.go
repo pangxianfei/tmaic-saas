@@ -10,7 +10,11 @@ import (
 
 func Dump(v ...interface{}) {
 	console.Println(console.CODE_ERROR, spew.Sdump(v...))
-	//debugPrint(errors.New("====== Tmaic Debug ======"))
+	//debugPrint(errors.New("====== Totoval Debug ======"))
+}
+
+func Dd(v ...interface{}) {
+	console.Println(console.CODE_ERROR, spew.Sdump(v...))
 }
 
 func debugPrint(err error) {

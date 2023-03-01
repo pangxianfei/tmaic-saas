@@ -1,7 +1,0 @@
-syntax = "proto3";
-//package listenmodel;
-option go_package = "./listenmodel";
-message UserRegistered {
-    uint32 user_id = 1;
-    string affiliation_from_code = 2;
-}

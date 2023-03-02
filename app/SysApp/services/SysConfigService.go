@@ -3,7 +3,7 @@ package services
 import (
 	"strconv"
 	"tmaic/app/SysApp/buffer"
-	model2 "tmaic/app/SysApp/model"
+	UserAppModel "tmaic/app/SysApp/model"
 	"tmaic/app/common/constants"
 	"tmaic/app/model"
 
@@ -23,7 +23,7 @@ func newSysConfigService() *sysConfigService {
 type sysConfigService struct {
 }
 
-func (s *sysConfigService) Get(id int64) *model2.SysConfig {
+func (s *sysConfigService) Get(id int64) *UserAppModel.SysConfig {
 	//return repositories.SysConfigRepository.Get(sqls.DB(), id)
 	return nil
 }

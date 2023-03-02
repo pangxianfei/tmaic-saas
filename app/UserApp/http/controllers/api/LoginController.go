@@ -4,8 +4,8 @@ import (
 	"gitee.com/pangxianfei/framework/helpers/tmaic"
 	. "gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
-	services2 "tmaic/app/OrderApp/services"
 	"tmaic/app/SysApp/services"
+	services3 "tmaic/app/UserApp/services"
 )
 
 type LoginController struct {
@@ -24,7 +24,7 @@ func (c *LoginController) PostRegister() *JsonResult {
 		return JsonErrorMsg("账号密码登录/注册已禁用")
 	}
 
-	user, err := services2.UserService.SignUp(mobile, password, rePassword)
+	user, err := services3.UserService.SignUp(mobile, password, rePassword)
 	if err != nil {
 		return JsonError(&CodeError{
 			Code:    401,
@@ -40,7 +40,7 @@ func (c *LoginController) PostLogin() *JsonResult {
 
 	var mobile = c.Ctx.PostValueTrim("mobile")
 	var password = c.Ctx.PostValueTrim("password")
-	user, token, err := services2.UserService.SignIn(mobile, password)
+	user, token, err := services3.UserService.SignIn(mobile, password)
 	if err != nil {
 		return JsonErrorMsg(err.Error())
 	}
@@ -50,7 +50,7 @@ func (c *LoginController) PostLogin() *JsonResult {
 
 // GetSignout 退出登录
 func (c *LoginController) GetSignout() *JsonResult {
-	err := services2.UserTokenService.Signout(c.Ctx)
+	err := services3.UserTokenService.Signout(c.Ctx)
 	if err != nil {
 		return JsonError(NewErrorMsg("登出失败"))
 	}

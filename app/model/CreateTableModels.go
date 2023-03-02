@@ -1,14 +1,14 @@
 package model
 
 import (
-	model3 "tmaic/app/OrderApp/model"
-	model2 "tmaic/app/SysApp/model"
-	"tmaic/app/UserApp/model"
+	OrderAppModel "tmaic/app/OrderApp/model"
+	SysAppModel "tmaic/app/SysApp/model"
+	UserAppModel "tmaic/app/UserApp/model"
 )
 
 var CreateTableModels = []interface{}{
-	&model.User{},
-	&model.UserToken{},
-	&model3.Article{},
-	&model2.SysConfig{},
+	&UserAppModel.User{},
+	&UserAppModel.UserToken{},
+	&OrderAppModel.Article{},
+	&SysAppModel.SysConfig{},
 }

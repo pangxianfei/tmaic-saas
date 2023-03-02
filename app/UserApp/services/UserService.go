@@ -8,7 +8,7 @@ import (
 	"strings"
 	"tmaic/app/OrderApp/repositories"
 	buffer2 "tmaic/app/UserApp/buffer"
-	model2 "tmaic/app/UserApp/model"
+	UserAppModel "tmaic/app/UserApp/model"
 	"tmaic/app/common/constants"
 	"tmaic/app/common/validate"
 )
@@ -25,31 +25,31 @@ func newUserService() *userService {
 type userService struct {
 }
 
-func (s *userService) Get(id int64) *model2.User {
+func (s *userService) Get(id int64) *UserAppModel.User {
 	return repositories.UserRepository.Get(simple.DB(), id)
 }
 
-func (s *userService) Take(where ...interface{}) *model2.User {
+func (s *userService) Take(where ...interface{}) *UserAppModel.User {
 	return repositories.UserRepository.Take(simple.DB(), where...)
 }
 
-func (s *userService) Find(cnd *simple.SqlCnd) []model2.User {
+func (s *userService) Find(cnd *simple.SqlCnd) []UserAppModel.User {
 	return repositories.UserRepository.Find(simple.DB(), cnd)
 }
 
-func (s *userService) FindOne(cnd *simple.SqlCnd) *model2.User {
+func (s *userService) FindOne(cnd *simple.SqlCnd) *UserAppModel.User {
 	return repositories.UserRepository.FindOne(simple.DB(), cnd)
 }
 
-func (s *userService) FindPageByParams(params *simple.QueryParams) (list []model2.User, paging *simple.Paging) {
+func (s *userService) FindPageByParams(params *simple.QueryParams) (list []UserAppModel.User, paging *simple.Paging) {
 	return repositories.UserRepository.FindPageByParams(simple.DB(), params)
 }
 
-func (s *userService) FindPageByCnd(cnd *simple.SqlCnd) (list []model2.User, paging *simple.Paging) {
+func (s *userService) FindPageByCnd(cnd *simple.SqlCnd) (list []UserAppModel.User, paging *simple.Paging) {
 	return repositories.UserRepository.FindPageByCnd(simple.DB(), cnd)
 }
 
-func (s *userService) Create(t *model2.User) error {
+func (s *userService) Create(t *UserAppModel.User) error {
 	err := repositories.UserRepository.Create(simple.DB(), t)
 	if err == nil {
 		buffer2.UserCache.Invalidate(t.Id)
@@ -57,7 +57,7 @@ func (s *userService) Create(t *model2.User) error {
 	return nil
 }
 
-func (s *userService) Update(t *model2.User) error {
+func (s *userService) Update(t *UserAppModel.User) error {
 	err := repositories.UserRepository.Update(simple.DB(), t)
 	buffer2.UserCache.Invalidate(t.Id)
 	return err
@@ -81,7 +81,7 @@ func (s *userService) Delete(id int64) {
 }
 
 // Scan 扫描
-func (s *userService) Scan(callback func(users []model2.User)) {
+func (s *userService) Scan(callback func(users []UserAppModel.User)) {
 	var cursor int64
 	for {
 		list := repositories.UserRepository.Find(simple.DB(), simple.NewSqlCnd().Where("id > ?", cursor).Asc("id").Limit(100))
@@ -94,22 +94,22 @@ func (s *userService) Scan(callback func(users []model2.User)) {
 }
 
 // GetByEmail 根据邮箱查找
-func (s *userService) GetByEmail(email string) *model2.User {
+func (s *userService) GetByEmail(email string) *UserAppModel.User {
 	return repositories.UserRepository.GetByEmail(simple.DB(), email)
 }
 
 // GetByUsername 根据用户名查找
-func (s *userService) GetByUsername(username string) *model2.User {
+func (s *userService) GetByUsername(username string) *UserAppModel.User {
 	return repositories.UserRepository.GetByUsername(simple.DB(), username)
 }
 
 // GetByMobile 根据用户名查找
-func (s *userService) GetByMobile(mobile string) *model2.User {
+func (s *userService) GetByMobile(mobile string) *UserAppModel.User {
 	return repositories.UserRepository.GetByMobile(simple.DB(), mobile)
 }
 
 // SignUp 注册
-func (s *userService) SignUp(mobile, password, rePassword string) (*model2.User, error) {
+func (s *userService) SignUp(mobile, password, rePassword string) (*UserAppModel.User, error) {
 	mobile = strings.TrimSpace(mobile)
 	if len(mobile) == 0 {
 		return nil, errors.New("手机号不能为空")
@@ -118,7 +118,7 @@ func (s *userService) SignUp(mobile, password, rePassword string) (*model2.User,
 	if err != nil {
 		return nil, err
 	}
-	user := &model2.User{}
+	user := &UserAppModel.User{}
 	user.Nickname = mobile
 	// 验证手机号
 	if validate.IsMobile(mobile) {
@@ -235,14 +235,14 @@ func (s *userService) VerifyEmail(userId int64, token string) error {
 }
 
 // SignIn 登录
-func (s *userService) SignIn(username string, password string) (*model2.User, *model2.UserToken, error) {
+func (s *userService) SignIn(username string, password string) (*UserAppModel.User, *UserAppModel.UserToken, error) {
 	if len(username) == 0 {
 		return nil, nil, errors.New("手机号/用户名/邮箱不能为空")
 	}
 	if len(password) == 0 {
 		return nil, nil, errors.New("密码不能为空")
 	}
-	user := new(model2.User)
+	user := new(UserAppModel.User)
 
 	if validate.IsNumber(username) {
 		user = s.GetByMobile(username)
@@ -273,7 +273,7 @@ func (s *userService) SignIn(username string, password string) (*model2.User, *m
 		return nil, nil, err
 	}
 
-	var UserToken *model2.UserToken
+	var UserToken *UserAppModel.UserToken
 	UserToken, err = UserTokenService.Create(user, token)
 
 	if err != nil {

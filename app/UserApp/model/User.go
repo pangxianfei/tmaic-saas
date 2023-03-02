@@ -1,4 +1,4 @@
-package model
+package UserAppModel
 
 type User struct {
 	Id               int64  `gorm:"primaryKey;autoIncrement" json:"id" form:"id"`

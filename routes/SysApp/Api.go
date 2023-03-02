@@ -4,7 +4,7 @@ import (
 	"gitee.com/pangxianfei/framework/helpers"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
-	"tmaic/app/http/controllers/api"
+	"tmaic/app/SysApp/http/controllers/api"
 	"tmaic/app/http/middleware"
 )
 

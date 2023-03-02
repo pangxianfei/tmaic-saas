@@ -3,7 +3,7 @@ package UserAppRoute
 import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
-	"tmaic/app/http/controllers/api"
+	"tmaic/app/UserApp/http/controllers/api"
 	"tmaic/app/http/middleware"
 )
 

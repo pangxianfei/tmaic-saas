@@ -1,4 +1,4 @@
-package model
+package OrderAppModel
 
 // Article 文章
 type Article struct {

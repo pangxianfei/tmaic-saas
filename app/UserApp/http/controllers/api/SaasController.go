@@ -4,7 +4,7 @@ import (
 	"gitee.com/pangxianfei/saas"
 	. "gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
-	"tmaic/app/UserApp/model"
+	UserAppModel "tmaic/app/UserApp/model"
 )
 
 type SaasController struct {
@@ -17,7 +17,7 @@ func (c *SaasController) PostDb() *JsonResult {
 	//AppId := c.Ctx.Values().Get("AppId").(int64)
 	//db := saas.DB.SetTenantsDb(TenantId, AppId)
 	db := saas.DB.Initiation(c.Ctx)
-	var user model.User
+	var user UserAppModel.User
 	db.First(&user)
 	return JsonData(user.UserName)
 }

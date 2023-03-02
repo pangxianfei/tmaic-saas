@@ -2,10 +2,9 @@ package buffer
 
 import (
 	"errors"
-	"time"
-	"tmaic/app/SysApp/model"
-
 	"github.com/goburrow/cache"
+	"time"
+	UserAppModel "tmaic/app/SysApp/model"
 )
 
 type sysConfigCache struct {
@@ -30,13 +29,13 @@ func newSysConfigCache() *sysConfigCache {
 	}
 }
 
-func (c *sysConfigCache) Get(key string) *model.SysConfig {
+func (c *sysConfigCache) Get(key string) *UserAppModel.SysConfig {
 	val, err := c.cache.Get(key)
 	if err != nil {
 		return nil
 	}
 	if val != nil {
-		return val.(*model.SysConfig)
+		return val.(*UserAppModel.SysConfig)
 	}
 	return nil
 }

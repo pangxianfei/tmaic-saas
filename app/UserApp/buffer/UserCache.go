@@ -1,7 +1,7 @@
 package buffer
 
 import (
-	"tmaic/app/UserApp/model"
+	UserAppModel "tmaic/app/UserApp/model"
 )
 
 type userCache struct {
@@ -13,7 +13,7 @@ func newUserCache() *userCache {
 	return &userCache{}
 }
 
-func (c *userCache) Get(userId int64) *model.User {
+func (c *userCache) Get(userId int64) *UserAppModel.User {
 
 	return nil
 
@@ -23,7 +23,7 @@ func (c *userCache) Invalidate(userId int64) {
 
 }
 
-func (c *userCache) GetScoreRank() []model.User {
+func (c *userCache) GetScoreRank() []UserAppModel.User {
 
 	return nil
 

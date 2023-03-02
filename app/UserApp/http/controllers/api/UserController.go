@@ -3,7 +3,7 @@ package api
 import (
 	"gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
-	"tmaic/app/OrderApp/services"
+	"tmaic/app/UserApp/services"
 )
 
 type UserController struct {

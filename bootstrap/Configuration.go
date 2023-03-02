@@ -2,16 +2,13 @@ package bootstrap
 
 import (
 	"flag"
+	c "gitee.com/pangxianfei/library/config"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"log"
 	"os"
 	"time"
 	"tmaic/config"
-
-	//config "tmaic/config"
-
-	c "gitee.com/pangxianfei/library/config"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 func ConfigInit() {

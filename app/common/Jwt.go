@@ -7,7 +7,7 @@ import (
 	"tmaic/app/UserApp/model"
 )
 
-func GetJWTInstantiation(user model.User) (tokenString string, err error) {
+func GetJWTInstantiation(user UserAppModel.User) (tokenString string, err error) {
 	var exp int64 = config.GetInt64("cache.token_time")
 	var iat int64 = time.Now().Unix()
 	token := jwt.NewTokenWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{

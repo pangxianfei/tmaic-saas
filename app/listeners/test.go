@@ -2,11 +2,10 @@ package listeners
 
 import (
 	"errors"
+	"github.com/golang/protobuf/proto"
+	"tmaic/app/UserApp/model"
 	"tmaic/app/events"
 	"tmaic/app/events/protocol_model/listenmodel"
-	"tmaic/app/model"
-
-	"github.com/golang/protobuf/proto"
 
 	//"tmaic/app/platform/models"
 	"gitee.com/pangxianfei/framework/helpers/log"

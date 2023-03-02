@@ -5,9 +5,10 @@ import (
 	"log"
 	"os"
 	"time"
-	config "tmaic/config"
+	"tmaic/config"
 
-	//"gitee.com/pangxianfei/framework/helpers/debug"
+	//config "tmaic/config"
+
 	c "gitee.com/pangxianfei/library/config"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

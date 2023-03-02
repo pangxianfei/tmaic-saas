@@ -4,7 +4,7 @@ import (
 	"gitee.com/pangxianfei/library/config"
 	"github.com/iris-contrib/middleware/jwt"
 	"time"
-	"tmaic/app/model"
+	"tmaic/app/UserApp/model"
 )
 
 func GetJWTInstantiation(user model.User) (tokenString string, err error) {
@@ -15,6 +15,7 @@ func GetJWTInstantiation(user model.User) (tokenString string, err error) {
 		"UserName": user.UserName,
 		"Mobile":   user.Mobile,
 		"UserInfo": user,
+		"TenantId": user.TenantId,
 		"UserId":   user.Id,
 		// 签发人
 		"iss": "tmaic",

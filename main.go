@@ -1,20 +1,36 @@
 package main
 
 import (
-	"context"
+	"gitee.com/pangxianfei/framework/helpers/debug"
 	_ "gitee.com/pangxianfei/library/config"
+	"time"
+
+	"golang.org/x/sync/errgroup"
 	"tmaic/bootstrap"
 )
 
-// gitee.com:pangxianfei/library v1.0.1
+var app errgroup.Group
+
 func init() {}
 
 func main() {
-	ctx, cancel := context.WithCancel(context.Background())
+	//ctx, cancel := context.WithCancel(context.Background())
+
+	//bootstrap.Run(ctx)
+
 	bootstrap.ConfigInit()
 	bootstrap.Initialize()
 	bootstrap.EnablingScheduledTask()
-	bootstrap.Run(ctx)
-	defer cancel()
+	//bootstrap.SysRun(ctx)
+	//defer cancel()
+	app.Go(bootstrap.SysRun)
+	time.Sleep(time.Second * 1)
+	app.Go(bootstrap.UserApp)
+	time.Sleep(time.Second * 1)
+	app.Go(bootstrap.OrderApp)
+	time.Sleep(time.Second * 1)
+	if err := app.Wait(); err != nil {
+		debug.Dd(err.Error())
+	}
 
 }

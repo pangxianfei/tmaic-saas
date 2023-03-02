@@ -9,7 +9,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// DbInit 连接数据库
 func DbInit(gormConf *gorm.Config) {
 
 	var UseDbType = config.Instance.DatabaseType.UseDbType
@@ -23,3 +22,4 @@ func DbInit(gormConf *gorm.Config) {
 		fmt.Printf("未知型")
 	}
 }
+

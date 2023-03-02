@@ -2,7 +2,7 @@ package config
 
 import (
 	. "gitee.com/pangxianfei/library/config"
-	"tmaic/app/model"
+	"tmaic/app/UserApp/model"
 )
 
 func init() {

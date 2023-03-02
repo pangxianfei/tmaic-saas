@@ -5,7 +5,6 @@ import (
 	"tmaic/app/cron"
 )
 
-// EnablingScheduledTask 开启定时任务
 func EnablingScheduledTask() {
 	if !common.IsProd() {
 		return

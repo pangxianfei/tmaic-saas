@@ -58,6 +58,16 @@ func ErrorTokenInvalidation() ErrorModel {
 	}
 }
 
+// ErrorUnregisteredTenantAppDb 403-未没注册的应用
+func ErrorUnregisteredTenantAppDb() ErrorModel {
+	return ErrorModel{
+		Code:   403,
+		Msg:    "未注册的应用",
+		Detail: "",
+		Data:   "未注册的应用",
+	}
+}
+
 func buildError(code int64, msg string, detail string, data interface{}) ErrorModel {
 	return ErrorModel{
 		Code:   code,

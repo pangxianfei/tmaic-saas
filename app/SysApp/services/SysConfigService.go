@@ -1,13 +1,9 @@
 package services
 
 import (
-	"strconv"
 	"tmaic/app/SysApp/buffer"
 	UserAppModel "tmaic/app/SysApp/model"
-	"tmaic/app/common/constants"
-	"tmaic/app/model"
 
-	"gitee.com/pangxianfei/simple/jsons"
 	"gitee.com/pangxianfei/simple/strs"
 	"github.com/spf13/cast"
 
@@ -29,37 +25,7 @@ func (s *sysConfigService) Get(id int64) *UserAppModel.SysConfig {
 }
 
 func (s *sysConfigService) GetTokenExpireDays() int {
-	tokenExpireDaysStr := buffer.SysConfigCache.GetValue(constants.SysConfigTokenExpireDays)
-	tokenExpireDays, err := strconv.Atoi(tokenExpireDaysStr)
-	if err != nil {
-		tokenExpireDays = constants.DefaultTokenExpireDays
-	}
-	if tokenExpireDays <= 0 {
-		tokenExpireDays = constants.DefaultTokenExpireDays
-	}
-	return tokenExpireDays
-}
-
-func (s *sysConfigService) GetLoginMethod() model.LoginMethod {
-	loginMethodStr := buffer.SysConfigCache.GetValue(constants.SysConfigLoginMethod)
-
-	useDefault := true
-	var loginMethod model.LoginMethod
-	if strs.IsNotBlank(loginMethodStr) {
-		if err := jsons.Parse(loginMethodStr, &loginMethod); err != nil {
-			logrus.Warn("登录方式数据错误", err)
-		} else {
-			useDefault = false
-		}
-	}
-	if useDefault {
-		loginMethod = model.LoginMethod{
-			Password: true,
-			QQ:       true,
-			Github:   true,
-		}
-	}
-	return loginMethod
+	return 0
 }
 
 func (s *sysConfigService) GetStr(key, def string) (value string) {

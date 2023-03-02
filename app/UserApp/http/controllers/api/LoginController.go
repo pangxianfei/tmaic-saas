@@ -4,7 +4,6 @@ import (
 	"gitee.com/pangxianfei/framework/helpers/tmaic"
 	. "gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
-	"tmaic/app/SysApp/services"
 	services3 "tmaic/app/UserApp/services"
 )
 
@@ -18,11 +17,6 @@ func (c *LoginController) PostRegister() *JsonResult {
 	var mobile = c.Ctx.PostValueTrim("mobile")
 	var password = c.Ctx.PostValueTrim("password")
 	var rePassword = c.Ctx.PostValueTrim("rePassword")
-
-	loginMethod := services.SysConfigService.GetLoginMethod()
-	if !loginMethod.Password {
-		return JsonErrorMsg("账号密码登录/注册已禁用")
-	}
 
 	user, err := services3.UserService.SignUp(mobile, password, rePassword)
 	if err != nil {

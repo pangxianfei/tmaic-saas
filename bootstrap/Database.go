@@ -2,8 +2,8 @@ package bootstrap
 
 import (
 	"fmt"
+	"gitee.com/pangxianfei/library/config"
 	CreateTable "tmaic/app/model"
-	"tmaic/config"
 
 	"gitee.com/pangxianfei/simple"
 	"gorm.io/gorm"

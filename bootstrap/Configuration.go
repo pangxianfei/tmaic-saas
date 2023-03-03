@@ -1,21 +1,16 @@
 package bootstrap
 
 import (
-	"flag"
 	c "gitee.com/pangxianfei/library/config"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"log"
 	"os"
 	"time"
-	"tmaic/config"
 )
 
 func ConfigInit() {
-	var configFile = flag.String("config", "./config/platform.yaml", "配置文件路径")
-	flag.Parse()
-	// 初始化配置
-	_ = config.Init(*configFile)
+
 	// gorm配置
 	gormConf := &gorm.Config{}
 	// 初始化日志

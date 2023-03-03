@@ -34,11 +34,10 @@ func Initialize() {
 }
 
 // RouteNameList 打印路由列表
-func RouteNameList(app *iris.Application, msgOut string) {
+func RouteNameList(app *iris.Application, AppName string, Port string) {
 
 	routeList := app.GetRoutes()
 	var index int = 1
-	//console.Println(console.CODE_INFO, msgOut)
 	for _, value := range routeList {
 		if strings.Contains(value.MainHandlerName, "tmaic") || strings.Contains(value.MainHandlerName, "iris") {
 			continue
@@ -50,4 +49,6 @@ func RouteNameList(app *iris.Application, msgOut string) {
 		}
 
 	}
+	//Now listening on: http://localhost:10000
+	console.Println(console.CODE_WARNING, " "+console.Sprintf(console.CODE_WARNING, "%s listening on: http://localhost%s", AppName, Port))
 }

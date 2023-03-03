@@ -386,8 +386,8 @@ gitee.com/pangxianfei/framework v1.0.21/go.mod h1:X/7/SHOsa0On9XmbjWVj8kuYdQqeaF
 gitee.com/pangxianfei/framework v1.0.31 h1:FIKyONmfzrQlrbOOIQYhDaH5jm7GfRmrGDOcBip67g0=
 gitee.com/pangxianfei/framework v1.0.31/go.mod h1:1mWt5n9lBagj0Y8NSyF8TInhpqW4UGT2p8G5rqoos58=
 gitee.com/pangxianfei/library v1.0.1/go.mod h1:z9dwzHf5kKALjKDNzNLGVQe+r3q5uS7gHPm4YsCQmgA=
-gitee.com/pangxianfei/library v1.0.4 h1:viYKg2OM3vjh0vItnh8DKEJdLqbxwvqHYNKKWiHnq+E=
-gitee.com/pangxianfei/library v1.0.4/go.mod h1:SlKLgHrvbOUL+wKbllx4UK4ZeVilAT4ATAJConAJMic=
+gitee.com/pangxianfei/library v1.0.5 h1:netLBh54iXSRfNrR/7NvASR5RyQBHCWaOM7NZR4j0zI=
+gitee.com/pangxianfei/library v1.0.5/go.mod h1:DBjh7jQL2vkzBvLw0J70dlzH9YjN+ioLYDbisFf+iUQ=
 gitee.com/pangxianfei/saas v1.0.3 h1:wd4vXy0R+t3s4XbmK/cPIiXLkpDNRivIjUf2DTHDLJg=
 gitee.com/pangxianfei/saas v1.0.3/go.mod h1:1nsesXkeKk5rbil8s6CAFUgT4RyYCBv6S1UCI4qT0M8=
 gitee.com/pangxianfei/simple v1.0.6/go.mod h1:kqd9gtbFWs/YZG1jWwd5f1cz6zuZ2+j5balZV22g4bM=

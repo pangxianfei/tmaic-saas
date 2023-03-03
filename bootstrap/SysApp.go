@@ -1,6 +1,7 @@
 package bootstrap
 
 import (
+	"gitee.com/pangxianfei/library/config"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/logger"
 	"github.com/kataras/iris/v12/middleware/recover"
@@ -22,8 +23,9 @@ func SysRun() error { //parentCtx context.Context
 	//注册路由
 	route.Route(app)
 	SysApp.SysAppRoute(app)
-
-	RouteNameList(app, "平台应用路由列表:")
+	RouteNameList(app, config.Instance.App.SysApp, config.Instance.AppPort.SysAppPort)
+	SysErr := SetAppConfig(app, config.Instance.AppPort.SysAppPort)
 	_ = app.Build()
-	return app.Listen(":9999")
+	return SysErr
+
 }

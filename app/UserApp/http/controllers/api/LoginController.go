@@ -1,10 +1,12 @@
 package api
 
 import (
-	"gitee.com/pangxianfei/framework/helpers/tmaic"
+	"gitee.com/pangxianfei/library/tmaic"
 	. "gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
-	services3 "tmaic/app/UserApp/services"
+	"tmaic/app/UserApp/http/requests"
+	UserAppModel "tmaic/app/UserApp/model"
+	services "tmaic/app/UserApp/services"
 )
 
 type LoginController struct {
@@ -18,7 +20,7 @@ func (c *LoginController) PostRegister() *JsonResult {
 	var password = c.Ctx.PostValueTrim("password")
 	var rePassword = c.Ctx.PostValueTrim("rePassword")
 
-	user, err := services3.UserService.SignUp(mobile, password, rePassword)
+	user, err := services.UserService.SignUp(mobile, password, rePassword)
 	if err != nil {
 		return JsonError(&CodeError{
 			Code:    401,
@@ -32,19 +34,25 @@ func (c *LoginController) PostRegister() *JsonResult {
 // PostLogin 用户名密码登录
 func (c *LoginController) PostLogin() *JsonResult {
 
-	var mobile = c.Ctx.PostValueTrim("mobile")
-	var password = c.Ctx.PostValueTrim("password")
-	user, token, err := services3.UserService.SignIn(mobile, password)
+	var UserLogin requests.UserLogin
+	var User *UserAppModel.User
+
+	if err := c.Ctx.ReadJSON(&UserLogin); err != nil {
+		return JsonErrorMsg(err.Error())
+	}
+
+	User, token, err := services.UserService.SignIn(UserLogin.Mobile, UserLogin.Password)
 	if err != nil {
 		return JsonErrorMsg(err.Error())
 	}
 
-	return JsonData(tmaic.V{"user": user, "token": token})
+	return JsonData(tmaic.V{"user": User, "token": token})
+
 }
 
 // GetSignout 退出登录
 func (c *LoginController) GetSignout() *JsonResult {
-	err := services3.UserTokenService.Signout(c.Ctx)
+	err := services.UserTokenService.Signout(c.Ctx)
 	if err != nil {
 		return JsonError(NewErrorMsg("登出失败"))
 	}

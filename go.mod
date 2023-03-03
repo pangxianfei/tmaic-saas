@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	gitee.com/pangxianfei/framework v1.0.31
-	gitee.com/pangxianfei/library v1.0.4
+	gitee.com/pangxianfei/library v1.0.5
 	gitee.com/pangxianfei/saas v1.0.3
 	gitee.com/pangxianfei/simple v1.0.10
 	github.com/goburrow/cache v0.1.2

@@ -1,8 +1,8 @@
 package common
 
 import (
+	"gitee.com/pangxianfei/library/config"
 	"github.com/goburrow/cache"
-	"tmaic/config"
 )
 
 // IsProd 是否是正式环境

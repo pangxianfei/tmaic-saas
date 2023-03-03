@@ -10,7 +10,6 @@ import (
 )
 
 func ConfigInit() {
-
 	// gorm配置
 	gormConf := &gorm.Config{}
 	// 初始化日志
@@ -19,7 +18,6 @@ func ConfigInit() {
 }
 
 func InitializationLog(gormConf *gorm.Config) bool {
-	//debug.Dd(c.GetString("app.Log_file"))
 	if file, err := os.OpenFile(c.GetString("app.Log_file"), os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666); err == nil {
 		if c.GetBool("database.show-sql") {
 			gormConf.Logger = logger.New(log.New(file, "\r\n", log.LstdFlags), logger.Config{

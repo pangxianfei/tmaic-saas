@@ -9,12 +9,13 @@ import (
 	"tmaic/app/OrderApp/repositories"
 	buffer2 "tmaic/app/UserApp/buffer"
 	UserAppModel "tmaic/app/UserApp/model"
+	"tmaic/app/common"
 	"tmaic/app/common/constants"
 	"tmaic/app/common/validate"
 )
 
 // 邮箱验证邮件有效期（小时）
-const emailVerifyExpireHour = 24
+//const emailVerifyExpireHour = 24
 
 var UserService = newUserService()
 
@@ -236,6 +237,7 @@ func (s *userService) VerifyEmail(userId int64, token string) error {
 
 // SignIn 登录
 func (s *userService) SignIn(username string, password string) (*UserAppModel.User, *UserAppModel.UserToken, error) {
+
 	if len(username) == 0 {
 		return nil, nil, errors.New("手机号/用户名/邮箱不能为空")
 	}
@@ -268,18 +270,30 @@ func (s *userService) SignIn(username string, password string) (*UserAppModel.Us
 	}
 
 	//生成token
-	token, err := UserTokenService.CreateToken(*user)
+	//token, err := UserTokenService.CreateToken(*user)
+
+	TokenModel := UserAppModel.Token{
+		TenantId: user.TenantId,
+		Mobile:   user.Mobile,
+		UserId:   user.Id,
+	}
+
+	tokenSTR, err := common.InitMiddleware(TokenModel)
+
+	//debug.Dd(tokenSTR)
+
 	if err != nil {
 		return nil, nil, err
 	}
 
 	var UserToken *UserAppModel.UserToken
-	UserToken, err = UserTokenService.Create(user, token)
+	UserToken, err = UserTokenService.Create(user, tokenSTR)
 
 	if err != nil {
 		return nil, nil, err
 	}
 	//缓存token信息
-	buffer2.UserTokenCache.SetCacheUserToken(token, UserToken)
+	buffer2.UserTokenCache.SetCacheUserToken(tokenSTR, UserToken)
 	return user, UserToken, nil
+
 }

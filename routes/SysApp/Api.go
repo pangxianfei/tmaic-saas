@@ -15,7 +15,7 @@ func SysAppRouteApi(app *iris.Application) {
 	})
 
 	mvc.Configure(app.Party("/api"), func(m *mvc.Application) {
-		m.Router.Use(middleware.Login)
+		m.Router.Use(middleware.LoginMiddleware())
 		m.Party("/ev").Handle(new(api.EventsController))
 		m.Party("/upload").Handle(new(api.UploadController))
 	})

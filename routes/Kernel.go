@@ -10,5 +10,4 @@ func Route(app *iris.Application) {
 	SysAppRoute.RouteRedirect(app)
 	SysAppRoute.RouteStatic(app)
 	//注册应用路由
-
 }

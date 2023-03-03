@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	gitee.com/pangxianfei/framework v1.0.31
-	gitee.com/pangxianfei/library v1.0.5
+	gitee.com/pangxianfei/library v1.0.6
 	gitee.com/pangxianfei/saas v1.0.3
 	gitee.com/pangxianfei/simple v1.0.10
 	github.com/goburrow/cache v0.1.2
@@ -18,7 +18,6 @@ require (
 	github.com/urfave/cli v1.22.12
 	golang.org/x/sync v0.1.0
 	google.golang.org/protobuf v1.28.1
-	gopkg.in/yaml.v2 v2.4.0
 	gorm.io/gorm v1.24.5
 )
 
@@ -65,6 +64,7 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kataras/blocks v0.0.7 // indirect
 	github.com/kataras/golog v0.1.7 // indirect
+	github.com/kataras/jwt v0.1.8 // indirect
 	github.com/kataras/neffos v0.0.20 // indirect
 	github.com/kataras/pio v0.0.11 // indirect
 	github.com/kataras/sitemap v0.0.6 // indirect
@@ -113,6 +113,7 @@ require (
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
 	gopkg.in/go-playground/validator.v9 v9.31.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	gorm.io/driver/mysql v1.4.7 // indirect
 	gorm.io/driver/sqlserver v1.4.2 // indirect

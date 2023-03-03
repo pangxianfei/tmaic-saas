@@ -2,7 +2,9 @@ package middleware
 
 import (
 	"sync"
-	"tmaic/app/UserApp/http/middleware"
+	OrderAppMiddleware "tmaic/app/OrderApp/http/middleware"
+	SysAppiddleware "tmaic/app/SysApp/http/middleware"
+	UserAppMiddleware "tmaic/app/UserApp/http/middleware"
 )
 
 var once sync.Once
@@ -11,8 +13,9 @@ var once sync.Once
 func init() {
 	once.Do(func() {
 		initCORS()
-		//initUserInfo()
 		TenantInfo()
-		middleware.UserAppInfo()
+		UserAppMiddleware.UserAppInfo()
+		SysAppiddleware.SysAppInfo()
+		OrderAppMiddleware.OrderAppInfo()
 	})
 }

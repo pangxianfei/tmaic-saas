@@ -5,6 +5,7 @@ import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/mvc"
 	"tmaic/app/SysApp/http/controllers/api"
+	SysAppiddleware "tmaic/app/SysApp/http/middleware"
 	"tmaic/app/http/middleware"
 )
 
@@ -15,7 +16,7 @@ func SysAppRouteApi(app *iris.Application) {
 	})
 
 	mvc.Configure(app.Party("/api"), func(m *mvc.Application) {
-		m.Router.Use(middleware.LoginMiddleware())
+		m.Router.Use(middleware.LoginMiddleware(), SysAppiddleware.SysAppMiddleware)
 		m.Party("/ev").Handle(new(api.EventsController))
 		m.Party("/upload").Handle(new(api.UploadController))
 	})

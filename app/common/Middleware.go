@@ -9,17 +9,14 @@ import (
 
 func InitMiddleware(token UserAppModel.Token) (string, error) {
 	authSignKey := []byte(config.GetString("auth.sign_key"))
-	signer := jwt.NewSigner(jwt.HS256, authSignKey, 1*time.Minute)
 
-	var exp int64 = config.GetInt64("cache.token_time")
-	var iat int64 = time.Now().Unix()
-
+	var tokenTime time.Duration
+	tokenTime = 60
+	signer := jwt.NewSigner(jwt.HS256, authSignKey, tokenTime*time.Minute)
 	claims := UserAppModel.Token{
 		UserId:   token.UserId,
 		TenantId: token.TenantId,
 		Mobile:   token.Mobile,
-		Exp:      iat + exp,
-		Iat:      iat,
 		Iss:      "tmaic",
 	}
 

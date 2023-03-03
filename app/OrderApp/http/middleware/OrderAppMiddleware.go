@@ -11,28 +11,26 @@ import (
 	"tmaic/app/http/middleware/response"
 )
 
-var UserAppMiddleware context.Handler
+var OrderAppMiddleware context.Handler
 
-func UserAppInfo() {
-	UserAppMiddleware = func(ctx iris.Context) {
+func OrderAppInfo() {
+	OrderAppMiddleware = func(ctx iris.Context) {
 
 		var UserAppHeader response.AppHeaderAuthorization
 		if err := ctx.ReadHeaders(&UserAppHeader); err != nil {
 			_ = ctx.JSON(response.ErrorTokenInvalidation())
 			return
 		}
-
 		TokenModel := jwt.Get(ctx).(*UserAppModel.Token)
 		standardClaims := jwt.GetVerifiedToken(ctx).StandardClaims
 		timeLeft := standardClaims.Timeleft()
-
 		newUser := services.UserTokenService.GetUserInfo(ctx)
 		if TokenModel == nil || newUser == nil {
 			_ = ctx.JSON(response.ErrorTokenInvalidation())
 			return
 		}
 
-		var AppId int64 = 2
+		var AppId int64 = 3
 		if sassDb := saas.DB.SetTenantsDb(TokenModel.TenantId, AppId); sassDb == nil {
 			_ = ctx.JSON(response.ErrorUnregisteredTenantAppDb())
 			return

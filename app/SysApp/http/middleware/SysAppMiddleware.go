@@ -11,21 +11,19 @@ import (
 	"tmaic/app/http/middleware/response"
 )
 
-var UserAppMiddleware context.Handler
+var SysAppMiddleware context.Handler
 
-func UserAppInfo() {
-	UserAppMiddleware = func(ctx iris.Context) {
+func SysAppInfo() {
+	SysAppMiddleware = func(ctx iris.Context) {
 
 		var UserAppHeader response.AppHeaderAuthorization
 		if err := ctx.ReadHeaders(&UserAppHeader); err != nil {
 			_ = ctx.JSON(response.ErrorTokenInvalidation())
 			return
 		}
-
 		TokenModel := jwt.Get(ctx).(*UserAppModel.Token)
 		standardClaims := jwt.GetVerifiedToken(ctx).StandardClaims
 		timeLeft := standardClaims.Timeleft()
-
 		newUser := services.UserTokenService.GetUserInfo(ctx)
 		if TokenModel == nil || newUser == nil {
 			_ = ctx.JSON(response.ErrorTokenInvalidation())

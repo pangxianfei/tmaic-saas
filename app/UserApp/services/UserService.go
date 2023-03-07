@@ -2,13 +2,15 @@ package services
 
 import (
 	"errors"
+	"gitee.com/pangxianfei/saas"
+	"gitee.com/pangxianfei/saas/sysmodel"
 	"gitee.com/pangxianfei/simple"
-	"gitee.com/pangxianfei/simple/date"
-	"gorm.io/gorm"
+	"github.com/kataras/iris/v12"
 	"strings"
-	"tmaic/app/OrderApp/repositories"
-	buffer2 "tmaic/app/UserApp/buffer"
+	UserCache "tmaic/app/UserApp/buffer"
+	"tmaic/app/UserApp/http/requests"
 	UserAppModel "tmaic/app/UserApp/model"
+	"tmaic/app/UserApp/repositories"
 	"tmaic/app/common"
 	"tmaic/app/common/constants"
 	"tmaic/app/common/validate"
@@ -26,63 +28,63 @@ func newUserService() *userService {
 type userService struct {
 }
 
-func (s *userService) Get(id int64) *UserAppModel.User {
-	return repositories.UserRepository.Get(simple.DB(), id)
+func (s *userService) Get(ctx iris.Context, id int64) *UserAppModel.Admin {
+	return repositories.UserRepository.Get(saas.DB.Initiation(ctx), id)
 }
 
-func (s *userService) Take(where ...interface{}) *UserAppModel.User {
+func (s *userService) Take(where ...interface{}) *UserAppModel.Admin {
 	return repositories.UserRepository.Take(simple.DB(), where...)
 }
 
-func (s *userService) Find(cnd *simple.SqlCnd) []UserAppModel.User {
+func (s *userService) Find(cnd *simple.SqlCnd) []UserAppModel.Admin {
 	return repositories.UserRepository.Find(simple.DB(), cnd)
 }
 
-func (s *userService) FindOne(cnd *simple.SqlCnd) *UserAppModel.User {
+func (s *userService) FindOne(cnd *simple.SqlCnd) *UserAppModel.Admin {
 	return repositories.UserRepository.FindOne(simple.DB(), cnd)
 }
 
-func (s *userService) FindPageByParams(params *simple.QueryParams) (list []UserAppModel.User, paging *simple.Paging) {
+func (s *userService) FindPageByParams(params *simple.QueryParams) (list []UserAppModel.Admin, paging *simple.Paging) {
 	return repositories.UserRepository.FindPageByParams(simple.DB(), params)
 }
 
-func (s *userService) FindPageByCnd(cnd *simple.SqlCnd) (list []UserAppModel.User, paging *simple.Paging) {
+func (s *userService) FindPageByCnd(cnd *simple.SqlCnd) (list []UserAppModel.Admin, paging *simple.Paging) {
 	return repositories.UserRepository.FindPageByCnd(simple.DB(), cnd)
 }
 
-func (s *userService) Create(t *UserAppModel.User) error {
+func (s *userService) Create(t *UserAppModel.Admin) error {
 	err := repositories.UserRepository.Create(simple.DB(), t)
 	if err == nil {
-		buffer2.UserCache.Invalidate(t.Id)
+		UserCache.UserCache.Invalidate(t.Id)
 	}
 	return nil
 }
 
-func (s *userService) Update(t *UserAppModel.User) error {
+func (s *userService) Update(t *UserAppModel.Admin) error {
 	err := repositories.UserRepository.Update(simple.DB(), t)
-	buffer2.UserCache.Invalidate(t.Id)
+	UserCache.UserCache.Invalidate(t.Id)
 	return err
 }
 
 func (s *userService) Updates(id int64, columns map[string]interface{}) error {
 	err := repositories.UserRepository.Updates(simple.DB(), id, columns)
-	buffer2.UserCache.Invalidate(id)
+	UserCache.UserCache.Invalidate(id)
 	return err
 }
 
 func (s *userService) UpdateColumn(id int64, name string, value interface{}) error {
 	err := repositories.UserRepository.UpdateColumn(simple.DB(), id, name, value)
-	buffer2.UserCache.Invalidate(id)
+	UserCache.UserCache.Invalidate(id)
 	return err
 }
 
 func (s *userService) Delete(id int64) {
 	repositories.UserRepository.Delete(simple.DB(), id)
-	buffer2.UserCache.Invalidate(id)
+	UserCache.UserCache.Invalidate(id)
 }
 
 // Scan 扫描
-func (s *userService) Scan(callback func(users []UserAppModel.User)) {
+func (s *userService) Scan(callback func(users []UserAppModel.Admin)) {
 	var cursor int64
 	for {
 		list := repositories.UserRepository.Find(simple.DB(), simple.NewSqlCnd().Where("id > ?", cursor).Asc("id").Limit(100))
@@ -95,66 +97,18 @@ func (s *userService) Scan(callback func(users []UserAppModel.User)) {
 }
 
 // GetByEmail 根据邮箱查找
-func (s *userService) GetByEmail(email string) *UserAppModel.User {
+func (s *userService) GetByEmail(email string) *UserAppModel.Admin {
 	return repositories.UserRepository.GetByEmail(simple.DB(), email)
 }
 
 // GetByUsername 根据用户名查找
-func (s *userService) GetByUsername(username string) *UserAppModel.User {
+func (s *userService) GetByUsername(username string) *UserAppModel.Admin {
 	return repositories.UserRepository.GetByUsername(simple.DB(), username)
 }
 
 // GetByMobile 根据用户名查找
-func (s *userService) GetByMobile(mobile string) *UserAppModel.User {
-	return repositories.UserRepository.GetByMobile(simple.DB(), mobile)
-}
-
-// SignUp 注册
-func (s *userService) SignUp(mobile, password, rePassword string) (*UserAppModel.User, error) {
-	mobile = strings.TrimSpace(mobile)
-	if len(mobile) == 0 {
-		return nil, errors.New("手机号不能为空")
-	}
-	err := validate.IsPassword(password, rePassword)
-	if err != nil {
-		return nil, err
-	}
-	user := &UserAppModel.User{}
-	user.Nickname = mobile
-	// 验证手机号
-	if validate.IsMobile(mobile) {
-		if s.GetByMobile(mobile) != nil {
-			return nil, errors.New("手机号：" + mobile + " 已被占用")
-		}
-	}
-	user.Mobile = mobile
-	user.UserName = mobile
-	user.Password = simple.EncodePassword(password)
-	user.Status = constants.StatusOk
-	user.CreateTime = date.NowTimestamp()
-	user.UpdateTime = date.NowTimestamp()
-
-	err = simple.DB().Transaction(func(tx *gorm.DB) error {
-		if err := repositories.UserRepository.Create(tx, user); err != nil {
-			return err
-		}
-
-		avatarUrl := ""
-		if err != nil {
-			return err
-		}
-
-		if err := repositories.UserRepository.UpdateColumn(tx, user.Id, "avatar", avatarUrl); err != nil {
-			return err
-		}
-		return nil
-	})
-
-	if err != nil {
-		return nil, err
-	}
-
-	return user, nil
+func (s *userService) GetByMobile(ctx iris.Context, mobile string) *UserAppModel.Admin {
+	return repositories.UserRepository.GetByMobile(saas.DB.Initiation(ctx), mobile)
 }
 
 // isEmailExists 邮箱是否存在
@@ -171,13 +125,13 @@ func (s *userService) isUsernameExists(username string) bool {
 }
 
 // SetUsername 设置用户名
-func (s *userService) SetUsername(userId int64, username string) error {
+func (s *userService) SetUsername(ctx iris.Context, userId int64, username string) error {
 	username = strings.TrimSpace(username)
 	if err := validate.IsUsername(username); err != nil {
 		return err
 	}
 
-	user := s.Get(userId)
+	user := s.Get(ctx, userId)
 	if len(user.UserName) > 0 {
 		return errors.New("你已设置了用户名，无法重复设置。")
 	}
@@ -200,11 +154,11 @@ func (s *userService) SetEmail(userId int64, email string) error {
 }
 
 // SetPassword 设置密码
-func (s *userService) SetPassword(userId int64, password, rePassword string) error {
+func (s *userService) SetPassword(ctx iris.Context, userId int64, password, rePassword string) error {
 	if err := validate.IsPassword(password, rePassword); err != nil {
 		return err
 	}
-	user := s.Get(userId)
+	user := s.Get(ctx, userId)
 	if len(user.Password) > 0 {
 		return errors.New("你已设置了密码，如需修改请前往修改页面。")
 	}
@@ -213,11 +167,11 @@ func (s *userService) SetPassword(userId int64, password, rePassword string) err
 }
 
 // UpdatePassword 修改密码
-func (s *userService) UpdatePassword(userId int64, oldPassword, password, rePassword string) error {
+func (s *userService) UpdatePassword(ctx iris.Context, userId int64, oldPassword, password, rePassword string) error {
 	if err := validate.IsPassword(password, rePassword); err != nil {
 		return err
 	}
-	user := s.Get(userId)
+	user := s.Get(ctx, userId)
 
 	if len(user.Password) == 0 {
 		return errors.New("你没设置密码，请先设置密码")
@@ -236,64 +190,82 @@ func (s *userService) VerifyEmail(userId int64, token string) error {
 }
 
 // SignIn 登录
-func (s *userService) SignIn(username string, password string) (*UserAppModel.User, *UserAppModel.UserToken, error) {
+func (s *userService) SignIn(ctx iris.Context, UserLogin requests.UserLogin) (*UserAppModel.Admin, *UserAppModel.UserToken, error) {
 
-	if len(username) == 0 {
+	if len(UserLogin.Mobile) == 0 {
 		return nil, nil, errors.New("手机号/用户名/邮箱不能为空")
 	}
-	if len(password) == 0 {
+	if len(UserLogin.Password) == 0 {
 		return nil, nil, errors.New("密码不能为空")
 	}
-	user := new(UserAppModel.User)
+	//出始化租户 DB 连接对象
+	tenantDbWhere := &sysmdel.RetrieveDB{
+		TenantsId: UserLogin.TenantId,
+		Status:    1,
+	}
+	var InstanceDB []sysmdel.InstanceDb
+	var UserInstanceDB sysmdel.InstanceDb
+	Result := simple.DB().Debug().Model(&sysmdel.InstanceDb{}).Where(tenantDbWhere).Find(&InstanceDB)
 
-	if validate.IsNumber(username) {
-		user = s.GetByMobile(username)
-	} else if err := validate.IsEmail(username); err == nil { // 如果用户输入的是邮箱
-
-		user = s.GetByEmail(username)
-
-	} else if err := validate.IsEmail(username); err == nil { //手机号登陆
-
-		user = s.GetByUsername(username)
-
-	} else { //用户名登陆
-		user = s.GetByUsername(username)
+	if Result.RowsAffected <= 0 {
+		return nil, nil, errors.New("租户应用不存在")
 	}
 
-	if user == nil || user.Status != constants.StatusOk {
+	if Result.RowsAffected > 0 {
+		for _, appDb := range InstanceDB {
+			db := saas.DB.SetTenantsDb(appDb.TenantsId, appDb.AppId)
+			if db != nil && appDb.AppName == constants.UserDb {
+				UserInstanceDB = appDb
+				ctx.Values().Set("TenantId", appDb.TenantsId)
+				ctx.Values().Set("AppId", appDb.AppId)
+			}
+		}
+	}
+	//检查上下文
+	if ctx.Values().Get("TenantId").(int64) <= 0 {
+		return nil, nil, errors.New("租户用户不存在")
+	}
+	if ctx.Values().Get("AppId").(int64) <= 0 {
+		return nil, nil, errors.New("租户应用不存在")
+	}
+
+	Admin := new(UserAppModel.Admin)
+
+	if validate.IsNumber(UserLogin.Mobile) {
+		Admin = s.GetByMobile(ctx, UserLogin.Mobile)
+	}
+
+	if Admin == nil || Admin.Status != constants.StatusOk {
 		return nil, nil, errors.New("用户不存在或被禁用")
 	}
 
 	//检验密码比较耗时 大约90毫秒
-	if !simple.ValidatePassword(user.Password, password) {
+	if !simple.ValidatePassword(Admin.Password, UserLogin.Password) {
 		return nil, nil, errors.New("密码错误")
 	}
 
 	//生成token
-	//token, err := UserTokenService.CreateToken(*user)
-
-	TokenModel := UserAppModel.Token{
-		TenantId: user.TenantId,
-		Mobile:   user.Mobile,
-		UserId:   user.Id,
+	TokenModel := sysmdel.Token{
+		TenantId: Admin.TenantId,
+		AppId:    UserInstanceDB.AppId,
+		Mobile:   Admin.Mobile,
+		UserId:   Admin.Id,
 	}
 
 	tokenSTR, err := common.InitMiddleware(TokenModel)
-
-	//debug.Dd(tokenSTR)
 
 	if err != nil {
 		return nil, nil, err
 	}
 
 	var UserToken *UserAppModel.UserToken
-	UserToken, err = UserTokenService.Create(user, tokenSTR)
+	UserToken, err = UserTokenService.Create(ctx, Admin, tokenSTR)
 
 	if err != nil {
 		return nil, nil, err
 	}
 	//缓存token信息
-	buffer2.UserTokenCache.SetCacheUserToken(tokenSTR, UserToken)
-	return user, UserToken, nil
+	UserCache.UserTokenCache.SetCacheUserToken(tokenSTR, UserToken)
+	return Admin, UserToken, nil
 
 }

@@ -8,16 +8,16 @@ import (
 	"tmaic/app/UserApp/model"
 )
 
-func GetJWTInstantiation(user UserAppModel.User) (tokenString string, err error) {
+func GetJWTInstantiation(Admin UserAppModel.Admin) (tokenString string, err error) {
 	var exp int64 = config.GetInt64("cache.token_time")
 	var iat int64 = time.Now().Unix()
 	token := jwt.NewTokenWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		// 根据需求，可以存一些必要的数据
-		"UserName": user.UserName,
-		"Mobile":   user.Mobile,
-		"UserInfo": user,
-		"TenantId": user.TenantId,
-		"UserId":   user.Id,
+		"UserName": Admin.UserName,
+		"Mobile":   Admin.Mobile,
+		"UserInfo": Admin,
+		"TenantId": Admin.TenantId,
+		"UserId":   Admin.Id,
 		// 签发人
 		"iss": "tmaic",
 		// 签发时间

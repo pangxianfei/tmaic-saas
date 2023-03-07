@@ -28,7 +28,6 @@ func (c *UserController) PostEditBy(userId int64) *simple.JsonResult {
 
 // PostUpdateAvatar 修改头像
 func (c *UserController) PostUpdateAvatar() *simple.JsonResult {
-
 	return simple.JsonSuccess()
 }
 

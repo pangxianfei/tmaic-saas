@@ -7,7 +7,7 @@ import (
 )
 
 var CreateTableModels = []interface{}{
-	&UserAppModel.User{},
+	&UserAppModel.Admin{},
 	&UserAppModel.UserToken{},
 	&OrderAppModel.Article{},
 	&SysAppModel.SysConfig{},

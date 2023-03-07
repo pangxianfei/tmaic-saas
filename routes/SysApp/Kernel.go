@@ -6,5 +6,5 @@ import (
 
 // SysAppRoute 注册路由
 func SysAppRoute(app *iris.Application) {
-	SysAppRouteApi(app)
+	AppRouteApi(app)
 }

@@ -16,7 +16,7 @@ func init() {
 }
 
 type Test struct {
-	user UserAppModel.User
+	user UserAppModel.Admin
 	hub.Listen
 }
 

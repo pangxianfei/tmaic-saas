@@ -2,9 +2,9 @@ package middleware
 
 import (
 	"gitee.com/pangxianfei/library/config"
+	"gitee.com/pangxianfei/saas/sysmodel"
 	"github.com/kataras/iris/v12/context"
 	"github.com/kataras/iris/v12/middleware/jwt"
-	UserAppModel "tmaic/app/UserApp/model"
 	"tmaic/app/http/middleware/response"
 )
 
@@ -17,6 +17,6 @@ func LoginMiddleware() context.Handler {
 		return
 	}
 	return verifier.Verify(func() interface{} {
-		return new(UserAppModel.Token)
+		return new(sysmdel.Token)
 	})
 }

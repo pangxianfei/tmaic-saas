@@ -9,7 +9,7 @@ func init() {
 	auth := make(map[string]interface{})
 
 	auth["sign_key"] = Env("AUTH_SIGN_KEY", "f6P8FPkpNbWmkeRr")
-	auth["model_ptr"] = &UserAppModel.User{}
+	auth["model_ptr"] = &UserAppModel.Admin{}
 
 	Add("auth", auth)
 }

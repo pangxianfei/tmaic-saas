@@ -13,41 +13,21 @@ type LoginController struct {
 	Ctx iris.Context
 }
 
-// PostRegister 注册
-func (c *LoginController) PostRegister() *JsonResult {
-
-	var mobile = c.Ctx.PostValueTrim("mobile")
-	var password = c.Ctx.PostValueTrim("password")
-	var rePassword = c.Ctx.PostValueTrim("rePassword")
-
-	user, err := services.UserService.SignUp(mobile, password, rePassword)
-	if err != nil {
-		return JsonError(&CodeError{
-			Code:    401,
-			Message: err.Error(),
-			Data:    nil,
-		})
-	}
-	return JsonData(user)
-}
-
 // PostLogin 用户名密码登录
 func (c *LoginController) PostLogin() *JsonResult {
 
 	var UserLogin requests.UserLogin
-	var User *UserAppModel.User
+	var Admin *UserAppModel.Admin
 
 	if err := c.Ctx.ReadJSON(&UserLogin); err != nil {
 		return JsonErrorMsg(err.Error())
 	}
 
-	User, token, err := services.UserService.SignIn(UserLogin.Mobile, UserLogin.Password)
+	Admin, token, err := services.UserService.SignIn(c.Ctx, UserLogin)
 	if err != nil {
 		return JsonErrorMsg(err.Error())
 	}
-
-	return JsonData(tmaic.V{"user": User, "token": token})
-
+	return JsonData(tmaic.V{"Admin": Admin, "token": token})
 }
 
 // GetSignout 退出登录

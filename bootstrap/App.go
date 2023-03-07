@@ -3,6 +3,7 @@ package bootstrap
 import (
 	"gitee.com/pangxianfei/framework/console"
 	"gitee.com/pangxianfei/library/config"
+	"github.com/go-playground/validator/v10"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/recover"
 	"strings"
@@ -30,6 +31,7 @@ func UserApp() error {
 }
 
 func SetAppConfig(app *iris.Application, Port string) error {
+	app.Validator = validator.New()
 	app.Logger().SetLevel("warn")
 	app.Use(recover.New())
 	app.AllowMethods(iris.MethodOptions)

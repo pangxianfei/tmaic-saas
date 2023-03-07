@@ -9,7 +9,7 @@ import (
 )
 
 func OrderApi(app *iris.Application) {
-	mvc.Configure(app.Party("/api"), func(m *mvc.Application) {
+	mvc.Configure(app.Party("/"), func(m *mvc.Application) {
 		m.Router.Use(middleware.LoginMiddleware(), OrderAppMiddleware.OrderAppMiddleware)
 		m.Party("/order").Handle(new(api.OrderController))
 	})

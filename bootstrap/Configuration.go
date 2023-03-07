@@ -27,7 +27,6 @@ func InitializationLog(gormConf *gorm.Config) bool {
 			})
 		}
 	} else {
-		//debug.Dd(err.Error())
 		return false
 	}
 	return true

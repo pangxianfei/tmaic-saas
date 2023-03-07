@@ -1,5 +1,6 @@
 package UserAppModel
 
+// Token 写入DB模型
 type Token struct {
 	UserId   int64  `json:"UserId"`
 	TenantId int64  `json:"TenantId"`

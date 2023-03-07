@@ -1,6 +1,7 @@
-package UserAppModel
+package SysAppModel
 
-type User struct {
+// Admin 平台租户用户管理表
+type Admin struct {
 	Id               int64  `gorm:"primaryKey;autoIncrement" json:"id" form:"id"`
 	TenantId         int64  `gorm:"size:11;not null" json:"TenantId" form:"TenantId"`
 	Mobile           string `gorm:"size:11;unique;" json:"mobile" form:"mobile"`                        // 手机

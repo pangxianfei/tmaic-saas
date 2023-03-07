@@ -1,11 +1,11 @@
 package model
 
 import (
-	Orm "gitee.com/pangxianfei/framework/helpers/db"
 	"gitee.com/pangxianfei/framework/helpers/pb"
 	"gitee.com/pangxianfei/framework/helpers/zone"
 	"gitee.com/pangxianfei/framework/queue"
 	message "gitee.com/pangxianfei/framework/queue/protocol_buffers"
+	"gitee.com/pangxianfei/simple"
 )
 
 type FailedQueue struct {
@@ -68,19 +68,20 @@ func (fq *FailedQueue) FailedToDatabase(topicName string, channelName string, ms
 		Tried:     &msg.Tried,
 		Err:       &errStr,
 	}
-	return Orm.DB.Create(&_fq)
+	return simple.DB().Create(&_fq).Error
 }
 
 func (fq *FailedQueue) FailedQueueById(id uint) (failedQueuerPtr queue.FailedQueuer, err error) {
 	_fq := FailedQueue{ID: &id}
-	if err := Orm.DB.First(&_fq, false); err != nil {
+	if err := simple.DB().First(&_fq, false).Error; err != nil {
 		return nil, err
 	}
 	return &_fq, nil
 }
+
 func (fq *FailedQueue) DeleteQueueById(id uint) error {
 	_fq := FailedQueue{ID: &id}
-	if err := Orm.DB.Delete(&_fq, true); err != nil {
+	if err := simple.DB().Delete(&_fq, true).Error; err != nil {
 		return err
 	}
 	return nil

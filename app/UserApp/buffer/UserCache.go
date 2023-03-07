@@ -13,7 +13,7 @@ func newUserCache() *userCache {
 	return &userCache{}
 }
 
-func (c *userCache) Get(userId int64) *UserAppModel.User {
+func (c *userCache) Get(userId int64) *UserAppModel.Admin {
 
 	return nil
 
@@ -23,7 +23,7 @@ func (c *userCache) Invalidate(userId int64) {
 
 }
 
-func (c *userCache) GetScoreRank() []UserAppModel.User {
+func (c *userCache) GetScoreRank() []UserAppModel.Admin {
 
 	return nil
 

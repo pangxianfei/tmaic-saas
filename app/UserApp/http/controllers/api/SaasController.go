@@ -17,7 +17,7 @@ func (c *SaasController) PostDb() *JsonResult {
 	//AppId := c.Ctx.Values().Get("AppId").(int64)
 	//db := saas.DB.SetTenantsDb(TenantId, AppId)
 	db := saas.DB.Initiation(c.Ctx)
-	var user UserAppModel.User
-	db.First(&user)
-	return JsonData(user.UserName)
+	var Admin UserAppModel.Admin
+	db.First(&Admin)
+	return JsonData(Admin.UserName)
 }

@@ -58,8 +58,11 @@ const (
 
 // 用户类型
 const (
-	UserTypeNormal = 0 // 普通用户
-	UserTypeGzh    = 1 // 公众号用户
+	UserTypeNormal = 0        // 普通用户
+	UserTypeGzh    = 1        // 公众号用户
+	UserDb         = "user"   // 租户下用户db库标志
+	createDb       = "create" // 租户下用户db库标志
+	createUserDb   = "sys"
 )
 
 // 内容类型
@@ -75,7 +78,7 @@ const (
 	MsgStatusHaveRead = 1 // 消息已读
 )
 
-// 消息类型
+// MsgTypeComment 消息类型
 const (
 	MsgTypeComment = 0 // 回复消息
 )

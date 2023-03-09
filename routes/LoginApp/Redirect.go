@@ -1,4 +1,4 @@
-package SysAppRoute
+package LoginApp
 
 import "github.com/kataras/iris/v12"
 

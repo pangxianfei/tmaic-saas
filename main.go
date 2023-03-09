@@ -15,15 +15,15 @@ func init() {}
 
 func main() {
 	//ctx, cancel := context.WithCancel(context.Background())
-
 	//bootstrap.Run(ctx)
-
+	//bootstrap.SysRun(ctx)
+	//defer cancel()
 	bootstrap.ConfigInit()
 	bootstrap.Initialize()
 	bootstrap.EnablingScheduledTask()
-	//bootstrap.SysRun(ctx)
-	//defer cancel()
 	app.Go(bootstrap.SysRun)
+	time.Sleep(time.Second * 1)
+	app.Go(bootstrap.LoginApp)
 	time.Sleep(time.Second * 1)
 	app.Go(bootstrap.UserApp)
 	time.Sleep(time.Second * 1)
@@ -32,5 +32,4 @@ func main() {
 	if err := app.Wait(); err != nil {
 		debug.Dd(err.Error())
 	}
-
 }

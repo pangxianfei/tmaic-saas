@@ -1,7 +1,10 @@
 package SysAppModel
 
+import "gitee.com/pangxianfei/framework/model"
+
 // Admin 平台租户用户管理表
 type Admin struct {
+	model.BaseModel
 	Id               int64  `gorm:"primaryKey;autoIncrement" json:"id" form:"id"`
 	TenantId         int64  `gorm:"size:11;not null" json:"TenantId" form:"TenantId"`
 	Mobile           string `gorm:"size:11;unique;" json:"mobile" form:"mobile"`                        // 手机
@@ -23,4 +26,9 @@ type Admin struct {
 	ForbiddenEndTime int64  `gorm:"not null;default:0" json:"forbiddenEndTime" form:"forbiddenEndTime"` // 禁言结束时间
 	CreateTime       int64  `json:"createTime" form:"createTime"`                                       // 创建时间
 	UpdateTime       int64  `json:"updateTime" form:"updateTime"`                                       // 更新时间
+}
+
+// TableName 指定表
+func (admin *Admin) TableName() string {
+	return admin.SetTableName("sys_admin")
 }

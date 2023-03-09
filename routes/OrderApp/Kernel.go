@@ -7,5 +7,4 @@ import (
 // OrderRoute 注册路由
 func OrderRoute(app *iris.Application) {
 	OrderApi(app)
-
 }

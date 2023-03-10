@@ -40,3 +40,10 @@ func (r *appInfoRepository) GetByList(db *gorm.DB) []SysAppModel.AppInfo {
 	db.Find(&AppList)
 	return AppList
 }
+
+func (r *appInfoRepository) GetByAppCreateList(db *gorm.DB) []SysAppModel.AppInfo {
+
+	var AppList []SysAppModel.AppInfo
+	db.Where("is_created = ?", 1).Find(&AppList)
+	return AppList
+}

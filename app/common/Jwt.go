@@ -5,7 +5,7 @@ import (
 	"github.com/iris-contrib/middleware/jwt"
 
 	"time"
-	"tmaic/app/UserApp/model"
+	"tmaic/app/LoginApp/model"
 )
 
 func GetJWTInstantiation(Admin UserAppModel.Admin) (tokenString string, err error) {

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"gitee.com/pangxianfei/framework/helpers/cache"
 	"gitee.com/pangxianfei/framework/helpers/tmaic"
-	UserAppModel "tmaic/app/UserApp/model"
+	LoginAppModel "tmaic/app/LoginApp/model"
 )
 
 var UserTokenCache = newUserTokenCache()
@@ -17,7 +17,7 @@ func newUserTokenCache() *userTokenCache {
 }
 
 // Get 获取缓存数据
-func (c *userTokenCache) Get(token string) *UserAppModel.UserToken {
+func (c *userTokenCache) Get(token string) *LoginAppModel.UserToken {
 
 	if len(token) == 0 {
 		return nil
@@ -31,7 +31,7 @@ func (c *userTokenCache) Get(token string) *UserAppModel.UserToken {
 		return nil
 	}
 
-	var UserToken *UserAppModel.UserToken
+	var UserToken *LoginAppModel.UserToken
 
 	newData := tmaic.InterfaceToString(cacheData)
 	if len(newData) <= 0 {
@@ -45,7 +45,7 @@ func (c *userTokenCache) Get(token string) *UserAppModel.UserToken {
 	return nil
 }
 
-func (c *userTokenCache) SetCacheUserToken(token string, userToken *UserAppModel.UserToken) {
+func (c *userTokenCache) SetCacheUserToken(token string, userToken *LoginAppModel.UserToken) {
 	userTokenData, _ := json.Marshal(userToken)
 	tokenKey := tmaic.MD5(token)
 	cache.AddTokenCache(tokenKey, userTokenData)

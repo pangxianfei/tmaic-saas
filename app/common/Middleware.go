@@ -11,7 +11,7 @@ func InitMiddleware(token sysmdel.Token) (string, error) {
 	authSignKey := []byte(config.GetString("auth.sign_key"))
 
 	var tokenTime time.Duration
-	tokenTime = 60
+	tokenTime = time.Duration(config.GetInt64("cache.token_time"))
 	signer := jwt.NewSigner(jwt.HS256, authSignKey, tokenTime*time.Minute)
 	claims := sysmdel.Token{
 		UserId:   token.UserId,

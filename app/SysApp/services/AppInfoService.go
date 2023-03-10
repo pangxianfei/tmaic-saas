@@ -48,3 +48,7 @@ func (s *appInfoService) Create(appInfo requests.AppInfo) (AppInfo *SysAppModel.
 	}
 	return newAppInfo, nil
 }
+
+func (s *appInfoService) GetByAppCreateList() []SysAppModel.AppInfo {
+	return repositories.AppInfoRepository.GetByAppCreateList(simple.DB())
+}

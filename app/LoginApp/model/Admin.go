@@ -29,7 +29,7 @@ type Admin struct {
 
 // TableName 指定表
 func (ad *Admin) TableName() string {
-	return ad.SetTableName("tmaic_admin")
+	return ad.SetTableName("public_admin")
 }
 
 func (ad *Admin) GetTypeAttribute(value interface{}) interface{} {

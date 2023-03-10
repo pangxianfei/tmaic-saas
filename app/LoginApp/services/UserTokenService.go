@@ -2,18 +2,20 @@ package services
 
 import (
 	"errors"
+	"time"
+
 	"gitee.com/pangxianfei/framework/helpers/tmaic"
 	"gitee.com/pangxianfei/library/config"
-	"gitee.com/pangxianfei/saas"
 	"gitee.com/pangxianfei/simple"
 	"gitee.com/pangxianfei/simple/date"
 	"github.com/kataras/iris/v12"
-	"time"
-	"tmaic/app/UserApp/buffer"
-	UserAppModel "tmaic/app/UserApp/model"
-	"tmaic/app/UserApp/repositories"
+
+	"tmaic/app/LoginApp/buffer"
+	"tmaic/app/LoginApp/repositories"
 	"tmaic/app/common"
 	"tmaic/app/common/constants"
+
+	LoginAppModel "tmaic/app/LoginApp/model"
 )
 
 var UserTokenService = newUserTokenService()
@@ -35,7 +37,7 @@ func (s *userTokenService) GetUserId(ctx iris.Context) int64 {
 }
 
 // GetUserInfo 获取当前登录用户
-func (s *userTokenService) GetUserInfo(ctx iris.Context) (user *UserAppModel.Admin) {
+func (s *userTokenService) GetUserInfo(ctx iris.Context) (user *LoginAppModel.Admin) {
 	token := s.GetUserToken(ctx)
 
 	userToken := buffer.UserTokenCache.Get(token)
@@ -63,7 +65,7 @@ func (s *userTokenService) GetUserInfo(ctx iris.Context) (user *UserAppModel.Adm
 }
 
 // CheckLogin 检查登录状态
-func (s *userTokenService) CheckLogin(ctx iris.Context) (*UserAppModel.Admin, *simple.CodeError) {
+func (s *userTokenService) CheckLogin(ctx iris.Context) (*LoginAppModel.Admin, *simple.CodeError) {
 	user := s.GetUserInfo(ctx)
 	if user == nil {
 		return nil, simple.ErrorNotLogin
@@ -94,11 +96,11 @@ func (s *userTokenService) GetUserToken(ctx iris.Context) (userToken string) {
 }
 
 // Create 存入DB
-func (s *userTokenService) Create(ctx iris.Context, Admin *UserAppModel.Admin, token string) (*UserAppModel.UserToken, error) {
+func (s *userTokenService) Create(Admin *LoginAppModel.Admin, token string) (*LoginAppModel.UserToken, error) {
 	var iat int64 = time.Now().Unix()
 	var exp int64 = config.GetInt64("cache.token_time")
 	//保存至DB
-	userToken := &UserAppModel.UserToken{
+	userToken := &LoginAppModel.UserToken{
 		Token:      token,
 		UserId:     Admin.Id,
 		TenantId:   Admin.TenantId,
@@ -108,7 +110,7 @@ func (s *userTokenService) Create(ctx iris.Context, Admin *UserAppModel.Admin, t
 		CreateTime: iat,
 		Md5Token:   tmaic.MD5(token),
 	}
-	err := repositories.UserTokenRepository.Create(saas.DB.Initiation(ctx), userToken)
+	err := repositories.UserTokenRepository.Create(simple.DB(), userToken)
 	if err != nil {
 		return nil, errors.New("token创建失败")
 	}
@@ -117,7 +119,7 @@ func (s *userTokenService) Create(ctx iris.Context, Admin *UserAppModel.Admin, t
 }
 
 // CreateToken 生成token 串
-func (s *userTokenService) CreateToken(Admin UserAppModel.Admin) (tokenString string, err error) {
+func (s *userTokenService) CreateToken(Admin LoginAppModel.Admin) (tokenString string, err error) {
 	tokenString, err = common.GetJWTInstantiation(Admin)
 	return tokenString, err
 }

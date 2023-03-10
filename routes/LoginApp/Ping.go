@@ -10,4 +10,8 @@ func RoutePing(app *iris.Application) {
 	app.Any("/ping", func(ctx iris.Context) {
 		ctx.JSON(iris.Map{"code": 200, "status": true, "lang": trans.Get("auth.register.failed_token_generate_error")})
 	})
+
+	app.Any("/", func(app iris.Context) {
+		_, _ = app.HTML("<h1>Powered by Tmaic SAAS Framework</h1>")
+	})
 }

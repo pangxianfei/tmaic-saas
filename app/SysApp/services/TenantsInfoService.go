@@ -4,7 +4,7 @@ import (
 	"errors"
 	"gitee.com/pangxianfei/simple"
 	"time"
-	"tmaic/app/SysApp/http/requests"
+	"tmaic/app/LoginApp/http/requests"
 	SysAppModel "tmaic/app/SysApp/model"
 	"tmaic/app/SysApp/repositories"
 )

@@ -60,9 +60,9 @@ const (
 const (
 	UserTypeNormal = 0        // 普通用户
 	UserTypeGzh    = 1        // 公众号用户
-	UserDb         = "user"   // 租户下用户db库标志
+	UserDb         = "User"   // 租户下用户db库标志
 	createDb       = "create" // 租户下用户db库标志
-	createUserDb   = "sys"
+	createUserDb   = "Sys"
 )
 
 // 内容类型

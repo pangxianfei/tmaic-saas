@@ -7,5 +7,4 @@ import (
 // UserAppRoute 注册路由
 func UserAppRoute(app *iris.Application) {
 	UserAppApi(app)
-
 }

@@ -10,10 +10,10 @@ import (
 	"github.com/kataras/iris/v12"
 	"time"
 	"tmaic/app/UserApp/buffer"
-	UserAppModel "tmaic/app/UserApp/model"
 	"tmaic/app/UserApp/repositories"
-	"tmaic/app/common"
 	"tmaic/app/common/constants"
+
+	UserAppModel "tmaic/app/UserApp/model"
 )
 
 var UserTokenService = newUserTokenService()
@@ -43,7 +43,7 @@ func (s *userTokenService) GetUserInfo(ctx iris.Context) (user *UserAppModel.Adm
 	if userToken == nil {
 		return nil
 	}
-	user = UserService.Get(ctx, userToken.UserId)
+	user = UserService.Get(userToken.UserId)
 
 	// 没找到授权
 	if userToken == nil || userToken.Status == constants.StatusDeleted {
@@ -60,6 +60,7 @@ func (s *userTokenService) GetUserInfo(ctx iris.Context) (user *UserAppModel.Adm
 	}
 
 	return user
+
 }
 
 // CheckLogin 检查登录状态
@@ -114,12 +115,6 @@ func (s *userTokenService) Create(ctx iris.Context, Admin *UserAppModel.Admin, t
 	}
 	buffer.UserTokenCache.Invalidate(token)
 	return userToken, nil
-}
-
-// CreateToken 生成token 串
-func (s *userTokenService) CreateToken(Admin UserAppModel.Admin) (tokenString string, err error) {
-	tokenString, err = common.GetJWTInstantiation(Admin)
-	return tokenString, err
 }
 
 // Disable 禁用

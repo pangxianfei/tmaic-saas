@@ -4,9 +4,8 @@ import (
 	"gitee.com/pangxianfei/library/tmaic"
 	. "gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
-	"tmaic/app/UserApp/http/requests"
-	UserAppModel "tmaic/app/UserApp/model"
-	services "tmaic/app/UserApp/services"
+	"tmaic/app/LoginApp/http/requests"
+	"tmaic/app/LoginApp/services"
 )
 
 type LoginController struct {
@@ -17,17 +16,16 @@ type LoginController struct {
 func (c *LoginController) PostLogin() *JsonResult {
 
 	var UserLogin requests.UserLogin
-	var Admin *UserAppModel.Admin
 
 	if err := c.Ctx.ReadJSON(&UserLogin); err != nil {
 		return JsonErrorMsg(err.Error())
 	}
 
-	Admin, token, err := services.UserService.SignIn(c.Ctx, UserLogin)
+	newAdmin, token, err := services.UserService.SignIn(c.Ctx, UserLogin)
 	if err != nil {
 		return JsonErrorMsg(err.Error())
 	}
-	return JsonData(tmaic.V{"Admin": Admin, "token": token})
+	return JsonData(tmaic.V{"Admin": newAdmin, "token": token})
 }
 
 // GetSignout 退出登录

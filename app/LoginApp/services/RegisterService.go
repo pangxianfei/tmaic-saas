@@ -6,13 +6,15 @@ import (
 	"gitee.com/pangxianfei/simple/date"
 	"gorm.io/gorm"
 	"strings"
-	"tmaic/app/SysApp/http/requests"
-	"tmaic/app/SysApp/model"
-	"tmaic/app/SysApp/repositories"
-	UserAppModel "tmaic/app/UserApp/model"
-	"tmaic/app/common/constants"
+	SysAppModel "tmaic/app/SysApp/model"
+	"tmaic/app/SysApp/services"
 
+	"tmaic/app/LoginApp/http/requests"
+	"tmaic/app/LoginApp/repositories"
+	"tmaic/app/common/constants"
 	"tmaic/app/common/validate"
+
+	LoginAppModel "tmaic/app/LoginApp/model"
 )
 
 var RegisterService = newRegisterService()
@@ -25,7 +27,8 @@ type registerService struct {
 }
 
 // Register 创建租户
-func (s *registerService) Register(UserRegister requests.UserRegister) (*SysAppModel.Admin, error) {
+func (s *registerService) Register(UserRegister requests.UserRegister) (*LoginAppModel.Admin, error) {
+
 	mobile := strings.TrimSpace(UserRegister.Mobile)
 	if len(mobile) == 0 {
 		return nil, errors.New("手机号不能为空")
@@ -36,7 +39,7 @@ func (s *registerService) Register(UserRegister requests.UserRegister) (*SysAppM
 	}
 
 	//查询租户名称是否占用
-	TenantsInfo := TenantsInfoService.GetByTenantName(UserRegister.TenantName)
+	TenantsInfo := services.TenantsInfoService.GetByTenantName(UserRegister.TenantName)
 
 	if TenantsInfo != nil {
 		return nil, errors.New("租户名称：" + UserRegister.TenantName + " 已被占用")
@@ -51,36 +54,32 @@ func (s *registerService) Register(UserRegister requests.UserRegister) (*SysAppM
 
 	//保存租户信息
 	var Tenants *SysAppModel.TenantsInfo
+	//开始注册租户
+	Admin := &LoginAppModel.Admin{}
+
 	TenantsErr := simple.DB().Transaction(func(tx *gorm.DB) error {
-		if Tenants, err = TenantsInfoService.Create(UserRegister); err != nil {
+		if Tenants, err = services.TenantsInfoService.Create(UserRegister); err != nil {
 			return err
 		}
-		return nil
-	})
-	if TenantsErr != nil {
-		return nil, errors.New("租户名称：" + UserRegister.TenantName + " 创建失败")
-	}
-
-	//开始注册租户
-	Admin := &SysAppModel.Admin{}
-	Admin.Nickname = mobile
-	Admin.TenantId = Tenants.ID
-	Admin.Mobile = mobile
-	Admin.UserName = mobile
-	Admin.Password = simple.EncodePassword(UserRegister.Password)
-	Admin.Status = constants.StatusOk
-	Admin.CreateTime = date.NowTimestamp()
-	Admin.UpdateTime = date.NowTimestamp()
-
-	AdminErr := simple.DB().Transaction(func(tx *gorm.DB) error {
+		Admin.Nickname = mobile
+		Admin.TenantId = Tenants.ID
+		Admin.Mobile = mobile
+		Admin.UserName = mobile
+		Admin.Password = simple.EncodePassword(UserRegister.Password)
+		Admin.Status = constants.StatusOk
+		Admin.CreateTime = date.NowTimestamp()
+		Admin.UpdateTime = date.NowTimestamp()
 		if err := repositories.AdminRepository.Create(tx, Admin); err != nil {
 			return err
 		}
+
+		services.TenantInstanceService.InitializeTenantInstance(UserRegister, Admin)
+
 		return nil
 	})
 
-	if AdminErr != nil {
-		return nil, AdminErr
+	if TenantsErr != nil {
+		return nil, errors.New("租户名称：" + UserRegister.TenantName + " 创建失败")
 	}
 
 	return Admin, nil
@@ -88,6 +87,6 @@ func (s *registerService) Register(UserRegister requests.UserRegister) (*SysAppM
 }
 
 // GetByMobile 根据用户名查找
-func (s *registerService) GetByMobile(mobile string) *UserAppModel.Admin {
+func (s *registerService) GetByMobile(mobile string) *LoginAppModel.Admin {
 	return repositories.AdminRepository.GetByMobile(simple.DB(), mobile)
 }

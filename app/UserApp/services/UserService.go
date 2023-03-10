@@ -3,16 +3,12 @@ package services
 import (
 	"errors"
 	"gitee.com/pangxianfei/saas"
-	"gitee.com/pangxianfei/saas/sysmodel"
 	"gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
 	"strings"
 	UserCache "tmaic/app/UserApp/buffer"
-	"tmaic/app/UserApp/http/requests"
 	UserAppModel "tmaic/app/UserApp/model"
 	"tmaic/app/UserApp/repositories"
-	"tmaic/app/common"
-	"tmaic/app/common/constants"
 	"tmaic/app/common/validate"
 )
 
@@ -28,8 +24,8 @@ func newUserService() *userService {
 type userService struct {
 }
 
-func (s *userService) Get(ctx iris.Context, id int64) *UserAppModel.Admin {
-	return repositories.UserRepository.Get(saas.DB.Initiation(ctx), id)
+func (s *userService) Get(id int64) *UserAppModel.Admin {
+	return repositories.UserRepository.Get(simple.DB(), id)
 }
 
 func (s *userService) Take(where ...interface{}) *UserAppModel.Admin {
@@ -125,13 +121,13 @@ func (s *userService) isUsernameExists(username string) bool {
 }
 
 // SetUsername 设置用户名
-func (s *userService) SetUsername(ctx iris.Context, userId int64, username string) error {
+func (s *userService) SetUsername(userId int64, username string) error {
 	username = strings.TrimSpace(username)
 	if err := validate.IsUsername(username); err != nil {
 		return err
 	}
 
-	user := s.Get(ctx, userId)
+	user := s.Get(userId)
 	if len(user.UserName) > 0 {
 		return errors.New("你已设置了用户名，无法重复设置。")
 	}
@@ -154,11 +150,11 @@ func (s *userService) SetEmail(userId int64, email string) error {
 }
 
 // SetPassword 设置密码
-func (s *userService) SetPassword(ctx iris.Context, userId int64, password, rePassword string) error {
+func (s *userService) SetPassword(userId int64, password, rePassword string) error {
 	if err := validate.IsPassword(password, rePassword); err != nil {
 		return err
 	}
-	user := s.Get(ctx, userId)
+	user := s.Get(userId)
 	if len(user.Password) > 0 {
 		return errors.New("你已设置了密码，如需修改请前往修改页面。")
 	}
@@ -167,11 +163,11 @@ func (s *userService) SetPassword(ctx iris.Context, userId int64, password, rePa
 }
 
 // UpdatePassword 修改密码
-func (s *userService) UpdatePassword(ctx iris.Context, userId int64, oldPassword, password, rePassword string) error {
+func (s *userService) UpdatePassword(userId int64, oldPassword, password, rePassword string) error {
 	if err := validate.IsPassword(password, rePassword); err != nil {
 		return err
 	}
-	user := s.Get(ctx, userId)
+	user := s.Get(userId)
 
 	if len(user.Password) == 0 {
 		return errors.New("你没设置密码，请先设置密码")
@@ -187,85 +183,4 @@ func (s *userService) UpdatePassword(ctx iris.Context, userId int64, oldPassword
 // VerifyEmail 验证邮箱
 func (s *userService) VerifyEmail(userId int64, token string) error {
 	return nil
-}
-
-// SignIn 登录
-func (s *userService) SignIn(ctx iris.Context, UserLogin requests.UserLogin) (*UserAppModel.Admin, *UserAppModel.UserToken, error) {
-
-	if len(UserLogin.Mobile) == 0 {
-		return nil, nil, errors.New("手机号/用户名/邮箱不能为空")
-	}
-	if len(UserLogin.Password) == 0 {
-		return nil, nil, errors.New("密码不能为空")
-	}
-	//出始化租户 DB 连接对象
-	tenantDbWhere := &sysmdel.RetrieveDB{
-		TenantsId: UserLogin.TenantId,
-		Status:    1,
-	}
-	var InstanceDB []sysmdel.InstanceDb
-	var UserInstanceDB sysmdel.InstanceDb
-	Result := simple.DB().Debug().Model(&sysmdel.InstanceDb{}).Where(tenantDbWhere).Find(&InstanceDB)
-
-	if Result.RowsAffected <= 0 {
-		return nil, nil, errors.New("租户应用不存在")
-	}
-
-	if Result.RowsAffected > 0 {
-		for _, appDb := range InstanceDB {
-			db := saas.DB.SetTenantsDb(appDb.TenantsId, appDb.AppId)
-			if db != nil && appDb.AppName == constants.UserDb {
-				UserInstanceDB = appDb
-				ctx.Values().Set("TenantId", appDb.TenantsId)
-				ctx.Values().Set("AppId", appDb.AppId)
-			}
-		}
-	}
-	//检查上下文
-	if ctx.Values().Get("TenantId").(int64) <= 0 {
-		return nil, nil, errors.New("租户用户不存在")
-	}
-	if ctx.Values().Get("AppId").(int64) <= 0 {
-		return nil, nil, errors.New("租户应用不存在")
-	}
-
-	Admin := new(UserAppModel.Admin)
-
-	if validate.IsNumber(UserLogin.Mobile) {
-		Admin = s.GetByMobile(ctx, UserLogin.Mobile)
-	}
-
-	if Admin == nil || Admin.Status != constants.StatusOk {
-		return nil, nil, errors.New("用户不存在或被禁用")
-	}
-
-	//检验密码比较耗时 大约90毫秒
-	if !simple.ValidatePassword(Admin.Password, UserLogin.Password) {
-		return nil, nil, errors.New("密码错误")
-	}
-
-	//生成token
-	TokenModel := sysmdel.Token{
-		TenantId: Admin.TenantId,
-		AppId:    UserInstanceDB.AppId,
-		Mobile:   Admin.Mobile,
-		UserId:   Admin.Id,
-	}
-
-	tokenSTR, err := common.InitMiddleware(TokenModel)
-
-	if err != nil {
-		return nil, nil, err
-	}
-
-	var UserToken *UserAppModel.UserToken
-	UserToken, err = UserTokenService.Create(ctx, Admin, tokenSTR)
-
-	if err != nil {
-		return nil, nil, err
-	}
-	//缓存token信息
-	UserCache.UserTokenCache.SetCacheUserToken(tokenSTR, UserToken)
-	return Admin, UserToken, nil
-
 }

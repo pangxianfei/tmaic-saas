@@ -3,8 +3,8 @@ package api
 import (
 	. "gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
-	"tmaic/app/SysApp/http/requests"
-	"tmaic/app/SysApp/services"
+	"tmaic/app/LoginApp/http/requests"
+	"tmaic/app/LoginApp/services"
 )
 
 type RegisterController struct {

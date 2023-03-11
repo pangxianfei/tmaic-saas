@@ -388,6 +388,8 @@ gitee.com/pangxianfei/framework v1.0.32/go.mod h1:1mWt5n9lBagj0Y8NSyF8TInhpqW4UG
 gitee.com/pangxianfei/library v1.0.1/go.mod h1:z9dwzHf5kKALjKDNzNLGVQe+r3q5uS7gHPm4YsCQmgA=
 gitee.com/pangxianfei/library v1.0.7 h1:WHTIA8adDbTeowxWuOMs6NTtkFKSuOef/l5MNRV7MHY=
 gitee.com/pangxianfei/library v1.0.7/go.mod h1:DBjh7jQL2vkzBvLw0J70dlzH9YjN+ioLYDbisFf+iUQ=
+gitee.com/pangxianfei/library v1.0.8 h1:UD1Y9Kvu+xYGpx9gc4xI6oPdjT5PEb3kfa912URNSTA=
+gitee.com/pangxianfei/library v1.0.8/go.mod h1:DBjh7jQL2vkzBvLw0J70dlzH9YjN+ioLYDbisFf+iUQ=
 gitee.com/pangxianfei/saas v1.0.4 h1:P8favW4VluVxJ9vklzcg+u/9SYVTUiuf8m7b+tYEV6E=
 gitee.com/pangxianfei/saas v1.0.4/go.mod h1:SKpoe0CaxPR06QSiI6Fmu+KvocmIidwBDDp3GKcbGg8=
 gitee.com/pangxianfei/simple v1.0.6/go.mod h1:kqd9gtbFWs/YZG1jWwd5f1cz6zuZ2+j5balZV22g4bM=

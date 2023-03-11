@@ -2,7 +2,7 @@ package config
 
 import (
 	. "gitee.com/pangxianfei/library/config"
-	models "tmaic/app/model"
+	models "tmaic/app/CommonModel"
 )
 
 func init() {

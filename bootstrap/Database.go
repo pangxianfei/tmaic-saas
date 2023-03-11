@@ -3,7 +3,7 @@ package bootstrap
 import (
 	"fmt"
 	"gitee.com/pangxianfei/library/config"
-	CreateTable "tmaic/app/model"
+	CreateTable "tmaic/app/CommonModel"
 
 	"gitee.com/pangxianfei/simple"
 	"gorm.io/gorm"

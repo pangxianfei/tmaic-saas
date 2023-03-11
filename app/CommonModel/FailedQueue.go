@@ -1,4 +1,4 @@
-package model
+package CommonModel
 
 import (
 	"gitee.com/pangxianfei/framework/helpers/pb"

@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	gitee.com/pangxianfei/framework v1.0.32
-	gitee.com/pangxianfei/library v1.0.7
+	gitee.com/pangxianfei/library v1.0.8
 	gitee.com/pangxianfei/saas v1.0.4
 	gitee.com/pangxianfei/simple v1.0.10
 	github.com/go-playground/validator/v10 v10.11.2

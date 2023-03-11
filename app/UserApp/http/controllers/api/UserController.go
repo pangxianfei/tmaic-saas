@@ -1,9 +1,9 @@
 package api
 
 import (
+	"gitee.com/pangxianfei/saas/paas"
 	"gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
-	"tmaic/app/UserApp/services"
 )
 
 type UserController struct {
@@ -12,7 +12,8 @@ type UserController struct {
 
 // PostInfo 获取当前登录用户
 func (c *UserController) PostInfo() *simple.JsonResult {
-	return simple.JsonData(services.UserTokenService.GetUserInfo(c.Ctx))
+
+	return simple.JsonData(paas.Auth.User(c.Ctx))
 }
 
 // GetBy 用户详情

@@ -2,7 +2,7 @@ package UserAppModel
 
 import "gitee.com/pangxianfei/framework/model"
 
-type Admin struct {
+type PlatformAdmin struct {
 	model.BaseModel
 	Id               int64  `gorm:"primaryKey;autoIncrement" json:"id" form:"id"`
 	TenantId         int64  `gorm:"size:11;not null" json:"TenantId" form:"TenantId"`
@@ -28,12 +28,12 @@ type Admin struct {
 }
 
 // TableName 指定表
-func (ad *Admin) TableName() string {
+func (ad *PlatformAdmin) TableName() string {
 	return ad.SetTableName("public_admin")
 }
 
-func (ad *Admin) GetTypeAttribute(value interface{}) interface{} {
-	if ad.Type == 0 {
+func (ad *PlatformAdmin) GetTypeAttribute(value interface{}) interface{} {
+	if value == 0 {
 		return 3
 	}
 	return ad.Type

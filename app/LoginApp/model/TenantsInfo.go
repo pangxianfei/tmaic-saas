@@ -1,4 +1,4 @@
-package SysAppModel
+package UserAppModel
 
 import (
 	"gitee.com/pangxianfei/framework/helpers/zone"

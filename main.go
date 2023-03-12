@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gitee.com/pangxianfei/framework/helpers/debug"
+	"gitee.com/pangxianfei/framework/kernel/debug"
 	_ "gitee.com/pangxianfei/library/config"
 	"time"
 

@@ -6,7 +6,7 @@ import (
 	"tmaic/app/http/middleware"
 
 	"gitee.com/pangxianfei/framework/console"
-	"gitee.com/pangxianfei/framework/helpers/tmaic"
+	"gitee.com/pangxianfei/framework/kernel/tmaic"
 	"gitee.com/pangxianfei/library/config"
 	"gitee.com/pangxianfei/simple"
 	"github.com/go-playground/validator/v10"

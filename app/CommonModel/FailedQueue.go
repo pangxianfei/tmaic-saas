@@ -1,8 +1,8 @@
 package CommonModel
 
 import (
-	"gitee.com/pangxianfei/framework/helpers/pb"
-	"gitee.com/pangxianfei/framework/helpers/zone"
+	"gitee.com/pangxianfei/framework/kernel/pb"
+	"gitee.com/pangxianfei/framework/kernel/zone"
 	"gitee.com/pangxianfei/framework/queue"
 	message "gitee.com/pangxianfei/framework/queue/protocol_buffers"
 	"gitee.com/pangxianfei/simple"

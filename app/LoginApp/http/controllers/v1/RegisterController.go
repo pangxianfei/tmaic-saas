@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"gitee.com/pangxianfei/framework/helpers/debug"
+	"gitee.com/pangxianfei/framework/kernel/debug"
 	"gitee.com/pangxianfei/saas/paas"
 	"gitee.com/pangxianfei/saas/requests"
 	. "gitee.com/pangxianfei/simple"
@@ -42,7 +42,7 @@ func (c *RegisterController) PostRegister() *JsonResult {
 	//创建舫数据库实例
 	appInstance, err := paas.Instance.CreateAppInstance(UserRegister, createUser)
 	if err != nil {
-		return nil
+		return JsonErrorMsg(err.Error())
 	}
 
 	return JsonData(appInstance)

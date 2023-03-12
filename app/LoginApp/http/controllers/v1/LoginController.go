@@ -28,9 +28,10 @@ func (c *LoginController) PostLogin() *JsonResult {
 
 // GetSignout 退出登录
 func (c *LoginController) GetSignout() *JsonResult {
-	err := paas.Auth.Logout(c.Ctx)
-	if err != nil {
-		return JsonError(NewErrorMsg("登出失败"))
+
+	if paas.Auth.Logout(c.Ctx) {
+		return JsonSuccess()
 	}
-	return JsonSuccess()
+	return JsonError(NewErrorMsg("已登出"))
+
 }

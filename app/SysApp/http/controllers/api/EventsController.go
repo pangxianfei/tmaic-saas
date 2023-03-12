@@ -5,10 +5,10 @@ import (
 	pbs "tmaic/app/events/protocol_model/listenmodel"
 	jobsPbs "tmaic/app/jobs/protocol_jobs"
 
-	"gitee.com/pangxianfei/framework/helpers/log"
-	"gitee.com/pangxianfei/framework/helpers/tmaic"
 	"gitee.com/pangxianfei/framework/hub"
 	jobber "gitee.com/pangxianfei/framework/job"
+	"gitee.com/pangxianfei/framework/kernel/log"
+	"gitee.com/pangxianfei/framework/kernel/tmaic"
 	"gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
 

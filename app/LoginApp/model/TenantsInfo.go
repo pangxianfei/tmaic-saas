@@ -1,7 +1,7 @@
 package UserAppModel
 
 import (
-	"gitee.com/pangxianfei/framework/helpers/zone"
+	"gitee.com/pangxianfei/framework/kernel/zone"
 	"gitee.com/pangxianfei/framework/model"
 )
 

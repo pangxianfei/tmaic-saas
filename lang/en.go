@@ -1,7 +1,7 @@
 package lang
 
 import (
-	"gitee.com/pangxianfei/framework/helpers/locale"
+	"gitee.com/pangxianfei/framework/kernel/locale"
 
 	"gitee.com/pangxianfei/framework/resources/lang"
 )

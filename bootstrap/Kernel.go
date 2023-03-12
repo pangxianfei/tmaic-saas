@@ -2,7 +2,7 @@ package bootstrap
 
 import (
 	"gitee.com/pangxianfei/framework/cache"
-	"gitee.com/pangxianfei/framework/helpers/zone"
+	"gitee.com/pangxianfei/framework/kernel/zone"
 	"gitee.com/pangxianfei/framework/logs"
 	"gitee.com/pangxianfei/framework/queue"
 	"tmaic/app/events"

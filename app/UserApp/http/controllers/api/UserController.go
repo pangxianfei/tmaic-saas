@@ -14,6 +14,8 @@ type UserController struct {
 func (c *UserController) PostInfo() *simple.JsonResult {
 
 	return simple.JsonData(paas.Auth.User(c.Ctx))
+
+	//return simple.JsonData(paas.Auth.User(c.Ctx))
 }
 
 // GetBy 用户详情

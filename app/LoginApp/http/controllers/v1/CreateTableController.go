@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"gitee.com/pangxianfei/framework/helpers/debug"
+	"gitee.com/pangxianfei/framework/kernel/debug"
 	"gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
 	UserAppModel "tmaic/app/UserApp/model"

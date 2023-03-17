@@ -8,11 +8,7 @@ import (
 	"gitee.com/pangxianfei/framework/cmd"
 	"gitee.com/pangxianfei/framework/cmd/commands/schedule"
 	"gitee.com/pangxianfei/framework/console"
-	"gitee.com/pangxianfei/framework/helpers/log"
-
-	//"gitee.com/pangxianfei/frame/graceful"
-	//"gitee.com/pangxianfei/frame/helpers/log"
-	//"gitee.com/pangxianfei/frame/sentry"
+	"gitee.com/pangxianfei/framework/kernel/log"
 
 	"tmaic/bootstrap"
 

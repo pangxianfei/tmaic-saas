@@ -8,7 +8,7 @@ import (
 func RoutePing(app *iris.Application) {
 	//心跳路由
 	app.Any("/ping", func(ctx iris.Context) {
-		ctx.JSON(iris.Map{"code": 200, "status": true, "lang": trans.Get("auth.register.failed_token_generate_error")})
+		ctx.JSON(iris.Map{"code": 200, "status": true, "lang": trans.Get("address.not.exist")})
 	})
 
 	app.Any("/", func(app iris.Context) {

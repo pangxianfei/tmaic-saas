@@ -14,7 +14,7 @@ func Route(app *iris.Application) {
 }
 
 func NotFound(ctx iris.Context) {
-	ctx.JSON(iris.Map{"code": 404, "msg": trans.Get("auth.register.failed_token_generate_error")})
+	ctx.JSON(iris.Map{"code": 404, "msg": trans.Get("address.not.exist")})
 }
 
 func InternalServerError(ctx iris.Context) {

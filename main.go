@@ -22,13 +22,13 @@ func main() {
 	bootstrap.Initialize()
 	bootstrap.EnablingScheduledTask()
 	app.Go(bootstrap.SysRun)
-	time.Sleep(time.Second * 1)
+	time.Sleep(time.Millisecond * 200)
 	app.Go(bootstrap.LoginApp)
-	time.Sleep(time.Second * 1)
+	time.Sleep(time.Millisecond * 200)
 	app.Go(bootstrap.UserApp)
-	time.Sleep(time.Second * 1)
+	time.Sleep(time.Millisecond * 200)
 	app.Go(bootstrap.OrderApp)
-	time.Sleep(time.Second * 1)
+	time.Sleep(time.Millisecond * 200)
 	if err := app.Wait(); err != nil {
 		debug.Dd(err.Error())
 	}

@@ -15,7 +15,7 @@ type LoginController struct {
 // PostLogin 用户名密码登录
 func (c *LoginController) PostLogin() *JsonResult {
 	var UserLogin requests.UserLogin
-	if err := c.Ctx.ReadJSON(&UserLogin); err != nil {
+	if err := ReadJSON(c.Ctx, &UserLogin); err != nil {
 		return JsonErrorMsg(err.Error())
 	}
 

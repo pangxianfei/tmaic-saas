@@ -19,8 +19,8 @@ type EventsController struct {
 	Ctx iris.Context
 }
 
-// GetBy 队列
-func (e *EventsController) GetBy(articleId int64) *simple.JsonResult {
+// GetByInfo 队列
+func (e *EventsController) PostInfo(articleId int64) *simple.JsonResult {
 	test := new(events.Test)
 	test.SetParam(&pbs.Test{
 		Id:   1000,

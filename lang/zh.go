@@ -17,6 +17,9 @@ func init() {
 		"auth.login.failed_not_exist":            "user login failed, user doesn't exist",
 		"auth.login.failed_wrong_password":       "user login failed, user password incorrect",
 		"auth.login.failed_token_generate_error": "用户登录失败，令牌生成失败",
+
+		//URL地址不存在
+		"address.not.exist": "URL地址不存在",
 	}
 	locale.AddLocale("zh", &customTranslation, &validationTranslation)
 }

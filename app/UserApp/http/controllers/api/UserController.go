@@ -14,18 +14,10 @@ type UserController struct {
 func (c *UserController) PostInfo() *simple.JsonResult {
 
 	return simple.JsonData(paas.Auth.User(c.Ctx))
-
-	//return simple.JsonData(paas.Auth.User(c.Ctx))
-}
-
-// GetBy 用户详情
-func (c *UserController) GetBy(userId int64) *simple.JsonResult {
-
-	return simple.JsonErrorMsg("用户不存在")
 }
 
 // PostEditBy 修改用户资料
-func (c *UserController) PostEditBy(userId int64) *simple.JsonResult {
+func (c *UserController) PostEditBy() *simple.JsonResult {
 	return simple.JsonSuccess()
 }
 
@@ -53,19 +45,4 @@ func (c *UserController) PostSetPassword() *simple.JsonResult {
 // PostUpdatePassword 修改密码
 func (c *UserController) PostUpdatePassword() *simple.JsonResult {
 	return nil
-}
-
-// GetMsgrecent 获取最近3条未读消息
-func (c *UserController) GetMsgrecent() *simple.JsonResult {
-	return nil
-}
-
-// GetMessages 用户消息
-func (c *UserController) GetMessages() *simple.JsonResult {
-	return nil
-}
-
-// GetNewest 最新用户
-func (c *UserController) GetNewest() *simple.JsonResult {
-	return simple.JsonData(nil)
 }

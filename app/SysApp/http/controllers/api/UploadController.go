@@ -11,6 +11,6 @@ type UploadController struct {
 	Ctx iris.Context
 }
 
-func (c *UploadController) Post() *simple.JsonResult {
+func (c *UploadController) PostUpload() *simple.JsonResult {
 	return simple.JsonSuccess()
 }

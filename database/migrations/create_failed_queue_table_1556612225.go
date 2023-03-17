@@ -4,7 +4,7 @@ import (
 	"gorm.io/gorm"
 
 	"gitee.com/pangxianfei/framework/database/migration"
-	"gitee.com/pangxianfei/framework/helpers/zone"
+	"gitee.com/pangxianfei/framework/kernel/zone"
 )
 
 // _ = simple.DB().AutoMigrate(&migrations.FailedQueue{})

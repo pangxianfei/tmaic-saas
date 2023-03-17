@@ -3,7 +3,7 @@ package UserAppModel
 import "gitee.com/pangxianfei/framework/model"
 
 type PlatformAdmin struct {
-	model.BaseModel
+	model.BaseModel  `json:"-" form:"-"`
 	Id               int64  `gorm:"primaryKey;autoIncrement" json:"id" form:"id"`
 	TenantId         int64  `gorm:"size:11;not null" json:"TenantId" form:"TenantId"`
 	Mobile           string `gorm:"size:11;unique;" json:"mobile" form:"mobile"`                        // 手机

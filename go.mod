@@ -3,18 +3,18 @@ module tmaic
 go 1.20
 
 require (
-	gitee.com/pangxianfei/framework v1.0.32
-	gitee.com/pangxianfei/library v1.0.8
-	gitee.com/pangxianfei/saas v1.0.4
-	gitee.com/pangxianfei/simple v1.0.10
+	gitee.com/pangxianfei/framework v1.0.33
+	gitee.com/pangxianfei/library v1.0.9
+	gitee.com/pangxianfei/saas v1.0.5
+	gitee.com/pangxianfei/simple v1.0.11
 	github.com/go-playground/validator/v10 v10.11.2
 	github.com/goburrow/cache v0.1.2
 	github.com/golang/protobuf v1.5.2
 	github.com/iris-contrib/middleware/cors v0.0.0-20201115103636-07e8bced147f
-	github.com/iris-contrib/middleware/jwt v0.0.0-20221109225525-f806663b83a0
 	github.com/kataras/iris/v12 v12.2.0-beta6
 	github.com/robfig/cron v1.2.0
 	github.com/sirupsen/logrus v1.9.0
+	github.com/spf13/cast v1.5.0
 	github.com/urfave/cli v1.22.12
 	golang.org/x/sync v0.1.0
 	google.golang.org/protobuf v1.28.1
@@ -46,7 +46,6 @@ require (
 	github.com/gobwas/httphead v0.1.0 // indirect
 	github.com/gobwas/pool v0.2.1 // indirect
 	github.com/gobwas/ws v1.1.0 // indirect
-	github.com/golang-jwt/jwt/v4 v4.4.2 // indirect
 	github.com/golang-sql/civil v0.0.0-20220223132316-b832511892a9 // indirect
 	github.com/golang-sql/sqlexp v0.1.0 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
@@ -88,13 +87,13 @@ require (
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/nicksnyder/go-i18n/v2 v2.2.1 // indirect
 	github.com/nsqio/go-nsq v1.1.0 // indirect
+	github.com/nxadm/tail v1.4.8 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/schollz/closestmatch v2.1.0+incompatible // indirect
 	github.com/spf13/afero v1.9.3 // indirect
-	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.15.0 // indirect
@@ -112,6 +111,7 @@ require (
 	golang.org/x/text v0.7.0 // indirect
 	golang.org/x/time v0.1.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
+	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 	gopkg.in/go-playground/validator.v9 v9.31.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

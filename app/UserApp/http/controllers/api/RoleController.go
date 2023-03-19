@@ -55,6 +55,7 @@ func (e *RoleController) PostAny() *simple.JsonResult {
 	if err != nil {
 		return simple.JsonErrorMsg(err.Error())
 	}
+
 	return simple.JsonData(paas.Gate.HasAnyRole(e.Ctx, selectRole))
 }
 

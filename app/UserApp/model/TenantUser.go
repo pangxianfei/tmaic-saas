@@ -1,9 +1,6 @@
 package UserAppModel
 
-import "gitee.com/pangxianfei/framework/model"
-
 type TenantUser struct {
-	model.BaseModel
 	Id               int64  `gorm:"primaryKey;autoIncrement" json:"id" form:"id"`
 	TenantId         int64  `gorm:"size:11;not null" json:"TenantId" form:"TenantId"`
 	Mobile           string `gorm:"size:11;unique;" json:"mobile" form:"mobile"`                        // 手机
@@ -29,5 +26,5 @@ type TenantUser struct {
 
 // TableName 指定表
 func (ad *TenantUser) TableName() string {
-	return ad.SetTableName("public_admin")
+	return "public_admin"
 }

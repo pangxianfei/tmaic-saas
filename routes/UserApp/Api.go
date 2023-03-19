@@ -11,10 +11,11 @@ import (
 func UserAppApi(app *iris.Application) {
 
 	auth := app.Party("/")
-	auth.Use(middleware.LoginMiddleware(), UserAppMiddleware.UserAppMiddleware, middleware.Permissions)
+	auth.Use(middleware.LoginMiddleware(), UserAppMiddleware.UserAppMiddleware)
 	mvc.Configure(auth, func(m *mvc.Application) {
 		m.Party("/staff").Handle(new(api.UserController))
 		m.Party("/permission").Handle(new(api.PermissionController))
 		m.Party("/role").Handle(new(api.RoleController))
+		m.Party("/saas").Handle(new(api.SaasController))
 	})
 }

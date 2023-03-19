@@ -5,9 +5,10 @@ import (
 	"tmaic/app/cron"
 )
 
-func EnablingScheduledTask() {
+func (s *Saas) EnablingScheduledTask() {
 	if !common.IsProd() {
 		return
 	}
 	cron.StartSchedule()
+	return
 }

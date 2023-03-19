@@ -3,6 +3,7 @@ package main
 import (
 	"gitee.com/pangxianfei/framework/kernel/debug"
 	_ "gitee.com/pangxianfei/library/config"
+	"runtime"
 	"time"
 
 	"golang.org/x/sync/errgroup"
@@ -10,24 +11,21 @@ import (
 )
 
 var app errgroup.Group
+var Saas bootstrap.Saas
 
 func init() {}
 
 func main() {
-	//ctx, cancel := context.WithCancel(context.Background())
-	//bootstrap.Run(ctx)
-	//bootstrap.SysRun(ctx)
-	//defer cancel()
-	bootstrap.ConfigInit()
-	bootstrap.Initialize()
-	bootstrap.EnablingScheduledTask()
-	app.Go(bootstrap.SysRun)
+	runtime.GOMAXPROCS(runtime.NumCPU())
+	Saas.Initialize()
+	Saas.EnablingScheduledTask()
+	app.Go(Saas.SysRun)
 	time.Sleep(time.Millisecond * 200)
-	app.Go(bootstrap.LoginApp)
+	app.Go(Saas.LoginApp)
 	time.Sleep(time.Millisecond * 200)
-	app.Go(bootstrap.UserApp)
+	app.Go(Saas.UserApp)
 	time.Sleep(time.Millisecond * 200)
-	app.Go(bootstrap.OrderApp)
+	app.Go(Saas.OrderApp)
 	time.Sleep(time.Millisecond * 200)
 	if err := app.Wait(); err != nil {
 		debug.Dd(err.Error())

@@ -2,6 +2,7 @@ package bootstrap
 
 import (
 	"gitee.com/pangxianfei/framework/cache"
+	"gitee.com/pangxianfei/framework/database"
 	"gitee.com/pangxianfei/framework/kernel/zone"
 	"gitee.com/pangxianfei/framework/logs"
 	"gitee.com/pangxianfei/framework/queue"
@@ -12,20 +13,15 @@ import (
 	"tmaic/lang"
 )
 
-// Initialize 出始化框架
-func Initialize() {
+func (s *Saas) Initialize() {
 	config.Initialize()
-	//database.Initialize()
-	//variable.InitBasePath()
-	//sentry.Initialize()
+	database.Initialize()
 	logs.Initialize()
 	zone.Initialize()
 	lang.Initialize()
 	cache.Initialize()
-	//m.Initialize()
 	queue.Initialize()
 	jobs.Initialize()
 	events.Initialize()
 	listeners.Initialize()
-
 }

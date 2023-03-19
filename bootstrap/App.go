@@ -1,153 +1,36 @@
 package bootstrap
 
 import (
-	"fmt"
-	"strings"
-	"tmaic/app/http/middleware"
-
-	"gitee.com/pangxianfei/framework/console"
 	"gitee.com/pangxianfei/library/config"
-	"gitee.com/pangxianfei/simple"
-	"github.com/go-playground/validator/v10"
 	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/middleware/recover"
-	SysAppModel "tmaic/app/SysApp/model"
-	WrongRoute "tmaic/routes"
 	LoginAppRoute "tmaic/routes/LoginApp"
 	OrderAppRoute "tmaic/routes/OrderApp"
 	UserAppRoute "tmaic/routes/UserApp"
 )
 
-func LoginApp() error {
+func (s *Saas) LoginApp() error {
 	app := iris.New().SetName("LoginApp")
 	LoginAppRoute.LoginAppRoute(app)
-	RouteNameList(app, config.Instance.App.LoginApp, config.Instance.AppPort.LoginPort, config.Instance.AppNo.Login)
-	loginErr := SetAppConfig(app, config.Instance.AppPort.LoginPort)
+	s.RouteNameList(app, config.Instance.App.LoginApp, config.Instance.AppPort.LoginPort, config.Instance.AppNo.Login)
+	loginErr := s.SetAppConfig(app, config.Instance.AppPort.LoginPort)
 	_ = app.Build()
 	return loginErr
 }
 
-func OrderApp() error {
+func (s *Saas) OrderApp() error {
 	app := iris.New().SetName("OrderApp")
 	OrderAppRoute.OrderRoute(app)
-	RouteNameList(app, config.Instance.App.OrderApp, config.Instance.AppPort.OrderPort, config.Instance.AppNo.Order)
-	OrderErr := SetAppConfig(app, config.Instance.AppPort.OrderPort)
+	s.RouteNameList(app, config.Instance.App.OrderApp, config.Instance.AppPort.OrderPort, config.Instance.AppNo.Order)
+	OrderErr := s.SetAppConfig(app, config.Instance.AppPort.OrderPort)
 	_ = app.Build()
 	return OrderErr
 }
 
-func UserApp() error {
+func (s *Saas) UserApp() error {
 	app := iris.New().SetName("UserApp")
 	UserAppRoute.UserAppRoute(app)
-	RouteNameList(app, config.Instance.App.UserApp, config.Instance.AppPort.UserPort, config.Instance.AppNo.User)
-	UserErr := SetAppConfig(app, config.Instance.AppPort.UserPort)
+	s.RouteNameList(app, config.Instance.App.UserApp, config.Instance.AppPort.UserPort, config.Instance.AppNo.User)
+	UserErr := s.SetAppConfig(app, config.Instance.AppPort.UserPort)
 	_ = app.Build()
 	return UserErr
-}
-
-func SetAppConfig(app *iris.Application, Port string) error {
-	app.Validator = validator.New()
-	app.Logger().SetLevel("warn")
-	app.Use(recover.New())
-	app.AllowMethods(iris.MethodOptions)
-	app.Use(middleware.CORS)
-	app.OnErrorCode(iris.StatusNotFound, WrongRoute.NotFound)
-	app.OnErrorCode(iris.StatusInternalServerError, WrongRoute.InternalServerError)
-
-	return app.Run(iris.Addr(Port), iris.WithConfiguration(iris.Configuration{
-		DisableStartupLog:                 true,
-		DisableInterruptHandler:           false,
-		DisablePathCorrection:             false,
-		EnablePathEscape:                  false,
-		FireMethodNotAllowed:              false,
-		DisableBodyConsumptionOnUnmarshal: false,
-		DisableAutoFireStatusCode:         false,
-		TimeFormat:                        "Mon, 02 Jan 2006 15:04:05 GMT",
-		Charset:                           "UTF-8",
-	}))
-}
-
-// RouteNameList 打印路由列表
-func RouteNameList(app *iris.Application, AppName string, Port string, AppId int64) {
-	routeList := app.GetRoutes()
-	var index int = 1
-	db := simple.DB()
-
-	for _, value := range routeList {
-
-		if strings.Contains(value.MainHandlerName, "tmaic") || strings.Contains(value.MainHandlerName, "iris") {
-			continue
-		}
-
-		if value.Method == "POST" || value.Method == "GET" {
-			var RouteNameMd5Value string
-			RouteNameMd5ValueFile := fmt.Sprintf("%s", value.Name)
-			RouteNameMd5Value = simple.MD5(RouteNameMd5ValueFile)
-			if value.Name == "" {
-				RouteNameMd5Value = ""
-			}
-
-			AuthorityMain := SysAppModel.Authority{
-
-				Description:       value.Description,
-				Pid:               0,
-				AppId:             AppId,
-				SourceFileName:    value.SourceFileName,
-				RouteName:         value.Name,
-				RouteNameMd5Value: RouteNameMd5Value,
-			}
-
-			db.Model(&SysAppModel.Authority{}).FirstOrCreate(&AuthorityMain, SysAppModel.Authority{Description: value.Description, Pid: 0, SourceFileName: value.SourceFileName})
-
-			//debug.Dd(value.StaticPath())
-			//debug.Dd(value.Title)
-			//debug.Dd(value.Description)
-			//debug.Dd(value.Name)
-			//debug.Dd(value.SourceFileName)
-
-			var Authority SysAppModel.Authority
-			var isAuthority SysAppModel.Authority
-			db.Where(&SysAppModel.Authority{Description: value.Description}).First(&Authority)
-			if Authority.Id > 0 {
-
-				Md5ValueFile := fmt.Sprintf("%s_%s", value.MainHandlerName, value.RegisterFileName)
-				Md5Value := simple.MD5(Md5ValueFile)
-
-				db.Where("pid > ? and md5_value = ?", 0, simple.MD5(Md5Value)).Find(&isAuthority)
-				//debug.Dd(Authority)
-				if isAuthority.Id <= 0 {
-					createAuthority := &SysAppModel.Authority{
-						Pid:               Authority.Id,
-						AppId:             AppId,
-						Name:              value.MainHandlerName, //simple.Split(value.MainHandlerName, "."),
-						Description:       value.Description,
-						RegisterFileName:  value.RegisterFileName,
-						MainHandlerName:   value.MainHandlerName,
-						Method:            value.Method,
-						FormattedPath:     value.FormattedPath,
-						StaticPath:        value.StaticPath(),
-						Path:              value.Path,
-						SourceFileName:    value.SourceFileName,
-						RouteName:         value.Name,
-						RouteNameMd5Value: RouteNameMd5Value,
-						Status:            1,
-						Md5Value:          simple.MD5(Md5Value),
-					}
-					db.Create(createAuthority)
-				}
-
-			}
-			consoleSTR := ""
-			consoleSTR = consoleSTR + console.Sprintf(console.CODE_SUCCESS, "%-4d", index)
-			consoleSTR = consoleSTR + console.Sprintf(console.CODE_SUCCESS, "%-45s", value.MainHandlerName)
-			consoleSTR = consoleSTR + console.Sprintf(console.CODE_SUCCESS, "%-5s", value.Method)
-			consoleSTR = consoleSTR + console.Sprintf(console.CODE_SUCCESS, "%-45s", value.Path)
-			consoleSTR = consoleSTR + console.Sprintf(console.CODE_SUCCESS, "%-30s", value.StaticPath())
-			consoleSTR = consoleSTR + console.Sprintf(console.CODE_SUCCESS, "%-20s", value.RegisterFileName)
-			console.Println(console.CODE_SUCCESS, " "+" "+consoleSTR)
-			index++
-		}
-	}
-	console.Println(console.CODE_WARNING, " "+console.Sprintf(console.CODE_WARNING, "%s listening on: http://localhost%s", AppName, Port))
-
 }

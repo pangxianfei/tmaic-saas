@@ -1,17 +1,29 @@
 package api
 
 import (
+	"gitee.com/pangxianfei/framework/http/controller"
 	"gitee.com/pangxianfei/saas/paas"
 	"gitee.com/pangxianfei/saas/requests"
-
-	//"gitee.com/pangxianfei/saas/paas"
 	"gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
+	requests2 "tmaic/app/UserApp/http/requests"
 )
 
 type PermissionController struct {
-	Ctx iris.Context
+	controller.BaseController
 }
+
+// PostApplyFor 申请应用权限
+func (c *PermissionController) PostApplyFor() *simple.JsonResult {
+	var GiveRolePermission requests2.GiveRolePermission
+	newErr, returnData := c.ValidateJSON(c.Context, &GiveRolePermission, GiveRolePermission.Messages())
+	if newErr != nil {
+		return simple.JsonError(returnData)
+	}
+	return simple.JsonData(GiveRolePermission)
+}
+
+/*
 
 // PostApplyFor 申请应用权限
 func (e *PermissionController) PostApplyFor() *simple.JsonResult {
@@ -21,23 +33,24 @@ func (e *PermissionController) PostApplyFor() *simple.JsonResult {
 		return simple.JsonErrorMsg("参数不能为空")
 	}
 
-	err := paas.Gate.AddPermissionToApp(e.Ctx, ApplyFor.AppId)
+	err := services.PermissionService.PostApplyFor(e.Ctx, ApplyFor.AppId)
 	if err != nil {
 		return simple.JsonData(err.Error())
 	}
 
 	return simple.JsonData(ApplyFor)
 }
+*/
 
 // PostRole 角色分配权限
-func (e *PermissionController) PostRole() *simple.JsonResult {
+func (c *PermissionController) PostRole() *simple.JsonResult {
 	var RolePermission requests.RolePermission
 
-	if err := e.Ctx.ReadJSON(&RolePermission); err != nil {
+	if err := c.Context.ReadJSON(&RolePermission); err != nil {
 		return simple.JsonErrorMsg("参数不能为空")
 	}
 
-	roleErr := paas.Gate.SyncPermissionToRoles(e.Ctx, RolePermission)
+	roleErr := paas.Gate.SyncPermissionToRoles(c.Context, RolePermission)
 	if roleErr != nil {
 		return simple.JsonErrorMsg(roleErr.Error())
 	}
@@ -45,14 +58,14 @@ func (e *PermissionController) PostRole() *simple.JsonResult {
 }
 
 // PostSync 撤销权限、并添加新的权限
-func (e *PermissionController) PostSync() *simple.JsonResult {
+func (c *PermissionController) PostSync() *simple.JsonResult {
 	var SyncPermission requests.SyncPermission
-	err := e.Ctx.ReadJSON(&SyncPermission)
+	err := c.Context.ReadJSON(&SyncPermission)
 	if err != nil {
 		return simple.JsonErrorMsg(err.Error())
 	}
 
-	roleErr := paas.Gate.SyncPermissionsTo(e.Ctx, SyncPermission.Permission)
+	roleErr := paas.Gate.SyncPermissionsTo(c.Context, SyncPermission.Permission)
 	if roleErr != nil {
 		return simple.JsonErrorMsg(roleErr.Error())
 	}
@@ -61,14 +74,14 @@ func (e *PermissionController) PostSync() *simple.JsonResult {
 }
 
 // PostRevokeUser 撤销用户权限
-func (e *PermissionController) PostRevokeUser() *simple.JsonResult {
+func (c *PermissionController) PostRevokeUser() *simple.JsonResult {
 	var SyncPermission requests.SyncPermission
-	err := e.Ctx.ReadJSON(&SyncPermission)
+	err := c.Context.ReadJSON(&SyncPermission)
 	if err != nil {
 		return simple.JsonErrorMsg(err.Error())
 	}
 
-	roleErr := paas.Gate.RevokePermissionTo(e.Ctx, SyncPermission.Permission)
+	roleErr := paas.Gate.RevokePermissionTo(c.Context, SyncPermission.Permission)
 	if roleErr != nil {
 		return simple.JsonErrorMsg(roleErr.Error())
 	}
@@ -77,22 +90,22 @@ func (e *PermissionController) PostRevokeUser() *simple.JsonResult {
 }
 
 // PostGiveRole 给角色添加一个权限
-func (e *PermissionController) PostGiveRole(ctx iris.Context) *simple.JsonResult {
+func (c *PermissionController) PostGiveRole() *simple.JsonResult {
 	var GiveRolePermission requests.GiveRolePermission
-	err := e.Ctx.ReadJSON(&GiveRolePermission)
+	err := c.Context.ReadJSON(&GiveRolePermission)
 	if err != nil {
 		return simple.JsonErrorMsg(err.Error())
 	}
-	if paas.Gate.GiveRoleToPermission(ctx, GiveRolePermission) {
+	if paas.Gate.GiveRoleToPermission(c.Context, GiveRolePermission) {
 		return simple.JsonData("添加成功")
 	}
-	return simple.JsonErrorMsg("添加失败")
+	return simple.JsonData("添加失败")
 }
 
 // PostGiveUserRole 给用户添加角色权限
-func (e *PermissionController) PostGiveUserRole(ctx iris.Context) *simple.JsonResult {
+func (c *PermissionController) PostGiveUserRole(ctx iris.Context) *simple.JsonResult {
 	var selectRole requests.SelectRole
-	err := e.Ctx.ReadJSON(&selectRole)
+	err := c.Context.ReadJSON(&selectRole)
 	if err != nil {
 		return simple.JsonErrorMsg(err.Error())
 	}
@@ -104,39 +117,39 @@ func (e *PermissionController) PostGiveUserRole(ctx iris.Context) *simple.JsonRe
 }
 
 // PostRevokeRole 撤销角色权限
-func (e *PermissionController) PostRevokeRole(ctx iris.Context) *simple.JsonResult {
+func (c *PermissionController) PostRevokeRole() *simple.JsonResult {
 	var selectRole requests.SelectRole
-	err := e.Ctx.ReadJSON(&selectRole)
+	err := c.Context.ReadJSON(&selectRole)
 	if err != nil {
 		return simple.JsonErrorMsg(err.Error())
 	}
-	if paas.Gate.RevokeRoleToPermission(ctx, selectRole) {
+	if paas.Gate.RevokeRoleToPermission(c.Context, selectRole) {
 		return simple.JsonData("撤销角色权限成功")
 	}
 	return simple.JsonErrorMsg("撤销角色权限失败")
 }
 
 // PostHasRoleAuthority 确定角色是否具有某种权限
-func (e *PermissionController) PostHasRoleAuthority(ctx iris.Context) *simple.JsonResult {
+func (c *PermissionController) PostHasRoleAuthority() *simple.JsonResult {
 	var giveRolePermission requests.GiveRolePermission
-	err := e.Ctx.ReadJSON(&giveRolePermission)
+	err := c.Context.ReadJSON(&giveRolePermission)
 	if err != nil {
 		return simple.JsonErrorMsg(err.Error())
 	}
-	if paas.Gate.HasRoleToPermission(ctx, giveRolePermission) {
+	if paas.Gate.HasRoleToPermission(c.Context, giveRolePermission) {
 		return simple.JsonData("有权限")
 	}
 	return simple.JsonErrorMsg("无权限")
 }
 
 // PostRemoveUserRole 确定角色是否具有某种权限
-func (e *PermissionController) PostRemoveUserRole(ctx iris.Context) *simple.JsonResult {
+func (c *PermissionController) PostRemoveUserRole() *simple.JsonResult {
 	var selectRole requests.SelectRole
-	err := e.Ctx.ReadJSON(&selectRole)
+	err := c.Context.ReadJSON(&selectRole)
 	if err != nil {
 		return simple.JsonErrorMsg(err.Error())
 	}
-	if paas.Gate.RemoveUserRole(ctx, selectRole) {
+	if paas.Gate.RemoveUserRole(c.Context, selectRole) {
 		return simple.JsonData("撤销成功")
 	}
 	return simple.JsonErrorMsg("撤销失败")

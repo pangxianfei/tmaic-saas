@@ -3,14 +3,22 @@ package route
 import (
 	"gitee.com/pangxianfei/framework/trans"
 	"github.com/kataras/iris/v12"
-	"tmaic/routes/LoginApp"
 )
 
 // Route 注册公共路由
 func Route(app *iris.Application) {
-	LoginApp.RoutePing(app)
-	LoginApp.RouteRedirect(app)
-	LoginApp.RouteStatic(app)
+	//心跳路由
+	app.Any("/ping", func(ctx iris.Context) {
+		ctx.JSON(iris.Map{"code": 200, "status": true, "lang": trans.Get("address.not.exist")})
+	})
+
+	app.Any("/", func(app iris.Context) {
+		_, _ = app.HTML("<h1>Powered by Tmaic SAAS Framework</h1>")
+	})
+	app.Any("/", func(ctx iris.Context) {
+		ctx.JSON(iris.Map{"code": 200, "status": true})
+	})
+	app.HandleDir("/", "./assets")
 }
 
 func NotFound(ctx iris.Context) {

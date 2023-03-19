@@ -86,8 +86,3 @@ func (fq *FailedQueue) DeleteQueueById(id uint) error {
 	}
 	return nil
 }
-
-func (fq *FailedQueue) DeleteAll() error {
-
-	panic("need implements")
-}

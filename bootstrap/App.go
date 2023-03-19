@@ -3,9 +3,9 @@ package bootstrap
 import (
 	"gitee.com/pangxianfei/library/config"
 	"github.com/kataras/iris/v12"
-	LoginAppRoute "tmaic/routes/LoginApp"
-	OrderAppRoute "tmaic/routes/OrderApp"
-	UserAppRoute "tmaic/routes/UserApp"
+	LoginAppRoute "tmaic/LoginApp/routes"
+	OrderAppRoute "tmaic/OrderApp/routes"
+	UserAppRoute "tmaic/UserApp/routes"
 )
 
 func (s *Saas) LoginApp() error {

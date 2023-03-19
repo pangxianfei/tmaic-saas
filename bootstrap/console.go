@@ -3,10 +3,10 @@ package bootstrap
 import (
 	"fmt"
 	"gitee.com/pangxianfei/framework/console"
+	"gitee.com/pangxianfei/saas/sysmodel"
 	"gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
 	"strings"
-	SysAppModel "tmaic/app/SysApp/model"
 )
 
 func (s *Saas) RouteNameList(app *iris.Application, AppName string, Port string, AppId int64) {
@@ -28,7 +28,7 @@ func (s *Saas) RouteNameList(app *iris.Application, AppName string, Port string,
 				RouteNameMd5Value = ""
 			}
 
-			AuthorityMain := SysAppModel.Authority{
+			AuthorityMain := sysmdel.Authority{
 
 				Description:       value.Description,
 				Pid:               0,
@@ -38,7 +38,7 @@ func (s *Saas) RouteNameList(app *iris.Application, AppName string, Port string,
 				RouteNameMd5Value: RouteNameMd5Value,
 			}
 
-			db.Model(&SysAppModel.Authority{}).FirstOrCreate(&AuthorityMain, SysAppModel.Authority{Description: value.Description, Pid: 0, SourceFileName: value.SourceFileName})
+			db.Model(&sysmdel.Authority{}).FirstOrCreate(&AuthorityMain, sysmdel.Authority{Description: value.Description, Pid: 0, SourceFileName: value.SourceFileName})
 
 			//debug.Dd(value.StaticPath())
 			//debug.Dd(value.Title)
@@ -46,9 +46,9 @@ func (s *Saas) RouteNameList(app *iris.Application, AppName string, Port string,
 			//debug.Dd(value.Name)
 			//debug.Dd(value.SourceFileName)
 
-			var Authority SysAppModel.Authority
-			var isAuthority SysAppModel.Authority
-			db.Where(&SysAppModel.Authority{Description: value.Description}).First(&Authority)
+			var Authority sysmdel.Authority
+			var isAuthority sysmdel.Authority
+			db.Where(&sysmdel.Authority{Description: value.Description}).First(&Authority)
 			if Authority.Id > 0 {
 
 				Md5ValueFile := fmt.Sprintf("%s_%s", value.MainHandlerName, value.RegisterFileName)
@@ -57,7 +57,7 @@ func (s *Saas) RouteNameList(app *iris.Application, AppName string, Port string,
 				db.Where("pid > ? and md5_value = ?", 0, simple.MD5(Md5Value)).Find(&isAuthority)
 				//debug.Dd(Authority)
 				if isAuthority.Id <= 0 {
-					createAuthority := &SysAppModel.Authority{
+					createAuthority := &sysmdel.Authority{
 						Pid:               Authority.Id,
 						AppId:             AppId,
 						Name:              value.MainHandlerName, //simple.Split(value.MainHandlerName, "."),

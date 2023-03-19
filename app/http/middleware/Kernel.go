@@ -2,12 +2,11 @@ package middleware
 
 import (
 	"sync"
+	OrderAppMiddleware "tmaic/OrderApp/http/middleware"
+	SysAppiddleware "tmaic/SysApp/http/middleware"
+	UserAppMiddleware "tmaic/UserApp/http/middleware"
 
 	"gitee.com/pangxianfei/saas/middleware"
-
-	OrderAppMiddleware "tmaic/app/OrderApp/http/middleware"
-	SysAppiddleware "tmaic/app/SysApp/http/middleware"
-	UserAppMiddleware "tmaic/app/UserApp/http/middleware"
 )
 
 var once sync.Once

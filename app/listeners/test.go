@@ -2,11 +2,11 @@ package listeners
 
 import (
 	"errors"
+	"gitee.com/pangxianfei/framework/hub"
+	"gitee.com/pangxianfei/saas/sysmodel"
 	"github.com/golang/protobuf/proto"
-	"tmaic/app/UserApp/model"
 	"tmaic/app/events"
 	"tmaic/app/events/protocol_model/listenmodel"
-	"gitee.com/pangxianfei/framework/hub"
 	//"tmaic/app/platform/models"
 	"gitee.com/pangxianfei/framework/kernel/log"
 )
@@ -16,7 +16,7 @@ func init() {
 }
 
 type Test struct {
-	user UserAppModel.TenantUser
+	user sysmdel.TenantUser
 	hub.Listen
 }
 

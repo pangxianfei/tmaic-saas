@@ -1,8 +1,8 @@
 package bootstrap
 
 import (
-	"tmaic/app/common"
 	"tmaic/app/cron"
+	"tmaic/commonApp/common"
 )
 
 func (s *Saas) EnablingScheduledTask() {

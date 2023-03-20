@@ -4,7 +4,7 @@ import (
 	"github.com/go-playground/validator/v10"
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/recover"
-	"tmaic/app/http/middleware"
+	"tmaic/commonApp/http/middleware"
 	WrongRoute "tmaic/commonApp/routes"
 )
 

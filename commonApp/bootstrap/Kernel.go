@@ -9,8 +9,8 @@ import (
 	"tmaic/app/events"
 	"tmaic/app/jobs"
 	"tmaic/app/listeners"
-	"tmaic/config"
-	"tmaic/lang"
+	"tmaic/commonApp/config"
+	"tmaic/commonApp/lang"
 )
 
 func (s *Saas) Initialize() {

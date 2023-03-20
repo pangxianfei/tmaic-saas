@@ -25,6 +25,5 @@ func init() {
 	app["storage"] = Env("STORAGE", "storage")
 	app["Log_file"] = Env("LOGFILE")
 
-
 	Add("app", app)
 }

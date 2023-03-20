@@ -4,7 +4,7 @@ import (
 	"gitee.com/pangxianfei/library/config"
 	"github.com/kataras/iris/v12"
 	"tmaic/SysApp/routes"
-	"tmaic/routes"
+	"tmaic/commonApp/routes"
 )
 
 func (s *Saas) SysRun() error {

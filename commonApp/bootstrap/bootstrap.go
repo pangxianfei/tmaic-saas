@@ -5,7 +5,7 @@ import (
 	"github.com/kataras/iris/v12"
 	"github.com/kataras/iris/v12/middleware/recover"
 	"tmaic/app/http/middleware"
-	WrongRoute "tmaic/routes"
+	WrongRoute "tmaic/commonApp/routes"
 )
 
 type Saas struct{}

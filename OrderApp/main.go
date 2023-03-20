@@ -1,10 +1,11 @@
-package OrderApp
+package main
 
 import (
 	"gitee.com/pangxianfei/framework/kernel/debug"
 	"golang.org/x/sync/errgroup"
 	"runtime"
-	"tmaic/bootstrap"
+	"time"
+	"tmaic/commonApp/bootstrap"
 )
 
 var app errgroup.Group
@@ -16,6 +17,7 @@ func main() {
 	Saas.Initialize()
 	Saas.EnablingScheduledTask()
 	app.Go(Saas.OrderApp)
+	time.Sleep(time.Millisecond * 200)
 	if err := app.Wait(); err != nil {
 		debug.Dd(err.Error())
 	}

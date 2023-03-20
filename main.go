@@ -3,11 +3,10 @@ package main
 import (
 	"gitee.com/pangxianfei/framework/kernel/debug"
 	_ "gitee.com/pangxianfei/library/config"
+	"golang.org/x/sync/errgroup"
 	"runtime"
 	"time"
-
-	"golang.org/x/sync/errgroup"
-	"tmaic/bootstrap"
+	"tmaic/commonApp/bootstrap"
 )
 
 var app errgroup.Group

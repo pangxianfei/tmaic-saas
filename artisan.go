@@ -1,18 +1,17 @@
 package main
 
 import (
-	"os"
-	"tmaic/app/console/commands"
-	"tmaic/database/migrations"
-
 	"gitee.com/pangxianfei/framework/cmd"
+	"gitee.com/pangxianfei/framework/cmd/commands/controllers"
+	"gitee.com/pangxianfei/framework/cmd/commands/model"
+	"gitee.com/pangxianfei/framework/cmd/commands/request"
 	"gitee.com/pangxianfei/framework/cmd/commands/schedule"
 	"gitee.com/pangxianfei/framework/console"
 	"gitee.com/pangxianfei/framework/kernel/log"
-
-	"tmaic/bootstrap"
-
 	"github.com/urfave/cli"
+	"os"
+	"tmaic/app/console/commands"
+	"tmaic/commonApp/database/migrations"
 
 	commandeer "gitee.com/pangxianfei/framework/cmd/commands/queue"
 
@@ -20,7 +19,9 @@ import (
 )
 
 func init() {
-	bootstrap.Initialize()
+	controller.Initialize()
+	model.Initialize()
+	request.Initialize()
 	migrations.Initialize()
 	commandeer.Initialize()
 	commands.Initialize()
@@ -41,17 +42,19 @@ func cliServe() {
 	app.Commands = cmd.List()
 
 	app.Action = func(c *cli.Context) error {
-		console.Println(console.CODE_INFO, "COMMANDS:")
-
+		console.Println(console.CODE_SUCCESS, "commands:")
 		for _, cate := range app.Categories() {
 			categoryName := cate.Name
 			if categoryName == "" {
 				categoryName = "kernel"
 			}
-			console.Println(console.CODE_WARNING, "    "+categoryName+":")
+			console.Println(console.CODE_WARNING, ""+categoryName+":")
 
 			for _, cmds := range cate.Commands {
-				console.Println(console.CODE_SUCCESS, "        "+cmds.Name+" "+console.Sprintf(console.CODE_INFO, "%s", cmds.ArgsUsage)+"    "+console.Sprintf(console.CODE_WARNING, "%s", cmds.Usage))
+				cmdsName := console.Sprintf(console.CODE_SUCCESS, "%-28s", cmds.Name)
+				ArgsUsage := console.Sprintf(console.CODE_PARAM, "%-25s", cmds.ArgsUsage)
+				cmdsUsage := console.Sprintf(console.CODE_WARNING, "%s", cmds.Usage)
+				console.Println(console.CODE_SUCCESS, "  "+cmdsName+""+ArgsUsage+""+cmdsUsage)
 			}
 		}
 		return nil

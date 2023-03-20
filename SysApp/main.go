@@ -18,7 +18,7 @@ func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	Saas.Initialize()
 	Saas.EnablingScheduledTask()
-	app.Go(Saas.LoginApp)
+	app.Go(Saas.SysRun)
 	time.Sleep(time.Millisecond * 200)
 	if err := app.Wait(); err != nil {
 		debug.Dd(err.Error())

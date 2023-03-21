@@ -7,6 +7,7 @@ type bootstrap interface {
 	SysRun() error
 	LoginApp() error
 	OrderApp() error
+	ProductApp() error
 	UserApp() error
 	SetAppConfig(app *iris.Application, Port string) error
 	EnablingScheduledTask()

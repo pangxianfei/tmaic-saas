@@ -4,7 +4,6 @@ import (
 	"gitee.com/pangxianfei/framework/job"
 	"gitee.com/pangxianfei/framework/kernel/debug"
 	"github.com/golang/protobuf/proto"
-
 	pbs "tmaic/app/jobs/protocol_jobs"
 )
 

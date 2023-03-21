@@ -5,6 +5,7 @@ import (
 	"github.com/kataras/iris/v12"
 	LoginAppRoute "tmaic/LoginApp/routes"
 	OrderAppRoute "tmaic/OrderApp/routes"
+	ProductRoute "tmaic/ProductApp/routes"
 	UserAppRoute "tmaic/UserApp/routes"
 )
 
@@ -31,6 +32,14 @@ func (s *Saas) UserApp() error {
 	UserAppRoute.UserAppRoute(app)
 	s.RouteNameList(app, config.Instance.App.UserApp, config.Instance.AppPort.UserPort, config.Instance.AppNo.User)
 	UserErr := s.SetAppConfig(app, config.Instance.AppPort.UserPort)
+	_ = app.Build()
+	return UserErr
+}
+func (s *Saas) ProductApp() error {
+	app := iris.New().SetName("ProductApp")
+	ProductRoute.ProductRoute(app)
+	s.RouteNameList(app, config.Instance.App.ProductApp, config.Instance.AppPort.ProductPort, config.Instance.AppNo.Product)
+	UserErr := s.SetAppConfig(app, config.Instance.AppPort.ProductPort)
 	_ = app.Build()
 	return UserErr
 }

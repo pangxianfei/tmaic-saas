@@ -2,26 +2,26 @@ package api
 
 import (
 	"gitee.com/pangxianfei/framework/http/controller"
-	"gitee.com/pangxianfei/simple"
+	"gitee.com/pangxianfei/library/response"
 )
 
 type PrcoductController struct {
 	controller.BaseController
 }
 
-func (c *PrcoductController) PostInfo() *simple.JsonResult {
-	return simple.JsonSuccess()
+func (c *PrcoductController) PostInfo() *response.JsonResult {
+	return response.JsonSuccess()
 }
 
-func (c *PrcoductController) PostCreate() *simple.JsonResult {
-	return simple.JsonSuccess()
+func (c *PrcoductController) PostCreate() *response.JsonResult {
+	return response.JsonSuccess()
 }
 
-func (c *PrcoductController) PostEditBy() *simple.JsonResult {
-	return simple.JsonSuccess()
+func (c *PrcoductController) PostEditBy() *response.JsonResult {
+	return response.JsonSuccess()
 }
 
 // PostDeleteBy 删除文章
-func (c *PrcoductController) PostDeleteBy() *simple.JsonResult {
-	return simple.JsonSuccess()
+func (c *PrcoductController) PostDeleteBy() *response.JsonResult {
+	return response.JsonSuccess()
 }

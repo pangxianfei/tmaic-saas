@@ -1,6 +1,7 @@
 package api
 
 import (
+	"gitee.com/pangxianfei/library/response"
 	"tmaic/app/events"
 	pbs "tmaic/app/events/protocol_model/listenmodel"
 	jobsPbs "tmaic/app/jobs/protocol_jobs"
@@ -9,7 +10,6 @@ import (
 	jobber "gitee.com/pangxianfei/framework/job"
 	"gitee.com/pangxianfei/framework/kernel/log"
 	"gitee.com/pangxianfei/framework/kernel/tmaic"
-	"gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
 
 	ab "tmaic/app/jobs"
@@ -19,8 +19,8 @@ type EventsController struct {
 	Ctx iris.Context
 }
 
-// GetByInfo 队列
-func (e *EventsController) PostInfo(articleId int64) *simple.JsonResult {
+// PostInfo 队列
+func (e *EventsController) PostInfo(articleId int64) *response.JsonResult {
 	test := new(events.Test)
 	test.SetParam(&pbs.Test{
 		Id:   1000,
@@ -40,8 +40,8 @@ func (e *EventsController) PostInfo(articleId int64) *simple.JsonResult {
 
 	err := jobber.Dispatch(jb)
 	if err != nil {
-		return simple.JsonErrorMsg(err.Error())
+		return response.JsonErrorMsg(err.Error())
 	}
 
-	return simple.JsonSuccess()
+	return response.JsonSuccess()
 }

@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func (s *Saas) RouteNameList(app *iris.Application, AppName string, Port string, AppId int64) {
+func (s *Saas) UserRouteNameList(app *iris.Application, AppName string, Port string, AppId int64) {
 	routeList := app.GetRoutes()
 	var index int = 1
 	db := simple.DB()

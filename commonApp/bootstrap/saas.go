@@ -11,5 +11,6 @@ type bootstrap interface {
 	UserApp() error
 	SetAppConfig(app *iris.Application, Port string) error
 	EnablingScheduledTask()
-	RouteNameList(app *iris.Application, AppName string, Port string, AppId int64)
+	UserRouteNameList(app *iris.Application, AppName string, Port string, AppId int64)
+	SysRouteNameList(app *iris.Application, AppName string, Port string, AppId int64)
 }

@@ -9,11 +9,7 @@ import (
 	"tmaic/SysApp/repositories"
 )
 
-var AppInfoService = newAppInfoService()
-
-func newAppInfoService() *appInfoService {
-	return &appInfoService{}
-}
+var AppInfoService = new(appInfoService)
 
 type appInfoService struct {
 }
@@ -24,7 +20,6 @@ func (s *appInfoService) GetByName(mobile string) *SysAppModel.AppInfo {
 }
 
 func (s *appInfoService) GetByList() []SysAppModel.AppInfo {
-
 	return repositories.AppInfoRepository.GetByList(simple.DB())
 }
 

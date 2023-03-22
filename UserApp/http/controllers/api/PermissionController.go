@@ -7,41 +7,11 @@ import (
 	"gitee.com/pangxianfei/saas/requests"
 	"gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
-	requests2 "tmaic/UserApp/http/requests"
 )
 
 type PermissionController struct {
 	controller.BaseController
 }
-
-// PostApplyFor 申请应用权限
-func (c *PermissionController) PostApplyFor() *response.JsonResult {
-	var GiveRolePermission requests2.GiveRolePermission
-	newErr, returnData := c.ValidateJSON(c.Context, &GiveRolePermission, GiveRolePermission.Messages())
-	if newErr != nil {
-		return response.JsonError(returnData)
-	}
-	return response.JsonData(GiveRolePermission)
-}
-
-/*
-
-// PostApplyFor 申请应用权限
-func (e *PermissionController) PostApplyFor() *simple.JsonResult {
-	var ApplyFor requests.ApplyFor
-
-	if err := e.Ctx.ReadJSON(&ApplyFor); err != nil {
-		return simple.JsonErrorMsg("参数不能为空")
-	}
-
-	err := services.PermissionService.PostApplyFor(e.Ctx, ApplyFor.AppId)
-	if err != nil {
-		return simple.JsonData(err.Error())
-	}
-
-	return simple.JsonData(ApplyFor)
-}
-*/
 
 // PostRole 角色分配权限
 func (c *PermissionController) PostRole() *response.JsonResult {
@@ -55,38 +25,35 @@ func (c *PermissionController) PostRole() *response.JsonResult {
 	if roleErr != nil {
 		return response.JsonErrorMsg(roleErr.Error())
 	}
-	return response.JsonData(RolePermission)
+	return response.JsonData("授权成功")
 }
 
 // PostSync 撤销权限、并添加新的权限
 func (c *PermissionController) PostSync() *response.JsonResult {
-	var SyncPermission requests.SyncPermission
-	err := c.Context.ReadJSON(&SyncPermission)
+	var PermissionArr requests.SyncPermission
+	err := c.Context.ReadJSON(&PermissionArr)
 	if err != nil {
 		return response.JsonErrorMsg(err.Error())
 	}
-
-	roleErr := paas.Gate.SyncPermissionsTo(c.Context, SyncPermission.Permission)
+	roleErr := paas.Gate.SyncPermissionsTo(c.Context, PermissionArr)
 	if roleErr != nil {
 		return response.JsonErrorMsg(roleErr.Error())
 	}
-
 	return response.JsonData("权限添加成功")
 }
 
 // PostRevokeUser 撤销用户权限
 func (c *PermissionController) PostRevokeUser() *simple.JsonResult {
-	var SyncPermission requests.SyncPermission
-	err := c.Context.ReadJSON(&SyncPermission)
+	var SynPermission requests.SyncPermission
+	err := c.Context.ReadJSON(&SynPermission)
 	if err != nil {
 		return simple.JsonErrorMsg(err.Error())
 	}
 
-	roleErr := paas.Gate.RevokePermissionTo(c.Context, SyncPermission.Permission)
+	roleErr := paas.Gate.RevokePermissionTo(c.Context, SynPermission)
 	if roleErr != nil {
 		return simple.JsonErrorMsg(roleErr.Error())
 	}
-
 	return simple.JsonData("撤销权限成功")
 }
 
@@ -110,11 +77,11 @@ func (c *PermissionController) PostGiveUserRole(ctx iris.Context) *response.Json
 	if err != nil {
 		return response.JsonErrorMsg(err.Error())
 	}
-	if paas.Gate.GiveUserRolePermission(ctx, selectRole) {
-		return response.JsonData("添加成功")
-	}
+	if gErr := paas.Gate.GiveUserRolePermission(ctx, selectRole); gErr != nil {
 
-	return response.JsonErrorMsg("添加失败")
+		return response.JsonErrorMsg(gErr.Error())
+	}
+	return response.JsonData("添加授权成功")
 }
 
 // PostRevokeRole 撤销角色权限
@@ -143,14 +110,14 @@ func (c *PermissionController) PostHasRoleAuthority() *response.JsonResult {
 	return response.JsonErrorMsg("无权限")
 }
 
-// PostRemoveUserRole 确定角色是否具有某种权限
+// PostRemoveUserRole 撤消用角色下所有权限
 func (c *PermissionController) PostRemoveUserRole() *response.JsonResult {
-	var selectRole requests.SelectRole
-	err := c.Context.ReadJSON(&selectRole)
+	var SelectRole requests.SelectRole
+	err := c.Context.ReadJSON(&SelectRole)
 	if err != nil {
 		return response.JsonErrorMsg(err.Error())
 	}
-	if paas.Gate.RemoveUserRole(c.Context, selectRole) {
+	if paas.Gate.RemoveUserRole(c.Context, SelectRole) {
 		return response.JsonData("撤销成功")
 	}
 	return response.JsonErrorMsg("撤销失败")

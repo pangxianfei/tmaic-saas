@@ -6,7 +6,7 @@ import (
 	"gitee.com/pangxianfei/library/tmaic"
 	"gitee.com/pangxianfei/saas/paas"
 	"gitee.com/pangxianfei/saas/services"
-	sysmdel "gitee.com/pangxianfei/saas/sysmodel"
+	"tmaic/SysApp/http/requests"
 )
 
 type CreateDatabaseController struct {
@@ -15,12 +15,11 @@ type CreateDatabaseController struct {
 
 // PostCreateDbUser 创建租户数据库帐号
 func (c *CreateDatabaseController) PostCreateDbUser() *response.JsonResult {
-	AdminId, _ := c.Context.User().GetRaw()
-	AdminToken := AdminId.(*sysmdel.Token)
-	if AdminToken == nil || AdminToken.UserId <= 0 {
-		return response.JsonErrorMsg("未授权")
+	var DbUser requests.DbUserRequest
+	if errReq := c.Context.ReadJSON(&DbUser); errReq != nil {
+		return response.JsonErrorMsg("参数不能为空")
 	}
-	err := paas.Instance.CreateDBuser(AdminToken.UserId)
+	err := paas.Instance.CreateDBuser(DbUser.UserId)
 	if err != nil {
 		return response.JsonErrorMsg(err.Error())
 	}
@@ -28,12 +27,11 @@ func (c *CreateDatabaseController) PostCreateDbUser() *response.JsonResult {
 }
 
 func (c *CreateDatabaseController) PostCreateTenantInstance() *response.JsonResult {
-	AdminId, _ := c.Context.User().GetRaw()
-	AdminToken := AdminId.(*sysmdel.Token)
-	if AdminToken == nil || AdminToken.UserId <= 0 {
-		return response.JsonErrorMsg("未授权")
+	var DbUser requests.DbUserRequest
+	if errReq := c.Context.ReadJSON(&DbUser); errReq != nil {
+		return response.JsonErrorMsg("参数不能为空")
 	}
-	_, err := paas.Instance.CreateTenantsDatabase(AdminToken.UserId)
+	_, err := paas.Instance.CreateTenantsDatabase(DbUser.UserId)
 	if err != nil {
 		return response.JsonErrorMsg(err.Error())
 	}

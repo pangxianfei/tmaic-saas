@@ -2,12 +2,10 @@ package SysAppModel
 
 import (
 	"gitee.com/pangxianfei/framework/kernel/zone"
-	"gitee.com/pangxianfei/framework/model"
 )
 
 // Authority 权限模型
 type Authority struct {
-	model.BaseModel
 	Id                int64     `gorm:"primaryKey;autoIncrement" json:"id" form:"id"`
 	Pid               int64     `gorm:"type:int(11);not null;size:11" json:"pid" form:"pid"`
 	AppId             int64     `gorm:"type:int(11);not null;size:11" json:"app_id" form:"app_id"`
@@ -30,5 +28,5 @@ type Authority struct {
 
 // TableName 指定表
 func (Auth *Authority) TableName() string {
-	return Auth.SetTableName("public_permissions")
+	return "sys_permissions"
 }

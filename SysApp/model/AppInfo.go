@@ -2,12 +2,10 @@ package SysAppModel
 
 import (
 	"gitee.com/pangxianfei/framework/kernel/zone"
-	"gitee.com/pangxianfei/framework/model"
 )
 
 // AppInfo 应用信息表
 type AppInfo struct {
-	model.BaseModel
 	Id          int64     `gorm:"primaryKey;autoIncrement" json:"id" form:"id"`
 	Key         string    `gorm:"type:varchar(20);not null;size:20;unique" json:"key" form:"key"`      // 应用key
 	Name        string    `gorm:"type:varchar(255);not null;" json:"name" form:"name"`                 // 应用名称
@@ -20,5 +18,5 @@ type AppInfo struct {
 
 // TableName 指定表
 func (appInfo *AppInfo) TableName() string {
-	return appInfo.SetTableName("sys_app_info")
+	return "sys_app_info"
 }

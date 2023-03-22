@@ -1,28 +1,38 @@
 package api
 
 import (
+	"gitee.com/pangxianfei/framework/http/controller"
 	"gitee.com/pangxianfei/library/response"
 	"gitee.com/pangxianfei/saas/paas"
-	"github.com/kataras/iris/v12"
+	"tmaic/UserApp/http/requests"
 )
 
 type UserController struct {
-	Ctx iris.Context
+	controller.BaseController
 }
 
 // PostInfo 获取当前登录用户
 func (c *UserController) PostInfo() *response.JsonResult {
 
-	return response.JsonData(paas.Auth.User(c.Ctx))
+	return response.JsonData(paas.Auth.User(c.Context))
+}
+
+// PostStore 创建登陆帐号
+func (c *UserController) PostStore() *response.JsonResult {
+	var UserStore requests.UserRequset
+	newErr, returnData := c.Validation.Json(c.Context, &UserStore, UserStore.Messages())
+	if newErr != nil {
+		return response.JsonError(returnData)
+	}
+	AdminInfo, createErr := paas.Instance.CreateLoginAccount(c.Context, UserStore.UserName, UserStore.Mobile, UserStore.Password)
+	if createErr != nil {
+		return response.JsonErrorMsg(createErr.Error())
+	}
+	return response.JsonData(AdminInfo)
 }
 
 // PostEditBy 修改用户资料
 func (c *UserController) PostEditBy() *response.JsonResult {
-	return response.JsonSuccess()
-}
-
-// PostUpdateAvatar 修改头像
-func (c *UserController) PostUpdateAvatar() *response.JsonResult {
 	return response.JsonSuccess()
 }
 
@@ -35,11 +45,6 @@ func (c *UserController) PostSetUsername() *response.JsonResult {
 func (c *UserController) PostSetEmail() *response.JsonResult {
 
 	return response.JsonSuccess()
-}
-
-// PostSetPassword 设置密码
-func (c *UserController) PostSetPassword() *response.JsonResult {
-	return nil
 }
 
 // PostUpdatePassword 修改密码

@@ -19,6 +19,7 @@ func init() {
 		middleware.GetPermissions()
 		middleware.GetPermissions()
 		//用户定义
+		SysAppiddleware.GetAdminPermissions()
 		UserAppMiddleware.UserAppInfo()
 		SysAppiddleware.SysAppInfo()
 		OrderAppMiddleware.OrderAppInfo()

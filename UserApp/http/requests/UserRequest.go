@@ -17,12 +17,10 @@ func (r *UserRequset) Messages() map[string][]string {
 		"Mobile": []string{
 			"required:手机号必须项",
 		},
-
 		"Password": []string{
 			"required:密码为必填项",
 			"min:密码长度必须大于或者等于8位以上",
 		},
-
 		"RePassword": []string{
 			"required:重复密码必填项",
 			"eqfield:重复密码不正确",

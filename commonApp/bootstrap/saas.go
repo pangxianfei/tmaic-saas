@@ -13,4 +13,6 @@ type bootstrap interface {
 	EnablingScheduledTask()
 	UserRouteNameList(app *iris.Application, AppName string, Port string, AppId int64)
 	SysRouteNameList(app *iris.Application, AppName string, Port string, AppId int64)
+	ApplicationExample(AppInfo AppTypeInfo) func() error
+	StartApplication()
 }

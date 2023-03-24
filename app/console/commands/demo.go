@@ -2,10 +2,11 @@ package commands
 
 import (
 	"fmt"
-	"gitee.com/pangxianfei/framework/cmd"
 	"io"
 	"io/ioutil"
 	"os"
+
+	"gitee.com/pangxianfei/framework/cmd"
 )
 
 func init() {

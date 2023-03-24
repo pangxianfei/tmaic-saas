@@ -15,8 +15,8 @@ type RoleController struct {
 // PostStore 添加角色
 func (e *RoleController) PostStore() *response.JsonResult {
 	var createRole requests.CreateRole
-	err := simple.ReadJSON(e.Context, &createRole)
-	if err != nil {
+
+	if err := simple.ReadJSON(e.Context, &createRole); err != nil {
 		return response.JsonErrorMsg(err.Error())
 	}
 	CreateRoleModel, roleErr := paas.Gate.AddRole(e.Context, createRole)

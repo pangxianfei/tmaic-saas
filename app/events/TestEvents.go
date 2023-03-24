@@ -8,14 +8,14 @@ import (
 )
 
 func init() {
-	hub.Make(&Test{})
+	hub.Make(&TestEvents{})
 }
 
-type Test struct {
+type TestEvents struct {
 	hub.Event
 	Id uint32
 }
 
-func (ur *Test) ParamProto() proto.Message {
-	return &event.Test{}
+func (ur *TestEvents) ParamProto() proto.Message {
+	return &event.TestEvents{}
 }

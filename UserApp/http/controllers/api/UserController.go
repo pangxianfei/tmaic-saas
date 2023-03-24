@@ -13,22 +13,19 @@ type UserController struct {
 
 // PostInfo 获取当前登录用户
 func (c *UserController) PostInfo() *response.JsonResult {
-
 	return response.JsonData(paas.Auth.User(c.Context))
 }
 
 // PostStore 创建登陆帐号
 func (c *UserController) PostStore() *response.JsonResult {
 	var UserStore requests.UserRequset
-	newErr, returnData := c.Validation.Json(c.Context, &UserStore, UserStore.Messages())
-	if newErr != nil {
+	if newErr, returnData := c.Validation.Json(c.Context, &UserStore, UserStore.Messages()); newErr != nil {
 		return response.JsonError(returnData)
 	}
-	AdminInfo, createErr := paas.Instance.CreateLoginAccount(c.Context, UserStore.UserName, UserStore.Mobile, UserStore.Password)
-	if createErr != nil {
+	if _, createErr := paas.Instance.CreateLoginAccount(c.Context, UserStore.UserName, UserStore.Mobile, UserStore.Password); createErr != nil {
 		return response.JsonErrorMsg(createErr.Error())
 	}
-	return response.JsonData(AdminInfo)
+	return response.JsonCreateData("")
 }
 
 // PostEditBy 修改用户资料

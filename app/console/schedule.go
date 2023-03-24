@@ -5,5 +5,5 @@ import (
 )
 
 func Schedule(schedule *cmd.Schedule) {
-	schedule.Command("demo:say words,9999999999").EverySecond()
+	schedule.Command("queue:work login").EverySecond()
 }

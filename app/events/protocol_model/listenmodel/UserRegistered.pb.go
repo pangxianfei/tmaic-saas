@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.28.1
 // 	protoc        v3.21.9
-// source: UserRegistered.proto
+// source: app/events/protocol_model/UserRegistered.proto
 
 package listenmodel
 
@@ -32,7 +32,7 @@ type UserRegistered struct {
 func (x *UserRegistered) Reset() {
 	*x = UserRegistered{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_UserRegistered_proto_msgTypes[0]
+		mi := &file_app_events_protocol_model_UserRegistered_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -45,7 +45,7 @@ func (x *UserRegistered) String() string {
 func (*UserRegistered) ProtoMessage() {}
 
 func (x *UserRegistered) ProtoReflect() protoreflect.Message {
-	mi := &file_UserRegistered_proto_msgTypes[0]
+	mi := &file_app_events_protocol_model_UserRegistered_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -58,7 +58,7 @@ func (x *UserRegistered) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UserRegistered.ProtoReflect.Descriptor instead.
 func (*UserRegistered) Descriptor() ([]byte, []int) {
-	return file_UserRegistered_proto_rawDescGZIP(), []int{0}
+	return file_app_events_protocol_model_UserRegistered_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *UserRegistered) GetUserId() uint32 {
@@ -75,37 +75,39 @@ func (x *UserRegistered) GetAffiliationFromCode() string {
 	return ""
 }
 
-var File_UserRegistered_proto protoreflect.FileDescriptor
+var File_app_events_protocol_model_UserRegistered_proto protoreflect.FileDescriptor
 
-var file_UserRegistered_proto_rawDesc = []byte{
-	0x0a, 0x14, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x65, 0x64,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x5d, 0x0a, 0x0e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65,
-	0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x65, 0x64, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72,
-	0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49,
-	0x64, 0x12, 0x32, 0x0a, 0x15, 0x61, 0x66, 0x66, 0x69, 0x6c, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x5f, 0x66, 0x72, 0x6f, 0x6d, 0x5f, 0x63, 0x6f, 0x64, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x13, 0x61, 0x66, 0x66, 0x69, 0x6c, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x46, 0x72, 0x6f,
-	0x6d, 0x43, 0x6f, 0x64, 0x65, 0x42, 0x0f, 0x5a, 0x0d, 0x2e, 0x2f, 0x6c, 0x69, 0x73, 0x74, 0x65,
-	0x6e, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+var file_app_events_protocol_model_UserRegistered_proto_rawDesc = []byte{
+	0x0a, 0x2e, 0x61, 0x70, 0x70, 0x2f, 0x65, 0x76, 0x65, 0x6e, 0x74, 0x73, 0x2f, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x5f, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x2f, 0x55, 0x73, 0x65, 0x72,
+	0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x65, 0x64, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x22, 0x5d, 0x0a, 0x0e, 0x55, 0x73, 0x65, 0x72, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72,
+	0x65, 0x64, 0x12, 0x17, 0x0a, 0x07, 0x75, 0x73, 0x65, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0d, 0x52, 0x06, 0x75, 0x73, 0x65, 0x72, 0x49, 0x64, 0x12, 0x32, 0x0a, 0x15, 0x61,
+	0x66, 0x66, 0x69, 0x6c, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x66, 0x72, 0x6f, 0x6d, 0x5f,
+	0x63, 0x6f, 0x64, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x13, 0x61, 0x66, 0x66, 0x69,
+	0x6c, 0x69, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x46, 0x72, 0x6f, 0x6d, 0x43, 0x6f, 0x64, 0x65, 0x42,
+	0x0f, 0x5a, 0x0d, 0x2e, 0x2f, 0x6c, 0x69, 0x73, 0x74, 0x65, 0x6e, 0x6d, 0x6f, 0x64, 0x65, 0x6c,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
-	file_UserRegistered_proto_rawDescOnce sync.Once
-	file_UserRegistered_proto_rawDescData = file_UserRegistered_proto_rawDesc
+	file_app_events_protocol_model_UserRegistered_proto_rawDescOnce sync.Once
+	file_app_events_protocol_model_UserRegistered_proto_rawDescData = file_app_events_protocol_model_UserRegistered_proto_rawDesc
 )
 
-func file_UserRegistered_proto_rawDescGZIP() []byte {
-	file_UserRegistered_proto_rawDescOnce.Do(func() {
-		file_UserRegistered_proto_rawDescData = protoimpl.X.CompressGZIP(file_UserRegistered_proto_rawDescData)
+func file_app_events_protocol_model_UserRegistered_proto_rawDescGZIP() []byte {
+	file_app_events_protocol_model_UserRegistered_proto_rawDescOnce.Do(func() {
+		file_app_events_protocol_model_UserRegistered_proto_rawDescData = protoimpl.X.CompressGZIP(file_app_events_protocol_model_UserRegistered_proto_rawDescData)
 	})
-	return file_UserRegistered_proto_rawDescData
+	return file_app_events_protocol_model_UserRegistered_proto_rawDescData
 }
 
-var file_UserRegistered_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
-var file_UserRegistered_proto_goTypes = []interface{}{
+var file_app_events_protocol_model_UserRegistered_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
+var file_app_events_protocol_model_UserRegistered_proto_goTypes = []interface{}{
 	(*UserRegistered)(nil), // 0: UserRegistered
 }
-var file_UserRegistered_proto_depIdxs = []int32{
+var file_app_events_protocol_model_UserRegistered_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
 	0, // [0:0] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
@@ -113,13 +115,13 @@ var file_UserRegistered_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_UserRegistered_proto_init() }
-func file_UserRegistered_proto_init() {
-	if File_UserRegistered_proto != nil {
+func init() { file_app_events_protocol_model_UserRegistered_proto_init() }
+func file_app_events_protocol_model_UserRegistered_proto_init() {
+	if File_app_events_protocol_model_UserRegistered_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_UserRegistered_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_app_events_protocol_model_UserRegistered_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UserRegistered); i {
 			case 0:
 				return &v.state
@@ -136,18 +138,18 @@ func file_UserRegistered_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_UserRegistered_proto_rawDesc,
+			RawDescriptor: file_app_events_protocol_model_UserRegistered_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   1,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
-		GoTypes:           file_UserRegistered_proto_goTypes,
-		DependencyIndexes: file_UserRegistered_proto_depIdxs,
-		MessageInfos:      file_UserRegistered_proto_msgTypes,
+		GoTypes:           file_app_events_protocol_model_UserRegistered_proto_goTypes,
+		DependencyIndexes: file_app_events_protocol_model_UserRegistered_proto_depIdxs,
+		MessageInfos:      file_app_events_protocol_model_UserRegistered_proto_msgTypes,
 	}.Build()
-	File_UserRegistered_proto = out.File
-	file_UserRegistered_proto_rawDesc = nil
-	file_UserRegistered_proto_goTypes = nil
-	file_UserRegistered_proto_depIdxs = nil
+	File_app_events_protocol_model_UserRegistered_proto = out.File
+	file_app_events_protocol_model_UserRegistered_proto_rawDesc = nil
+	file_app_events_protocol_model_UserRegistered_proto_goTypes = nil
+	file_app_events_protocol_model_UserRegistered_proto_depIdxs = nil
 }

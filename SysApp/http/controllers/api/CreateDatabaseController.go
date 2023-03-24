@@ -19,8 +19,7 @@ func (c *CreateDatabaseController) PostCreateDbUser() *response.JsonResult {
 	if errReq := c.Context.ReadJSON(&DbUser); errReq != nil {
 		return response.JsonErrorMsg("参数不能为空")
 	}
-	err := paas.Instance.CreateDBuser(DbUser.UserId)
-	if err != nil {
+	if err := paas.Instance.CreateDBuser(DbUser.UserId); err != nil {
 		return response.JsonErrorMsg(err.Error())
 	}
 	return response.JsonData("创建租户数据库账号、密码成功")

@@ -26,7 +26,7 @@ type FailedQueue struct {
 }
 
 func (fq *FailedQueue) TableName() string {
-	return "failed_queue"
+	return "mq_failed_queue"
 }
 
 func (fq *FailedQueue) RetryTopic() string {
@@ -57,6 +57,7 @@ func (fq *FailedQueue) Default() interface{} {
 }
 
 func (fq *FailedQueue) FailedToDatabase(topicName string, channelName string, msg *message.Message, errStr string) error {
+
 	_fq := FailedQueue{
 		Topic:     &topicName,
 		Channel:   &channelName,
@@ -72,16 +73,16 @@ func (fq *FailedQueue) FailedToDatabase(topicName string, channelName string, ms
 }
 
 func (fq *FailedQueue) FailedQueueById(id uint) (failedQueuerPtr queue.FailedQueuer, err error) {
-	_fq := FailedQueue{ID: &id}
-	if err := simple.DB().First(&_fq, false).Error; err != nil {
+	mq := FailedQueue{ID: &id}
+	if err := simple.DB().First(&mq).Error; err != nil {
 		return nil, err
 	}
-	return &_fq, nil
+	return &mq, nil
 }
 
 func (fq *FailedQueue) DeleteQueueById(id uint) error {
 	_fq := FailedQueue{ID: &id}
-	if err := simple.DB().Delete(&_fq, true).Error; err != nil {
+	if err := simple.DB().Delete(&_fq).Error; err != nil {
 		return err
 	}
 	return nil

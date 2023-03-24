@@ -2,12 +2,12 @@ package requests
 
 import "gitee.com/pangxianfei/library/tmaic"
 
-type GiveRolePermission struct {
+type GiveRolePermissionRequset struct {
 	RoleId       int64 `validate:"required,gt=0,lte=130" json:"RoleId"`
 	PermissionId int64 `validate:"required,gte=0,lte=130" json:"PermissionId"`
 }
 
-func (r *GiveRolePermission) Messages() map[string][]string {
+func (r *GiveRolePermissionRequset) Messages() map[string][]string {
 	messages := tmaic.M{
 		"RoleId": []string{
 			"required:角色ID为必填项",

@@ -1,5 +1,5 @@
 syntax = "proto3";
-package jobs;
+option go_package = "./protomodel";
 message demoJob {
     string query = 1;
     int32 page_number = 2;

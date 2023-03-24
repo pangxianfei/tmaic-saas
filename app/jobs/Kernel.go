@@ -1,8 +1,8 @@
 package jobs
 
-import "gitee.com/pangxianfei/framework/job"
+import "gitee.com/pangxianfei/framework/work"
 
 func Initialize() {
 	// 初始化主题和频道
-	job.RegisterQueue()
+	work.RegisterQueue()
 }

@@ -1,34 +1,38 @@
 package main
 
 import (
+	"runtime"
+	"time"
+
 	"gitee.com/pangxianfei/framework/kernel/debug"
 	_ "gitee.com/pangxianfei/library/config"
 	"golang.org/x/sync/errgroup"
-	"runtime"
-	"time"
+
 	"tmaic/commonApp/bootstrap"
 )
 
 var app errgroup.Group
 var Saas bootstrap.Saas
-
-func init() {}
+var startApplication map[string]func() error
 
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 	Saas.Initialize()
 	Saas.EnablingScheduledTask()
-	app.Go(Saas.SysRun)
-	time.Sleep(time.Millisecond * 200)
-	app.Go(Saas.ProductApp)
-	time.Sleep(time.Millisecond * 200)
-	app.Go(Saas.LoginApp)
-	time.Sleep(time.Millisecond * 200)
-	app.Go(Saas.UserApp)
-	time.Sleep(time.Millisecond * 200)
-	app.Go(Saas.OrderApp)
-	time.Sleep(time.Millisecond * 200)
+	startApplication = make(map[string]func() error)
+	startApplication["SysRun"] = Saas.SysRun
+	startApplication["ProductApp"] = Saas.ProductApp
+	startApplication["LoginApp"] = Saas.LoginApp
+	startApplication["UserApp"] = Saas.UserApp
+	startApplication["OrderApp"] = Saas.OrderApp
+	for _, appName := range startApplication {
+		app.Go(appName)
+		delayTime()
+	}
 	if err := app.Wait(); err != nil {
 		debug.Dd(err.Error())
 	}
+}
+func delayTime() {
+	time.Sleep(time.Millisecond * 200)
 }

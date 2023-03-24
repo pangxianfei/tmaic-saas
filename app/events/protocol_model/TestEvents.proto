@@ -1,7 +1,6 @@
 syntax = "proto3";
-//package listenmodel;
 option go_package = "./listenmodel";
-message usercachemodel {
+message TestEvents {
     uint32 id = 1;
     string name = 2;
 }

@@ -2,8 +2,9 @@ package api
 
 import (
 	"gitee.com/pangxianfei/framework/http/controller"
+	"gitee.com/pangxianfei/library/response"
 	"gitee.com/pangxianfei/saas/requests"
-	"gitee.com/pangxianfei/simple"
+
 	"tmaic/SysApp/services"
 )
 
@@ -12,15 +13,13 @@ type AppPermissionController struct {
 }
 
 // PostApplyFor 申请应用权限
-func (e *AppPermissionController) PostApplyFor() *simple.JsonResult {
+func (e *AppPermissionController) PostApplyFor() *response.JsonResult {
 	var ApplyFor requests.ApplyFor
-	if err := e.Context.ReadJSON(&ApplyFor); err != nil {
-		return simple.JsonErrorMsg("参数不能为空")
+	if err, retrueData := e.Validation.Json(e.Context, &ApplyFor, ApplyFor.Messages()); err != nil {
+		return response.JsonError(retrueData)
 	}
-	err := services.AppPermissionService.PostApplyFor(e.Context, ApplyFor.AppId)
-	if err != nil {
-		return simple.JsonData(err.Error())
+	if appErr := services.AppPermissionService.PostApplyFor(e.Context, ApplyFor.AppId); appErr != nil {
+		return response.JsonFailData(appErr.Error())
 	}
-
-	return simple.JsonData(ApplyFor)
+	return response.JsonQueryData("应用授权成功")
 }

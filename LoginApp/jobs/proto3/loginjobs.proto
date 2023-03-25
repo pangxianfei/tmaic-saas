@@ -4,5 +4,5 @@ message LoginJob {
     string UserName = 1;
     string Mobile = 2;
     int64 TenantId = 3;
-    int32 UserType = 4;
+    int64 UserType = 4;
 }

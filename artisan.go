@@ -12,13 +12,12 @@ import (
 	"gitee.com/pangxianfei/framework/kernel/log"
 	"github.com/urfave/cli"
 
+	appschedule "tmaic/app/console"
 	"tmaic/app/console/commands"
 	"tmaic/commonApp/bootstrap"
 	"tmaic/commonApp/database/migrations"
 
 	commandeer "gitee.com/pangxianfei/framework/cmd/commands/queue"
-
-	appschedule "tmaic/app/console"
 )
 
 func init() {
@@ -61,6 +60,7 @@ func cliServe() {
 		return nil
 	}
 	if err := app.Run(os.Args); err != nil {
+
 		log.Fatal(err.Error())
 	}
 }

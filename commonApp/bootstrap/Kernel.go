@@ -6,9 +6,10 @@ import (
 	"gitee.com/pangxianfei/framework/kernel/zone"
 	"gitee.com/pangxianfei/framework/logs"
 	"gitee.com/pangxianfei/framework/queue"
-	"tmaic/app/events"
-	"tmaic/app/jobs"
-	"tmaic/app/listeners"
+
+	"tmaic/LoginApp/events"
+	"tmaic/LoginApp/jobs"
+	"tmaic/LoginApp/listeners"
 	"tmaic/commonApp/config"
 	"tmaic/commonApp/lang"
 )

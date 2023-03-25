@@ -7,10 +7,11 @@ import (
 	"gitee.com/pangxianfei/saas/sysmodel"
 	"github.com/golang/protobuf/proto"
 
-	"tmaic/app/events"
-	"tmaic/app/events/protocol_model/listenmodel"
 	//"tmaic/app/platform/models"
 	"gitee.com/pangxianfei/framework/kernel/log"
+
+	"tmaic/LoginApp/events"
+	"tmaic/LoginApp/events/protocol_model/listenmodel"
 )
 
 func init() {

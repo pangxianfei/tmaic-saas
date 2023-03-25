@@ -4,16 +4,15 @@ import (
 	"gitee.com/pangxianfei/framework/http/controller"
 	"gitee.com/pangxianfei/library/response"
 
-	"tmaic/app/events"
-	"tmaic/app/events/protocol_model/listenmodel"
-	"tmaic/app/jobs/proto3/protomodel"
-
 	"gitee.com/pangxianfei/framework/hub"
 	"gitee.com/pangxianfei/framework/kernel/log"
 	"gitee.com/pangxianfei/framework/kernel/tmaic"
 	"gitee.com/pangxianfei/framework/work"
 
-	"tmaic/app/jobs"
+	"tmaic/LoginApp/events"
+	"tmaic/LoginApp/events/protocol_model/listenmodel"
+	"tmaic/LoginApp/jobs"
+	"tmaic/LoginApp/jobs/proto3/protomodel"
 )
 
 type EventsController struct {

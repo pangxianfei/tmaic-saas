@@ -1,10 +1,10 @@
 package events
 
 import (
-	event "tmaic/app/events/protocol_model/listenmodel"
-
 	"gitee.com/pangxianfei/framework/hub"
 	"github.com/golang/protobuf/proto"
+
+	event "tmaic/LoginApp/events/protocol_model/listenmodel"
 )
 
 func init() {

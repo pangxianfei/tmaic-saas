@@ -8,45 +8,45 @@ import (
 	"gitee.com/pangxianfei/framework/work"
 	"github.com/golang/protobuf/proto"
 
-	"tmaic/app/jobs/proto3/protomodel"
+	"tmaic/LoginApp/jobs/proto3/protomodel"
 )
 
 func init() {
-	work.Add(&demoJob{})
+	work.Add(&loginJob{})
 }
 
-var DemoJob = new(demoJob)
+var LoginJob = new(loginJob)
 
-type demoJob struct {
+type loginJob struct {
 	work.Job
 }
 
 // Retries 失败重启次数
-func (e *demoJob) Retries() uint32 {
+func (e *loginJob) Retries() uint32 {
 	return 3
 }
 
 // Name 列队名称  Topics 名
-func (e *demoJob) Name() string {
-	return "demo"
+func (e *loginJob) Name() string {
+	return "login"
 }
 
-func (e *demoJob) SetParam(paramPtr proto.Message) {
+func (e *loginJob) SetParam(paramPtr proto.Message) {
 	e.Job.SetParam(paramPtr)
 }
 
-func (e *demoJob) ParamData() proto.Message {
+func (e *loginJob) ParamData() proto.Message {
 	return e.Job.ParamProto()
 }
 
 // ParamProto proto 类名参数 实例
-func (e *demoJob) ParamProto() proto.Message {
-	return &protomodel.DemoJob{}
+func (e *loginJob) ParamProto() proto.Message {
+	return &protomodel.LoginJob{}
 }
 
 // Handle 执行
-func (e *demoJob) Handle(paramPtr proto.Message) error {
-	demoObj := paramPtr.(*protomodel.DemoJob)
+func (e *loginJob) Handle(paramPtr proto.Message) error {
+	LoginJobObj := paramPtr.(*protomodel.LoginJob)
 	filePath := "G:/go/src/saas/commonApp/storage/logs/file.log"
 	file, err := os.OpenFile(filePath, os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
@@ -54,8 +54,7 @@ func (e *demoJob) Handle(paramPtr proto.Message) error {
 	}
 	defer file.Close()
 	write := bufio.NewWriter(file)
-	_, _ = write.WriteString(demoObj.String() + "\n")
+	_, _ = write.WriteString(LoginJobObj.UserName + "-" + LoginJobObj.Mobile + "\n")
 	_ = write.Flush()
 	return nil
-	//return errors.New("异常")
 }

@@ -1,8 +1,12 @@
 package services
 
 import (
+	"gitee.com/pangxianfei/saas/paas"
 	"gitee.com/pangxianfei/simple"
 	"gitee.com/pangxianfei/simple/sqlcmd"
+	"github.com/kataras/iris/v12"
+	"gorm.io/gorm"
+
 	"tmaic/OrderApp/model"
 )
 
@@ -13,6 +17,10 @@ func newArticleService() *articleService {
 }
 
 type articleService struct{}
+
+func GetPaasDb(ctx iris.Context) *gorm.DB {
+	return paas.DB.Initiation(ctx)
+}
 
 func (s *articleService) Get(id int64) *OrderAppModel.Article {
 	return nil

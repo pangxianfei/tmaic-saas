@@ -1,4 +1,4 @@
-package requests
+package request
 
 import "gitee.com/pangxianfei/library/tmaic"
 

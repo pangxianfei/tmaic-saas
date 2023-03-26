@@ -4,7 +4,8 @@ import (
 	"gitee.com/pangxianfei/framework/http/controller"
 	"gitee.com/pangxianfei/library/response"
 	"gitee.com/pangxianfei/saas/paas"
-	"tmaic/UserApp/http/requests"
+
+	"tmaic/UserApp/http/request"
 )
 
 type UserController struct {
@@ -18,7 +19,7 @@ func (c *UserController) PostInfo() *response.JsonResult {
 
 // PostStore 创建登陆帐号
 func (c *UserController) PostStore() *response.JsonResult {
-	var UserStore requests.UserRequset
+	var UserStore request.UserRequset
 	if newErr, returnData := c.Validation.Json(c.Context, &UserStore, UserStore.Messages()); newErr != nil {
 		return response.JsonError(returnData)
 	}

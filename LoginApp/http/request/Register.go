@@ -1,4 +1,4 @@
-package requests
+package request
 
 // UserRegister 注册验证器
 type UserRegister struct {

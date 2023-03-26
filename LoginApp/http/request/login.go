@@ -1,4 +1,4 @@
-package requests
+package request
 
 // UserLogin 登陆验证器
 type UserLogin struct {

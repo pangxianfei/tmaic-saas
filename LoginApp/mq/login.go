@@ -11,13 +11,11 @@ import (
 var LoginMessage = new(LoginDispatch)
 
 type loginMessage interface {
-	Dispatch(adminInfo *sysmdel.PlatformAdmin)
+	Dispatch(adminInfo *sysmdel.PlatformAdmin) bool
 }
-type LoginDispatch struct {
-}
+type LoginDispatch struct{}
 
-// Dispatch 推送登陆消息队列
-func (l *LoginDispatch) Dispatch(adminInfo *sysmdel.PlatformAdmin) {
+func (l *LoginDispatch) Dispatch(adminInfo *sysmdel.PlatformAdmin) bool {
 
 	LoginJob := jobs.LoginJob
 	LoginJob.SetParam(&protomodel.LoginJob{
@@ -27,6 +25,7 @@ func (l *LoginDispatch) Dispatch(adminInfo *sysmdel.PlatformAdmin) {
 		UserType: adminInfo.UserType,
 	})
 	if jobErr := work.Dispatch(LoginJob); jobErr != nil {
-
+		return false
 	}
+	return true
 }

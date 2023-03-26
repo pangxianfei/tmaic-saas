@@ -5,9 +5,14 @@ import (
 
 	"gitee.com/pangxianfei/framework/cmd"
 	"gitee.com/pangxianfei/framework/cmd/commands/controllers"
+	"gitee.com/pangxianfei/framework/cmd/commands/job"
 	"gitee.com/pangxianfei/framework/cmd/commands/model"
+	"gitee.com/pangxianfei/framework/cmd/commands/modelcache"
+	"gitee.com/pangxianfei/framework/cmd/commands/mq"
+	"gitee.com/pangxianfei/framework/cmd/commands/repository"
 	"gitee.com/pangxianfei/framework/cmd/commands/request"
 	"gitee.com/pangxianfei/framework/cmd/commands/schedule"
+	"gitee.com/pangxianfei/framework/cmd/commands/services"
 	"gitee.com/pangxianfei/framework/console"
 	"gitee.com/pangxianfei/framework/kernel/log"
 	"github.com/urfave/cli"
@@ -25,6 +30,11 @@ func init() {
 	controller.Initialize()
 	model.Initialize()
 	request.Initialize()
+	services.Initialize()
+	repository.Initialize()
+	job.Initialize()
+	mq.Initialize()
+	modelcache.Initialize()
 	migrations.Initialize()
 	commandeer.Initialize()
 	commands.Initialize()

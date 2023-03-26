@@ -3,7 +3,7 @@ SET GOOS=linux
 SET GOARCH=amd64
 
 
-go build -o ./build/tmaicerp ./main.go
+go build -o ./build/erp ./main.go
 go build -o ./build/LoginApp ./LoginApp/main.go
 go build -o ./build/ProductApp ./ProductApp/main.go
 go build -o ./build/UserApp ./UserApp/main.go

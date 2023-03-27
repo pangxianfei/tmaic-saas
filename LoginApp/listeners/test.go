@@ -3,11 +3,10 @@ package listeners
 import (
 	"errors"
 
+	"gitee.com/pangxianfei/framework/facades"
 	"gitee.com/pangxianfei/framework/hub"
 	"gitee.com/pangxianfei/saas/sysmodel"
 	"github.com/golang/protobuf/proto"
-
-	"gitee.com/pangxianfei/framework/kernel/log"
 
 	"tmaic/LoginApp/events"
 	"tmaic/LoginApp/events/protocol_model/listenmodel"
@@ -34,7 +33,7 @@ func (user *Test) Subscribe() (eventPtrList []hub.Eventer) {
 }
 
 func (user *Test) Construct(paramPtr proto.Message) error {
-	log.Info("第一执行这里业务代码 这里通常为 Handle 数据作为准备的工作")
+	facades.Log.Info("第一执行这里业务代码 这里通常为 Handle 数据作为准备的工作")
 	test, status := paramPtr.(*listenmodel.TestEvents)
 	// 出始化 user 数据 handle 直接拿user 数据
 
@@ -48,9 +47,9 @@ func (user *Test) Construct(paramPtr proto.Message) error {
 }
 
 func (user *Test) Handle() error {
-	log.Info("第二执行这里业务代码")
-	log.Info(user.user.Id)
-	log.Info(user.user.UserName)
+	facades.Log.Info("第二执行这里业务代码")
+	facades.Log.Info(user.user.Id)
+	facades.Log.Info(user.user.UserName)
 	//errors.New("处理完成")
 	return nil
 }

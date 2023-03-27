@@ -14,7 +14,7 @@ import (
 	"gitee.com/pangxianfei/framework/cmd/commands/schedule"
 	"gitee.com/pangxianfei/framework/cmd/commands/services"
 	"gitee.com/pangxianfei/framework/console"
-	"gitee.com/pangxianfei/framework/kernel/log"
+	"gitee.com/pangxianfei/framework/facades"
 	"github.com/urfave/cli"
 
 	appschedule "tmaic/app/console"
@@ -70,7 +70,7 @@ func cliServe() {
 		return nil
 	}
 	if err := app.Run(os.Args); err != nil {
-
-		log.Fatal(err.Error())
+		facades.Log.Fatal(err.Error())
+		console.Println(console.CODE_WARNING, err.Error())
 	}
 }

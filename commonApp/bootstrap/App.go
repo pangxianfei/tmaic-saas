@@ -10,6 +10,7 @@ import (
 	UserAppRoute "tmaic/UserApp/routes"
 )
 
+// 登陆中心
 func (s *Saas) LoginApp() error {
 	app := iris.New().SetName("LoginApp")
 	LoginAppRoute.Route(app)
@@ -19,6 +20,7 @@ func (s *Saas) LoginApp() error {
 	return loginErr
 }
 
+// 订单管理系统
 func (s *Saas) OrderApp() error {
 	app := iris.New().SetName("OrderApp")
 	OrderAppRoute.Route(app)
@@ -28,6 +30,7 @@ func (s *Saas) OrderApp() error {
 	return OrderErr
 }
 
+// 人事管理系统
 func (s *Saas) UserApp() error {
 	app := iris.New().SetName("UserApp")
 	UserAppRoute.Route(app)
@@ -36,6 +39,8 @@ func (s *Saas) UserApp() error {
 	_ = app.Build()
 	return UserErr
 }
+
+// 产品管理系统
 func (s *Saas) ProductApp() error {
 	app := iris.New().SetName("ProductApp")
 	ProductRoute.Route(app)

@@ -1,9 +1,10 @@
-package api
+package v1
 
 import (
 	"gitee.com/pangxianfei/framework/http/controller"
 	"gitee.com/pangxianfei/library/response"
 	"gitee.com/pangxianfei/saas/paas"
+
 	"tmaic/UserApp/model"
 )
 

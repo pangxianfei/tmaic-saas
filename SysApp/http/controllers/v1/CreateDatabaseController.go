@@ -1,4 +1,4 @@
-package api
+package v1
 
 import (
 	"gitee.com/pangxianfei/framework/http/controller"
@@ -6,6 +6,7 @@ import (
 	"gitee.com/pangxianfei/library/tmaic"
 	"gitee.com/pangxianfei/saas/paas"
 	"gitee.com/pangxianfei/saas/services"
+
 	"tmaic/SysApp/http/requests"
 )
 

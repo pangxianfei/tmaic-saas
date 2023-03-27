@@ -3,8 +3,9 @@ package bootstrap
 import (
 	"gitee.com/pangxianfei/framework/cache"
 	"gitee.com/pangxianfei/framework/database"
+	"gitee.com/pangxianfei/framework/filesystem"
 	"gitee.com/pangxianfei/framework/kernel/zone"
-	"gitee.com/pangxianfei/framework/logs"
+	"gitee.com/pangxianfei/framework/log"
 	"gitee.com/pangxianfei/framework/queue"
 
 	"tmaic/LoginApp/events"
@@ -16,8 +17,8 @@ import (
 
 func (s *Saas) Initialize() {
 	config.Initialize()
+	log.Initialize()
 	database.Initialize()
-	logs.Initialize()
 	zone.Initialize()
 	lang.Initialize()
 	cache.Initialize()
@@ -25,4 +26,6 @@ func (s *Saas) Initialize() {
 	jobs.Initialize()
 	events.Initialize()
 	listeners.Initialize()
+	filesystem.Initialize()
+
 }

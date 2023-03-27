@@ -1,11 +1,11 @@
-package api
+package v1
 
 import (
+	"gitee.com/pangxianfei/framework/facades"
 	"gitee.com/pangxianfei/framework/http/controller"
 	"gitee.com/pangxianfei/library/response"
 
 	"gitee.com/pangxianfei/framework/hub"
-	"gitee.com/pangxianfei/framework/kernel/log"
 	"gitee.com/pangxianfei/framework/kernel/tmaic"
 	"gitee.com/pangxianfei/framework/work"
 
@@ -20,7 +20,7 @@ type EventsController struct {
 }
 
 // PostInfo 队列
-func (e *EventsController) PostInfo() *response.JsonResult {
+func (c *EventsController) PostInfo() *response.JsonResult {
 
 	test := new(events.TestEvents)
 	test.SetParam(&listenmodel.TestEvents{
@@ -29,7 +29,7 @@ func (e *EventsController) PostInfo() *response.JsonResult {
 	})
 
 	if errs := hub.Emit(test); errs != nil {
-		log.Info("user registered event emit failed", tmaic.V{"event": test, "errors": errs})
+		facades.Log.Info("user registered event emit failed", tmaic.V{"event": test, "errors": errs})
 	}
 
 	jb := jobs.DemoJob

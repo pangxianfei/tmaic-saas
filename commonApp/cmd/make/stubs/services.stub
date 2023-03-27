@@ -1,0 +1,60 @@
+package services
+
+import (
+	"gitee.com/pangxianfei/saas/paas"
+	"gitee.com/pangxianfei/simple"
+	"gitee.com/pangxianfei/simple/sqlcmd"
+	"github.com/kataras/iris/v12"
+	"gorm.io/gorm"
+
+	"tmaic/{{VariablAppName}}/models/{{PackageName}}"
+	"tmaic/{{VariablAppName}}/repositories"
+)
+
+var {{StructName}}Service = new({{PackageName}}Service)
+
+type {{PackageName}}Service struct{}
+
+func GetPaasDb(ctx iris.Context) *gorm.DB {
+	return paas.DB.Initiation(ctx)
+}
+
+func ({{PackageName}} *{{PackageName}}Service) Get(ctx iris.Context, id int64) *{{PackageName}}.{{StructName}} {
+	return repositories.{{StructName}}Repository.Get(GetPaasDb(ctx),id)
+}
+
+func ({{PackageName}} *{{PackageName}}Service) Take(ctx iris.Context, where ...interface{}) *{{PackageName}}.{{StructName}} {
+	return nil
+}
+
+func ({{PackageName}} *{{PackageName}}Service) Find(ctx iris.Context, cnd *sqlcmd.Cnd) []{{PackageName}}.{{StructName}} {
+	return nil
+}
+
+func ({{PackageName}} *{{PackageName}}Service) FindOne(ctx iris.Context, cnd *sqlcmd.Cnd) *{{PackageName}}.{{StructName}} {
+	return nil
+}
+
+func ({{PackageName}} *{{PackageName}}Service) FindPageByParams(ctx iris.Context, params *simple.QueryParams) (list []{{PackageName}}.{{StructName}}, paging *sqlcmd.Paging) {
+	return
+}
+
+func ({{PackageName}} *{{PackageName}}Service) FindPageByCnd(ctx iris.Context, cnd *sqlcmd.Cnd) (list []{{PackageName}}.{{StructName}}, paging *sqlcmd.Paging) {
+	return
+}
+
+func ({{PackageName}} *{{PackageName}}Service) Update(ctx iris.Context, t *{{PackageName}}.{{StructName}}) error {
+	return nil
+}
+
+func ({{PackageName}} *{{PackageName}}Service) Updates(ctx iris.Context, id int64, columns map[string]interface{}) error {
+	return nil
+}
+
+func ({{PackageName}} *{{PackageName}}Service) UpdateColumn(ctx iris.Context, id int64, name string, value interface{}) error {
+	return nil
+}
+
+func ({{PackageName}} *{{PackageName}}Service) Delete(ctx iris.Context, id int64) error {
+	return nil
+}

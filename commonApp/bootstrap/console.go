@@ -9,7 +9,7 @@ import (
 	"gitee.com/pangxianfei/simple"
 	"github.com/kataras/iris/v12"
 
-	SysAppModel "tmaic/SysApp/model"
+	SysAppModel "tmaic/SysApp/models"
 )
 
 func (s *Saas) UserRouteNameList(app *iris.Application, AppName string, Port string, AppId int64) {

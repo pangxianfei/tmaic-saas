@@ -1,0 +1,50 @@
+package jobs
+
+import (
+
+    "gitee.com/pangxianfei/framework/kernel/debug"
+	"gitee.com/pangxianfei/framework/work"
+	"github.com/golang/protobuf/proto"
+
+	"tmaic/{{VariablAppName}}/jobs/proto3/protomodel"
+)
+
+func init() {
+	work.Add(&{{PackageName}}Job{})
+}
+
+var {{StructName}}Job = new({{PackageName}}Job)
+
+type {{PackageName}}Job struct {
+	work.Job
+}
+
+// Retries 失败重启次数
+func (jb *{{PackageName}}Job) Retries() uint32 {
+	return 3
+}
+
+// Name 列队名称  Topics 名
+func (jb *{{PackageName}}Job) Name() string {
+	return "{{PackageName}}"
+}
+
+func (jb *{{PackageName}}Job) SetParam(paramPtr proto.Message) {
+	jb.Job.SetParam(paramPtr)
+}
+
+func (jb *{{PackageName}}Job) ParamData() proto.Message {
+	return jb.Job.ParamProto()
+}
+
+// ParamProto proto 类名参数 实例
+func (jb *{{PackageName}}Job) ParamProto() proto.Message {
+	return &protomodel.{{StructName}}Job{}
+}
+
+// Handle 执行
+func (jb *{{PackageName}}Job) Handle(paramPtr proto.Message) error {
+	{{PackageName}}Obj := paramPtr.(*protomodel.{{StructName}}Job)
+    debug.Dd({{PackageName}}Obj)
+	return nil
+}

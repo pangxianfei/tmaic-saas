@@ -15,10 +15,8 @@ func Route(app *iris.Application) {
 	app.Any("/", func(app iris.Context) {
 		_, _ = app.HTML("<h1>Powered by Tmaic SAAS Framework</h1>")
 	})
-	app.Any("/", func(ctx iris.Context) {
-		ctx.JSON(iris.Map{"code": 200, "status": true})
-	})
-	app.HandleDir("/", "./assets")
+
+	app.HandleDir("/storage", "./commonApp/storage/app")
 }
 
 func NotFound(ctx iris.Context) {

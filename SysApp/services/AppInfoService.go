@@ -2,10 +2,12 @@ package services
 
 import (
 	"errors"
-	"gitee.com/pangxianfei/simple"
 	"time"
+
+	"gitee.com/pangxianfei/simple"
+
 	"tmaic/SysApp/http/requests"
-	"tmaic/SysApp/model"
+	"tmaic/SysApp/models"
 	"tmaic/SysApp/repositories"
 )
 
@@ -15,21 +17,21 @@ type appInfoService struct {
 }
 
 // GetByName 根据用户名查找
-func (s *appInfoService) GetByName(mobile string) *SysAppModel.AppInfo {
+func (s *appInfoService) GetByName(mobile string) *models.AppInfo {
 	return repositories.AppInfoRepository.GetByName(simple.DB(), mobile)
 }
 
-func (s *appInfoService) GetByList() []SysAppModel.AppInfo {
+func (s *appInfoService) GetByList() []models.AppInfo {
 	return repositories.AppInfoRepository.GetByList(simple.DB())
 }
 
-func (s *appInfoService) Create(appInfo requests.AppInfo) (AppInfo *SysAppModel.AppInfo, err error) {
+func (s *appInfoService) Create(appInfo requests.AppInfo) (AppInfo *models.AppInfo, err error) {
 
 	if oldApp := s.GetByName(appInfo.AppName); oldApp != nil {
 		return nil, errors.New("SAAS应用:" + appInfo.AppName + " 已被占用")
 	}
 	//保存至DB
-	newAppInfo := &SysAppModel.AppInfo{
+	newAppInfo := &models.AppInfo{
 		Name:        appInfo.AppName,
 		Key:         appInfo.Key,
 		Description: appInfo.Description,
@@ -44,6 +46,6 @@ func (s *appInfoService) Create(appInfo requests.AppInfo) (AppInfo *SysAppModel.
 	return newAppInfo, nil
 }
 
-func (s *appInfoService) GetByAppCreateList() []SysAppModel.AppInfo {
+func (s *appInfoService) GetByAppCreateList() []models.AppInfo {
 	return repositories.AppInfoRepository.GetByAppCreateList(simple.DB())
 }

@@ -5,20 +5,24 @@ import (
 
 	"gitee.com/pangxianfei/framework/cmd"
 	"gitee.com/pangxianfei/framework/cmd/commands/controllers"
+	"gitee.com/pangxianfei/framework/cmd/commands/job"
 	"gitee.com/pangxianfei/framework/cmd/commands/model"
+	"gitee.com/pangxianfei/framework/cmd/commands/modelcache"
+	"gitee.com/pangxianfei/framework/cmd/commands/mq"
+	"gitee.com/pangxianfei/framework/cmd/commands/repository"
 	"gitee.com/pangxianfei/framework/cmd/commands/request"
 	"gitee.com/pangxianfei/framework/cmd/commands/schedule"
+	"gitee.com/pangxianfei/framework/cmd/commands/services"
 	"gitee.com/pangxianfei/framework/console"
-	"gitee.com/pangxianfei/framework/kernel/log"
+	"gitee.com/pangxianfei/framework/facades"
 	"github.com/urfave/cli"
 
+	appschedule "tmaic/app/console"
 	"tmaic/app/console/commands"
 	"tmaic/commonApp/bootstrap"
 	"tmaic/commonApp/database/migrations"
 
 	commandeer "gitee.com/pangxianfei/framework/cmd/commands/queue"
-
-	appschedule "tmaic/app/console"
 )
 
 func init() {
@@ -26,6 +30,11 @@ func init() {
 	controller.Initialize()
 	model.Initialize()
 	request.Initialize()
+	services.Initialize()
+	repository.Initialize()
+	job.Initialize()
+	mq.Initialize()
+	modelcache.Initialize()
 	migrations.Initialize()
 	commandeer.Initialize()
 	commands.Initialize()
@@ -61,6 +70,7 @@ func cliServe() {
 		return nil
 	}
 	if err := app.Run(os.Args); err != nil {
-		log.Fatal(err.Error())
+		facades.Log.Fatal(err.Error())
+		console.Println(console.CODE_WARNING, err.Error())
 	}
 }

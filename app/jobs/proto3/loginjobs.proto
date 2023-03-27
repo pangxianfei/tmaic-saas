@@ -1,8 +1,0 @@
-syntax = "proto3";
-option go_package = "./protomodel";
-message LoginJob {
-    string UserName = 1;
-    string Mobile = 2;
-    int64 TenantId = 3;
-    int32 UserType = 4;
-}

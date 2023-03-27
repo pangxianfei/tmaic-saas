@@ -21,10 +21,16 @@ func main() {
 	Saas.EnablingScheduledTask()
 	startApplication = make(map[string]func() error)
 	startApplication["SysRun"] = Saas.SysRun
-	startApplication["ProductApp"] = Saas.ProductApp
 	startApplication["LoginApp"] = Saas.LoginApp
 	startApplication["UserApp"] = Saas.UserApp
+	startApplication["ProductApp"] = Saas.ProductApp
 	startApplication["OrderApp"] = Saas.OrderApp
+	startApplication["SrmApp"] = Saas.SrmApp
+	startApplication["FmsApp"] = Saas.FmsApp
+	startApplication["NbomApp"] = Saas.NbomApp
+	startApplication["WmApp"] = Saas.WmApp
+	startApplication["OaApp"] = Saas.OaApp
+	startApplication["SupplierApp"] = Saas.SupplierApp
 	for _, appName := range startApplication {
 		app.Go(appName)
 		delayTime()

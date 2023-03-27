@@ -1,0 +1,29 @@
+package MQ
+
+//import (
+	//"gitee.com/pangxianfei/framework/work"
+
+	//"tmaic/{{VariablAppName}}/jobs"
+	//"tmaic/{{VariablAppName}}/jobs/proto3/protomodel"
+	//"tmaic/{{VariablAppName}}/models"
+//)
+
+var {{StructName}}Message = new({{StructName}}Dispatch)
+
+type {{PackageName}}Message interface {
+	Dispatch() bool
+}
+type {{StructName}}Dispatch struct{}
+
+func (l *{{StructName}}Dispatch) Dispatch() bool {
+
+	//{{StructName}}Job := jobs.{{StructName}}Job
+	//{{StructName}}Job.SetParam(&protomodel.{{StructName}}Job{
+		//UserName: adminInfo.UserName,
+		//Mobile:   adminInfo.Mobile,
+	//})
+	//if jobErr := work.Dispatch({{StructName}}Job); jobErr != nil {
+	//	return false
+	//}
+	return true
+}

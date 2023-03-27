@@ -2,9 +2,11 @@ package buffer
 
 import (
 	"errors"
-	"github.com/goburrow/cache"
 	"time"
-	UserAppModel "tmaic/SysApp/model"
+
+	"github.com/goburrow/cache"
+
+	UserAppModel "tmaic/SysApp/models"
 )
 
 type sysConfigCache struct {

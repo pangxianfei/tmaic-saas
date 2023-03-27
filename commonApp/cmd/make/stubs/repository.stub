@@ -1,0 +1,86 @@
+package repositories
+
+import (
+	"gitee.com/pangxianfei/simple"
+	"gitee.com/pangxianfei/simple/sqlcmd"
+	"gorm.io/gorm"
+
+	"tmaic/{{VariablAppName}}/models/{{PackageName}}"
+)
+
+var PangRepository = new({{StructName}}Dao)
+
+type {{StructName}}Dao struct{}
+
+func (r *{{StructName}}Dao) Get(db *gorm.DB, id int64) *{{PackageName}}.{{StructName}} {
+	ret := &{{PackageName}}.{{StructName}}{}
+	if err := db.First(ret, "id = ?", id).Error; err != nil {
+		return nil
+	}
+	return ret
+}
+
+func (r *{{StructName}}Dao) Take(db *gorm.DB, where ...interface{}) *{{PackageName}}.{{StructName}} {
+	ret := &{{PackageName}}.{{StructName}}{}
+	if err := db.Take(ret, where...).Error; err != nil {
+		return nil
+	}
+	return ret
+}
+
+func (r *{{StructName}}Dao) Find(db *gorm.DB, cnd *sqlcmd.Cnd) (list []{{PackageName}}.{{StructName}}) {
+	cnd.Find(db, &list)
+	return
+}
+
+func (r *{{StructName}}Dao) FindOne(db *gorm.DB, cnd *sqlcmd.Cnd) *{{PackageName}}.{{StructName}} {
+	ret := &{{PackageName}}.{{StructName}}{}
+	if err := cnd.FindOne(db, &ret); err != nil {
+		return nil
+	}
+	return ret
+}
+
+func (r *{{StructName}}Dao) FindPageByParams(db *gorm.DB, params *simple.QueryParams) (list []{{PackageName}}.{{StructName}}, paging *sqlcmd.Paging) {
+	return r.FindPageByCnd(db, &params.SqlCnd)
+}
+
+func (r *{{StructName}}Dao) FindPageByCnd(db *gorm.DB, cnd *sqlcmd.Cnd) (list []{{PackageName}}.{{StructName}}, paging *sqlcmd.Paging) {
+	cnd.Find(db, &list)
+	count := cnd.Count(db, &pang.{{StructName}}{})
+
+	paging = &sqlcmd.Paging{
+		Page:  cnd.Paging.Page,
+		Limit: cnd.Paging.Limit,
+		Total: count,
+	}
+	return
+}
+
+func (r *{{StructName}}Dao) Count(db *gorm.DB, cnd *sqlcmd.Cnd) int64 {
+	return cnd.Count(db, &{{PackageName}}.{{StructName}}{})
+}
+
+func (r *{{StructName}}Dao) Create(db *gorm.DB, t *{{PackageName}}.{{StructName}}) (err error) {
+	err = db.Create(t).Error
+	return
+}
+
+func (r *{{StructName}}Dao) Update(db *gorm.DB, t *{{PackageName}}.{{StructName}}) (err error) {
+	err = db.Save(t).Error
+	return
+}
+
+func (r *{{StructName}}Dao) Updates(db *gorm.DB, id int64, columns map[string]interface{}) (err error) {
+	err = db.Model(&{{PackageName}}.{{StructName}}{}).Where("id = ?", id).Updates(columns).Error
+	return
+}
+
+func (r *{{StructName}}Dao) UpdateColumn(db *gorm.DB, id int64, name string, value interface{}) (err error) {
+	err = db.Model(&{{PackageName}}.{{StructName}}{}).Where("id = ?", id).UpdateColumn(name, value).Error
+	return
+}
+
+func (r *{{StructName}}Dao) Delete(db *gorm.DB, id int64) error{
+	return db.Delete(&{{PackageName}}.{{StructName}}{}, "id = ?", id).Error
+}

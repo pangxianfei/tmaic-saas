@@ -42,6 +42,5 @@ func (c *EventsController) PostInfo() *response.JsonResult {
 	if err := work.Dispatch(jb); err != nil {
 		return response.JsonErrorMsg(err.Error())
 	}
-
 	return response.JsonSuccess()
 }

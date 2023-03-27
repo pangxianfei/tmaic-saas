@@ -14,5 +14,6 @@ func FmsAppApi(app *iris.Application) {
 	auth.Use(middleware.LoginMiddleware(), FmsAppMiddleware.FmsAppMiddleware, middleware.Permissions)
 	mvc.Configure(auth, func(m *mvc.Application) {
 		m.Party("/fms").Handle(new(v1.FmsController))
+		m.Party("/ev").Handle(new(v1.EventsController))
 	})
 }

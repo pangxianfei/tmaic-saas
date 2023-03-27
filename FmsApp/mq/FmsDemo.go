@@ -17,18 +17,14 @@ import (
 
 var FmsDemoMessage = new(FmsDemoDispatch)
 
-type fms_demoMessage interface {
+type fmsDemoMessage interface {
 	Dispatch() bool
 }
 type FmsDemoDispatch struct{}
 
-func (l *FmsDemoDispatch) Dispatch(admininfo *protomodel.FmsDemoJob) bool {
-
+func (l *FmsDemoDispatch) Dispatch() bool {
 	FmsDemoJob := jobs.FmsDemoJob
-	FmsDemoJob.SetParam(&protomodel.FmsDemoJob{
-		UserName: admininfo.UserName,
-		Mobile:   admininfo.Mobile,
-	})
+	FmsDemoJob.SetParam(&protomodel.FmsDemoJob{UserName: "pangxianfei", Mobile: "18688678181"})
 	if jobErr := work.Dispatch(FmsDemoJob); jobErr != nil {
 		return false
 	}

@@ -4,8 +4,9 @@ import (
 	"gitee.com/pangxianfei/simple/strs"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cast"
+
 	"tmaic/SysApp/buffer"
-	UserAppModel "tmaic/SysApp/model"
+	UserAppModel "tmaic/SysApp/models"
 )
 
 var SysConfigService = newSysConfigService()

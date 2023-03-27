@@ -17,12 +17,12 @@ App:
   OrderApp: "OrderApp" #订单系统
   SrmApp: "SrmApp" #采购系统
   PdApp: "PDApp" #生产
-  WmApp: "WMApp" #仓库
+  WmApp: "WmApp" #仓库
   SupplierApp: "SupplierApp" #供应商
   FmsApp: "FmsApp"  #财务
   NbomApp: "NbomApp" #非BOM
   LoginApp: "LoginApp" #非登陆
-  OaPort: "OaApp"     #OA应用
+  OaApp: "OaApp"     #OA应用
 
 AppPort:
   SysAppPort: ":5000"
@@ -33,7 +33,7 @@ AppPort:
   PdPort: ":5005"
   WmPort: ":5006"
   SupplierPort: ":5007"
-  FmsPort: ":5010"
+  FmsPort: ":5010"  #财务
   NbomPort: ":5009"
   LoginPort: ":6000"
   OaPort: ":5021"

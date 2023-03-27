@@ -16,7 +16,7 @@ type AppPermissionController struct {
 func (e *AppPermissionController) PostApplyFor() *response.JsonResult {
 	var ApplyFor requests.ApplyFor
 	if err, retrueData := e.Validation.Json(e.Context, &ApplyFor, ApplyFor.Messages()); err != nil {
-		return response.JsonError(retrueData)
+		return response.JsonDataError(retrueData)
 	}
 	if appErr := services.AppPermissionService.PostApplyFor(e.Context, ApplyFor.AppId); appErr != nil {
 		return response.JsonFailData(appErr.Error())

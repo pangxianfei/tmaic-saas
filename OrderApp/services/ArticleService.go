@@ -7,7 +7,7 @@ import (
 	"github.com/kataras/iris/v12"
 	"gorm.io/gorm"
 
-	"tmaic/OrderApp/model"
+	"tmaic/OrderApp/models"
 )
 
 var ArticleService = newArticleService()
@@ -22,31 +22,31 @@ func GetPaasDb(ctx iris.Context) *gorm.DB {
 	return paas.DB.Initiation(ctx)
 }
 
-func (s *articleService) Get(id int64) *OrderAppModel.Article {
+func (s *articleService) Get(id int64) *models.Article {
 	return nil
 }
 
-func (s *articleService) Take(where ...interface{}) *OrderAppModel.Article {
+func (s *articleService) Take(where ...interface{}) *models.Article {
 	return nil
 }
 
-func (s *articleService) Find(cnd *sqlcmd.Cnd) []OrderAppModel.Article {
+func (s *articleService) Find(cnd *sqlcmd.Cnd) []models.Article {
 	return nil
 }
 
-func (s *articleService) FindOne(cnd *sqlcmd.Cnd) *OrderAppModel.Article {
+func (s *articleService) FindOne(cnd *sqlcmd.Cnd) *models.Article {
 	return nil
 }
 
-func (s *articleService) FindPageByParams(params *simple.QueryParams) (list []OrderAppModel.Article, paging *sqlcmd.Paging) {
+func (s *articleService) FindPageByParams(params *simple.QueryParams) (list []models.Article, paging *sqlcmd.Paging) {
 	return
 }
 
-func (s *articleService) FindPageByCnd(cnd *sqlcmd.Cnd) (list []OrderAppModel.Article, paging *sqlcmd.Paging) {
+func (s *articleService) FindPageByCnd(cnd *sqlcmd.Cnd) (list []models.Article, paging *sqlcmd.Paging) {
 	return
 }
 
-func (s *articleService) Update(t *OrderAppModel.Article) error {
+func (s *articleService) Update(t *models.Article) error {
 	return nil
 }
 

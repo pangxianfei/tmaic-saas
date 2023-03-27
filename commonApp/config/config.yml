@@ -3,7 +3,7 @@ APP_NAME: "tmaic"
 APP_KEY: "p310544c037bb1026E4rnLJmpPmJ5f5SP46WXDk3ff17a71407b91747c2jHeeBe7"
 APP_ENV: "local"
 APP_LOCALE: "zh"
-APP_URL: "http://192.168.0.199:8080"
+APP_URL: "http://192.168.0.199:6000"
 LOGFILE: "./commonApp/storage/logs/sql.log"
 
 AUTH_SIGN_KEY: "8rWZika5Ekes9Eel65ksf6E4rnLJmpPmJ5f5SP46W"

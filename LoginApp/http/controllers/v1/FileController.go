@@ -1,9 +1,10 @@
 package v1
 
 import (
+	"time"
+
 	"gitee.com/pangxianfei/framework/facades"
 	"gitee.com/pangxianfei/framework/http/controller"
-	"gitee.com/pangxianfei/framework/kernel/debug"
 	"gitee.com/pangxianfei/library/response"
 )
 
@@ -19,13 +20,13 @@ func (c *FileController) PostCreate() *response.JsonResult {
 		return response.JsonErrorMsg(err.Error())
 	}
 
-	name := newFile.GetClientOriginalName()
-	extension := newFile.GetClientOriginalExtension()
-	debug.Dd(name)
-	debug.Dd(extension)
-	HashName := newFile.HashName()
-	debug.Dd(HashName)
-	AA, _ := facades.Storage.PutFile("pang", newFile)
-	facades.Log.Info(HashName)
-	return response.JsonCreateData(AA)
+	file, _ := facades.Storage.PutFile("pang", newFile)
+
+	url, loadErr := facades.Storage.TemporaryUrl(
+		file, time.Now().Add(20*time.Second),
+	)
+	if loadErr != nil {
+		return response.JsonError(loadErr)
+	}
+	return response.JsonCreateData(url)
 }

@@ -21,7 +21,7 @@ func (c *UserController) PostInfo() *response.JsonResult {
 func (c *UserController) PostStore() *response.JsonResult {
 	var UserStore request.UserRequset
 	if newErr, returnData := c.Validation.Json(c.Context, &UserStore, UserStore.Messages()); newErr != nil {
-		return response.JsonError(returnData)
+		return response.JsonDataError(returnData)
 	}
 	if _, createErr := paas.Instance.CreateLoginAccount(c.Context, UserStore.UserName, UserStore.Mobile, UserStore.Password); createErr != nil {
 		return response.JsonErrorMsg(createErr.Error())

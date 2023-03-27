@@ -3,6 +3,7 @@ package main
 import (
 	"runtime"
 
+	"gitee.com/pangxianfei/framework/facades"
 	"gitee.com/pangxianfei/framework/kernel/debug"
 	"golang.org/x/sync/errgroup"
 
@@ -19,5 +20,6 @@ func main() {
 	app.Go(Saas.OrderApp)
 	if err := app.Wait(); err != nil {
 		debug.Dd(err.Error())
+		facades.Log.Info(err.Error())
 	}
 }

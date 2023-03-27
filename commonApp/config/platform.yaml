@@ -1,0 +1,118 @@
+#平台配置
+AppName: "tmaic"
+AppLocale: "zh"
+Env: dev # 环境，线上环境：prod、测试环境：dev
+BaseUrl: https://www.**.com # 网站域名
+Port: 9999 # 端口
+LogFile: ./storage/logs/tmaic.log # 日志文件
+ShowSql: true # 是否打印sql
+StaticPath: ./public  # 根路径下的静态文件目录，可配置绝对路径
+TenantLog: true  # 是否显示控制台日志
+TenantDb: true  # 是否显示租户DB控制台日志
+
+App:
+  SysApp: "SysApp" #平台管理中心
+  UserApp: "UseApp" #用户系统
+  ProductApp: "ProductApp" #产品BOM
+  OrderApp: "OrderApp" #订单系统
+  SrmApp: "SrmApp" #采购系统
+  PdApp: "PDApp" #生产
+  WmApp: "WMApp" #仓库
+  SupplierApp: "SupplierApp" #供应商
+  FmsApp: "FmsApp"  #财务
+  NbomApp: "NbomApp" #非BOM
+  LoginApp: "LoginApp" #非登陆
+  OaPort: "OaApp"     #OA应用
+
+AppPort:
+  SysAppPort: ":5000"
+  UserPort: ":5001"
+  ProductPort: ":5002"
+  OrderPort: ":5003"
+  SrmPort: ":5020"
+  PdPort: ":5005"
+  WmPort: ":5006"
+  SupplierPort: ":5007"
+  FmsPort: ":5010"
+  NbomPort: ":5009"
+  LoginPort: ":6000"
+  OaPort: ":5021"
+AppNo:
+  Sys: 1
+  User: 2
+  Product: 4
+  Order: 3
+  Srm: 8
+  Pd: 5
+  Wd: 6
+  Supplier: 7
+  Fms: 10
+  Nbom: 9
+  Login: 1000001
+  Oa: 11
+
+DatabaseType:
+  UseDbType: "mysql"
+
+# 数据库连接
+DB:
+  Dns: "tmaicgo:HxxRE4efBxWbNNxy@tcp(localhost:3306)/tmaicgo?charset=utf8mb4&parseTime=True&loc=Local"
+  Host: "127.0.0.1"
+  DbPort: 3306
+  DbName: "tmaicgo"
+  UserName: "tmaicgo"
+  Password: "HxxRE4efBxWbNNxy"
+  Prefix: "tmaic_"
+  Charset: "utf8mb4"
+  MaxIdleConns: 20
+  MaxOpenConns: 100
+
+MSSQLDB:
+  Sqlserver : "server=127.0.0.1;user id=sa;password=Pang2100*;port=1433;database=tmaicgo;encrypt=disable"
+  Host: "127.0.0.1"
+  DbPort: 1433
+  DbName: "tmaicgo"
+  UserName: "sa"
+  Password: "Pang2100*"
+  Prefix: "tmaic_"
+  SetMaxIdleConns: 10
+  SetMaxOpenConns: 128
+  SetConnMaxLifetime: 60
+DbLogFile:
+  LogFile: "./storage/logs/psql.log"
+
+# 上传配置
+Uploader:
+  # 启用上传方式
+  Enable: Oss
+  # 阿里云oss配置
+  AliyunOss:
+    Host: https://cdnimage.desxt.com
+    Bucket: desxt-store
+    Endpoint: oss-cn-shenzhen-internal.aliyuncs.com
+    AccessId: LTAI5t7YBubZL9xGk2mBYfLi
+    AccessSecret: ZFNtrBbH9kXC1kGK5IrfVexhATNDkc
+    StyleSplitter: 阿里云oss图片样式分隔符
+    StyleAvatar: 头像图片样式名称
+    StylePreview: 预览图片样式名称
+    StyleSmall: 小图样式名称
+    StyleDetail: 详情图片样式名称
+  # 本地文件上传
+  Local:
+    Host: https://127.0.0.1/ # 上传文件域名
+    Path: /public/upload # 上传目录
+# 邮件服务器配置，用于邮件通知
+Smtp:
+  Host: smtp.qq.com
+  Port: 25
+  Username:
+  Password:
+  SSL: true
+# 百度ai配置，用于自动分析文章摘要、标签
+BaiduAi:
+  ApiKey:
+  SecretKey:
+# es 配置
+Es:
+  Url: http://127.0.0.1:9200
+  Index: tmaic_topic_1

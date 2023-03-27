@@ -7,14 +7,6 @@ import (
 	"tmaic/FmsApp/jobs/proto3/protomodel"
 )
 
-//import (
-//"gitee.com/pangxianfei/framework/work"
-
-//"tmaic/FmsApp/jobs"
-//"tmaic/FmsApp/jobs/proto3/protomodel"
-//"tmaic/FmsApp/models"
-//)
-
 var FmsDemoMessage = new(FmsDemoDispatch)
 
 type fmsDemoMessage interface {

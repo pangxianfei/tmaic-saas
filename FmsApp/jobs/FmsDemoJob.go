@@ -9,41 +9,41 @@ import (
 )
 
 func init() {
-	work.Add(&fms_demoJob{})
+	work.Add(&fmsDemoJob{})
 }
 
-var FmsDemoJob = new(fms_demoJob)
+var FmsDemoJob = new(fmsDemoJob)
 
-type fms_demoJob struct {
+type fmsDemoJob struct {
 	work.Job
 }
 
 // Retries 失败重启次数
-func (jb *fms_demoJob) Retries() uint32 {
+func (jb *fmsDemoJob) Retries() uint32 {
 	return 3
 }
 
 // Name 列队名称  Topics 名
-func (jb *fms_demoJob) Name() string {
-	return "fms_demo"
+func (jb *fmsDemoJob) Name() string {
+	return "fmsdemo"
 }
 
-func (jb *fms_demoJob) SetParam(paramPtr proto.Message) {
+func (jb *fmsDemoJob) SetParam(paramPtr proto.Message) {
 	jb.Job.SetParam(paramPtr)
 }
 
-func (jb *fms_demoJob) ParamData() proto.Message {
+func (jb *fmsDemoJob) ParamData() proto.Message {
 	return jb.Job.ParamProto()
 }
 
 // ParamProto proto 类名参数 实例
-func (jb *fms_demoJob) ParamProto() proto.Message {
+func (jb *fmsDemoJob) ParamProto() proto.Message {
 	return &protomodel.FmsDemoJob{}
 }
 
 // Handle 执行
-func (jb *fms_demoJob) Handle(paramPtr proto.Message) error {
-	fms_demoObj := paramPtr.(*protomodel.FmsDemoJob)
-	debug.Dd(fms_demoObj)
+func (jb *fmsDemoJob) Handle(paramPtr proto.Message) error {
+	fmsDemoJobObj := paramPtr.(*protomodel.FmsDemoJob)
+	debug.Dd(fmsDemoJobObj)
 	return nil
 }

@@ -30,6 +30,7 @@ func main() {
 	startApplication["NbomApp"] = Saas.NbomApp
 	startApplication["WmApp"] = Saas.WmApp
 	startApplication["OaApp"] = Saas.OaApp
+	startApplication["PdApp"] = Saas.PdApp
 	startApplication["SupplierApp"] = Saas.SupplierApp
 	for _, appName := range startApplication {
 		app.Go(appName)

@@ -16,7 +16,7 @@ App:
   ProductApp: "ProductApp" #产品BOM
   OrderApp: "OrderApp" #订单系统
   SrmApp: "SrmApp" #采购系统
-  PdApp: "PDApp" #生产
+  PdApp: "PdApp" #生产
   WmApp: "WmApp" #仓库
   SupplierApp: "SupplierApp" #供应商
   FmsApp: "FmsApp"  #财务

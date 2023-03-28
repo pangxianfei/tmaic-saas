@@ -28,5 +28,5 @@ func (c *FileController) PostCreate() *response.JsonResult {
 	if loadErr != nil {
 		return response.JsonError(loadErr)
 	}
-	return response.JsonCreateData(url)
+	return response.JsonCreateSucces(url)
 }

@@ -18,7 +18,7 @@ func (c *PdController) PostInfo() *response.JsonResult {
 // PostStore 创建
 func (c *PdController) PostStore() *response.JsonResult {
 
-	return response.JsonCreateData("")
+	return response.JsonCreateSucces("")
 }
 
 // PostEdit 修改用户资料

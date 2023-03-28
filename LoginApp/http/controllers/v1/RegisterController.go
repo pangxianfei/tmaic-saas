@@ -60,5 +60,5 @@ func (c *RegisterController) PostRegisterTest() *response.JsonResult {
 	if cErr := paas.Instance.CreateDatabaseUserName(UserRegister, createUser); cErr != nil {
 		return response.JsonErrorMsg(cErr.Error())
 	}
-	return response.JsonCreateData(createUser)
+	return response.JsonCreateSucces(createUser)
 }

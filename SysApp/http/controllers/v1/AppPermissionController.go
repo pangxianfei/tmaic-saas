@@ -19,7 +19,7 @@ func (e *AppPermissionController) PostApplyFor() *response.JsonResult {
 		return response.JsonDataError(retrueData)
 	}
 	if appErr := services.AppPermissionService.PostApplyFor(e.Context, ApplyFor.AppId); appErr != nil {
-		return response.JsonFailData(appErr.Error())
+		return response.JsonFail(appErr.Error())
 	}
 	return response.JsonQueryData("应用授权成功")
 }

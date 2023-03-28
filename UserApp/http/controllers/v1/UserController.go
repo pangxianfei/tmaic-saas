@@ -6,6 +6,7 @@ import (
 	"gitee.com/pangxianfei/saas/paas"
 
 	"tmaic/UserApp/http/request"
+	"tmaic/UserApp/services"
 )
 
 type UserController struct {
@@ -26,7 +27,7 @@ func (c *UserController) PostStore() *response.JsonResult {
 	if _, createErr := paas.Instance.CreateLoginAccount(c.Context, UserStore.UserName, UserStore.Mobile, UserStore.Password); createErr != nil {
 		return response.JsonErrorMsg(createErr.Error())
 	}
-	return response.JsonCreateData("")
+	return response.JsonCreateSucces("")
 }
 
 // PostEditBy 修改用户资料
@@ -41,11 +42,32 @@ func (c *UserController) PostSetUsername() *response.JsonResult {
 
 // PostSetEmail 设置邮箱
 func (c *UserController) PostSetEmail() *response.JsonResult {
-
 	return response.JsonSuccess()
 }
 
 // PostUpdatePassword 修改密码
 func (c *UserController) PostUpdatePassword() *response.JsonResult {
-	return nil
+	var UpdatePassword request.UpdatePasswordRequest
+	if err, returnData := c.Validation.Json(c.Context, &UpdatePassword, UpdatePassword.Messages()); err != nil {
+		return response.JsonFail(returnData)
+	}
+	if updateErr := services.PlatformAdminService.UpdateAdminPassword(c.Context, UpdatePassword); updateErr != nil {
+		return response.JsonFail(updateErr.Error())
+	}
+	return response.JsonUpdateSuccess("密码更新成功")
+}
+
+// PostUpdateStatus 启用或者禁用登陆帐号
+func (c *UserController) PostUpdateStatus() *response.JsonResult {
+	var UserStatusRequset request.UserStatusRequset
+
+	if err, returnData := c.Validation.Json(c.Context, &UserStatusRequset, UserStatusRequset.Messages()); err != nil {
+		return response.JsonFail(returnData)
+	}
+
+	if updateErr := services.PlatformAdminService.PostUpdateStatus(c.Context, UserStatusRequset); updateErr != nil {
+		return response.JsonFail(updateErr.Error())
+	}
+
+	return response.JsonUpdateSuccess("")
 }

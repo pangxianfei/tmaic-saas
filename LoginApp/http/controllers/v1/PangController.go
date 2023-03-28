@@ -18,7 +18,7 @@ func (pang *PangsController) PostShow() *response.JsonResult {
 }
 
 func (pang *PangsController) PostStore() *response.JsonResult {
-	return response.JsonUpdateData("创建成功")
+	return response.JsonUpdateSuccess("创建成功")
 }
 
 func (pang *PangsController) PostUpdate() *response.JsonResult {

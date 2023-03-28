@@ -18,11 +18,11 @@ func ({{VariableName}} *{{StructNamePlural}}Controller) PostShow() *response.Jso
 }
 
 func ({{VariableName}} *{{StructNamePlural}}Controller) PostStore() *response.JsonResult{
-     return response.JsonUpdateData("创建成功")
+     return response.JsonUpdateSuccess("创建成功")
 }
 
 func ({{VariableName}} *{{StructNamePlural}}Controller) PostUpdate() *response.JsonResult{
-    return response.JsonDeleteFail("更新失败，请稍后尝试~")
+    return response.JsonUpdateFail("更新失败，请稍后尝试~")
 }
 
 func ({{VariableName}} *{{StructNamePlural}}Controller) PostDelete() *response.JsonResult{

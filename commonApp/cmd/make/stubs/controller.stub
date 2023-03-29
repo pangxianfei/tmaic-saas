@@ -9,22 +9,22 @@ type {{StructNamePlural}}Controller struct {
     controller.BaseController
 }
 
-func ({{VariableName}} *{{StructNamePlural}}Controller) PostIndex() *response.JsonResult{
+func (this *{{StructNamePlural}}Controller) PostIndex() *response.JsonResult{
    return response.JsonQueryData("查询成功")
 }
 
-func ({{VariableName}} *{{StructNamePlural}}Controller) PostShow() *response.JsonResult{
+func this *{{StructNamePlural}}Controller) PostShow() *response.JsonResult{
     return response.JsonQueryData("查询成功")
 }
 
-func ({{VariableName}} *{{StructNamePlural}}Controller) PostStore() *response.JsonResult{
+func (this *{{StructNamePlural}}Controller) PostStore() *response.JsonResult{
      return response.JsonUpdateSuccess("创建成功")
 }
 
-func ({{VariableName}} *{{StructNamePlural}}Controller) PostUpdate() *response.JsonResult{
+func (this *{{StructNamePlural}}Controller) PostUpdate() *response.JsonResult{
     return response.JsonUpdateFail("更新失败，请稍后尝试~")
 }
 
-func ({{VariableName}} *{{StructNamePlural}}Controller) PostDelete() *response.JsonResult{
+func (this *{{StructNamePlural}}Controller) PostDelete() *response.JsonResult{
     return response.JsonDeleteFail("删除失败，请稍后尝试~")
 }

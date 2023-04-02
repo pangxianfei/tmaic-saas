@@ -8,7 +8,7 @@ LogFile: ./storage/logs/tmaic.log # 日志文件
 ShowSql: true # 是否打印sql
 StaticPath: ./public  # 根路径下的静态文件目录，可配置绝对路径
 TenantLog: true  # 是否显示控制台日志
-TenantDb: true  # 是否显示租户DB控制台日志
+TenantDb: false  # 是否显示租户DB控制台日志
 
 App:
   SysApp: "SysApp" #平台管理中心

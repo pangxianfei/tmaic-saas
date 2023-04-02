@@ -7,7 +7,7 @@ import (
 	"gitee.com/pangxianfei/saas/paas"
 	"gitee.com/pangxianfei/saas/requests"
 
-	MQ "tmaic/LoginApp/mq"
+	"tmaic/LoginApp/mq"
 )
 
 type LoginController struct {

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"gitee.com/pangxianfei/framework/work"
+	"gitee.com/pangxianfei/framework/queue/work"
 	"github.com/golang/protobuf/proto"
 
 	"tmaic/LoginApp/jobs/proto3/protomodel"

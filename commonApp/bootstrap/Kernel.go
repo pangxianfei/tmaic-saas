@@ -6,7 +6,7 @@ import (
 	"gitee.com/pangxianfei/framework/filesystem"
 	"gitee.com/pangxianfei/framework/kernel/zone"
 	"gitee.com/pangxianfei/framework/log"
-	"gitee.com/pangxianfei/framework/queue"
+	"gitee.com/pangxianfei/framework/queue/producerconsumer"
 
 	"tmaic/LoginApp/events"
 	"tmaic/LoginApp/jobs"
@@ -22,7 +22,7 @@ func (s *Saas) Initialize() {
 	zone.Initialize()
 	lang.Initialize()
 	cache.Initialize()
-	queue.Initialize()
+	producerconsumer.Initialize()
 	jobs.Initialize()
 	events.Initialize()
 	listeners.Initialize()

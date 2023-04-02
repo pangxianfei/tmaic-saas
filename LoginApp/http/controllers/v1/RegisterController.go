@@ -12,15 +12,15 @@ type RegisterController struct {
 }
 
 // PostRegister 注册租户及用户帐号
-func (c *RegisterController) PostRegister() *response.JsonResult {
+func (this *RegisterController) PostRegister() *response.JsonResult {
 	var UserRegister requests.UserRegister
-	if err := c.Context.ReadJSON(&UserRegister); err != nil {
-		return response.JsonErrorMsg(err.Error())
+	if err := this.Context.ReadJSON(&UserRegister); err != nil {
+		return this.JsonErrorMsg(err.Error())
 	}
 	//保存租户信息
-	tenantsInfo, err := paas.Tenant.Add(c.Context, UserRegister)
+	tenantsInfo, err := paas.Tenant.Add(this.Context, UserRegister)
 	if err != nil {
-		return response.JsonErrorMsg(err.Error())
+		return this.JsonErrorMsg(err.Error())
 	}
 	//创建登陆管理员账号、密码
 	createUser, CreateUserErr := paas.Instance.CreateUser(UserRegister, tenantsInfo)
@@ -41,24 +41,24 @@ func (c *RegisterController) PostRegister() *response.JsonResult {
 	}
 	return response.JsonData(appInstance)
 }
-func (c *RegisterController) PostRegisterTest() *response.JsonResult {
+func (this *RegisterController) PostRegisterTest() *response.JsonResult {
 	var UserRegister requests.UserRegister
-	if err := c.Context.ReadJSON(&UserRegister); err != nil {
+	if err := this.Context.ReadJSON(&UserRegister); err != nil {
 		return response.JsonErrorMsg(err.Error())
 	}
 	//保存租户信息
-	tenantsInfo, err := paas.Tenant.Add(c.Context, UserRegister)
+	tenantsInfo, err := paas.Tenant.Add(this.Context, UserRegister)
 	if err != nil {
-		return response.JsonErrorMsg(err.Error())
+		return this.JsonErrorMsg(err.Error())
 	}
 	//创建登陆管理员账号、密码
 	createUser, CreateUserErr := paas.Instance.CreateUser(UserRegister, tenantsInfo)
 	if CreateUserErr != nil {
-		return response.JsonErrorMsg(CreateUserErr.Error())
+		return this.JsonErrorMsg(CreateUserErr.Error())
 	}
 	//创建租户数据库账号、密码
 	if cErr := paas.Instance.CreateDatabaseUserName(UserRegister, createUser); cErr != nil {
-		return response.JsonErrorMsg(cErr.Error())
+		return this.JsonErrorMsg(cErr.Error())
 	}
-	return response.JsonCreateSucces(createUser)
+	return this.JsonCreateSucces(createUser)
 }

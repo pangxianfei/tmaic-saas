@@ -1,7 +1,7 @@
 package MQ
 
 import (
-	"gitee.com/pangxianfei/framework/work"
+	"gitee.com/pangxianfei/framework/queue/work"
 	"gitee.com/pangxianfei/saas/sysmodel"
 
 	"tmaic/LoginApp/jobs"

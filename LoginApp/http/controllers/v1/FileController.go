@@ -12,12 +12,12 @@ type FileController struct {
 	controller.BaseController
 }
 
-func (c *FileController) PostCreate() *response.JsonResult {
+func (this *FileController) PostCreate() *response.JsonResult {
 
-	newFile, err := c.File("avatar")
+	newFile, err := this.File("avatar")
 
 	if err != nil {
-		return response.JsonErrorMsg(err.Error())
+		return this.JsonErrorMsg(err.Error())
 	}
 
 	file, _ := facades.Storage.PutFile("pang", newFile)
@@ -26,7 +26,7 @@ func (c *FileController) PostCreate() *response.JsonResult {
 		file, time.Now().Add(20*time.Second),
 	)
 	if loadErr != nil {
-		return response.JsonError(loadErr)
+		return this.JsonError(loadErr)
 	}
-	return response.JsonCreateSucces(url)
+	return this.JsonCreateSucces(url)
 }

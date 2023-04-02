@@ -2,7 +2,7 @@ package jobs
 
 import (
 	"gitee.com/pangxianfei/framework/kernel/debug"
-	"gitee.com/pangxianfei/framework/work"
+	"gitee.com/pangxianfei/framework/queue/work"
 	"github.com/golang/protobuf/proto"
 
 	"tmaic/FmsApp/jobs/proto3/protomodel"

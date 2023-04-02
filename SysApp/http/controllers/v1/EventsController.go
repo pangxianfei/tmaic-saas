@@ -5,9 +5,9 @@ import (
 	"gitee.com/pangxianfei/framework/http/controller"
 	"gitee.com/pangxianfei/library/response"
 
-	"gitee.com/pangxianfei/framework/hub"
-	"gitee.com/pangxianfei/framework/kernel/tmaic"
-	"gitee.com/pangxianfei/framework/work"
+	"gitee.com/pangxianfei/framework/queue/hub"
+	"gitee.com/pangxianfei/framework/queue/work"
+	"gitee.com/pangxianfei/library/tmaic"
 
 	"tmaic/LoginApp/events"
 	"tmaic/LoginApp/events/protocol_model/listenmodel"
@@ -42,6 +42,5 @@ func (c *EventsController) PostInfo() *response.JsonResult {
 	if err := work.Dispatch(jb); err != nil {
 		return response.JsonErrorMsg(err.Error())
 	}
-
 	return response.JsonSuccess()
 }

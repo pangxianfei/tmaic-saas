@@ -68,5 +68,5 @@ func (e *RoleController) PostRemove() *response.JsonResult {
 	if roleErr != nil {
 		return response.JsonErrorMsg(roleErr.Error())
 	}
-	return response.JsonDeleteData(RemoveRolePermission)
+	return response.JsonDeleteSuccess(RemoveRolePermission)
 }

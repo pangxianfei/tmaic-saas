@@ -6,7 +6,7 @@ type UserRequset struct {
 	UserName   string `validate:"required" json:"UserName"`           // 用户名
 	Mobile     string `validate:"required" json:"Mobile"`             // 手机
 	Password   string `validate:"required,min=8" json:"Password"`     // 密码
-	RePassword string `validate:"eqfield=Password" json:"RePassword"` // 重复密码
+	RePassword string `validate:"eqfield=Password" json:"RePassword"` // 密码
 }
 
 func (r *UserRequset) Messages() map[string][]string {

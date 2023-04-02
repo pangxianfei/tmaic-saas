@@ -1,7 +1,7 @@
 package events
 
 import (
-	"gitee.com/pangxianfei/framework/hub"
+	"gitee.com/pangxianfei/framework/queue/hub"
 	"github.com/golang/protobuf/proto"
 
 	"tmaic/LoginApp/events/protocol_model/listenmodel"

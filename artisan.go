@@ -47,14 +47,14 @@ func main() {
 }
 
 func cliServe() {
-	app := cli.NewApp()
-	app.Name = "artisan"
-	app.Usage = "让我们像工匠一样工作"
-	app.Version = "1.1.5"
-	app.Commands = cmd.List()
-	app.Action = func(c *cli.Context) error {
+	artisan := cli.NewApp()
+	artisan.Name = "artisan"
+	artisan.Usage = "让我们像工匠一样工作"
+	artisan.Version = "1.1.5"
+	artisan.Commands = cmd.List()
+	artisan.Action = func(c *cli.Context) error {
 		console.Println(console.CODE_SUCCESS, "commands:")
-		for _, cate := range app.Categories() {
+		for _, cate := range artisan.Categories() {
 			categoryName := cate.Name
 			if categoryName == "" {
 				categoryName = "kernel"
@@ -69,7 +69,7 @@ func cliServe() {
 		}
 		return nil
 	}
-	if err := app.Run(os.Args); err != nil {
+	if err := artisan.Run(os.Args); err != nil {
 		facades.Log.Fatal(err.Error())
 		console.Println(console.CODE_WARNING, err.Error())
 	}

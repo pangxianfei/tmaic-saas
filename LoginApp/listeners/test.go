@@ -4,7 +4,7 @@ import (
 	"errors"
 
 	"gitee.com/pangxianfei/framework/facades"
-	"gitee.com/pangxianfei/framework/hub"
+	"gitee.com/pangxianfei/framework/queue/hub"
 	"gitee.com/pangxianfei/saas/sysmodel"
 	"github.com/golang/protobuf/proto"
 

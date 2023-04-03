@@ -15,57 +15,59 @@ import (
 func (s *Saas) UserRouteNameList(app *iris.Application, AppName string, Port string, AppId int64) {
 	routeList := app.GetRoutes()
 	var index int = 1
-	db := simple.DB()
+	//db := simple.DB()
 	for _, value := range routeList {
 		if strings.Contains(value.MainHandlerName, "tmaic") || strings.Contains(value.MainHandlerName, "iris") {
 			continue
 		}
 		if value.Method == "POST" || value.Method == "GET" {
-			var RouteNameMd5Value string
-			RouteNameMd5ValueFile := fmt.Sprintf("%s", value.Name)
-			RouteNameMd5Value = simple.MD5(RouteNameMd5ValueFile)
-			if value.Name == "" {
-				RouteNameMd5Value = ""
-			}
-			AuthorityMain := sysmdel.Authority{
-
-				Description:       value.Description,
-				Pid:               0,
-				AppId:             AppId,
-				SourceFileName:    value.SourceFileName,
-				RouteName:         value.Name,
-				RouteNameMd5Value: RouteNameMd5Value,
-			}
-			db.Model(&sysmdel.Authority{}).FirstOrCreate(&AuthorityMain, sysmdel.Authority{Description: value.Description, Pid: 0, SourceFileName: value.SourceFileName})
-			var Authority sysmdel.Authority
-			var isAuthority sysmdel.Authority
-			db.Where(&sysmdel.Authority{Description: value.Description}).First(&Authority)
-			if Authority.Id > 0 {
-				Md5ValueFile := fmt.Sprintf("%s_%s", value.MainHandlerName, value.RegisterFileName)
-				Md5Value := simple.MD5(Md5ValueFile)
-				db.Where("pid > ? and md5_value = ?", 0, simple.MD5(Md5Value)).Find(&isAuthority)
-
-				if isAuthority.Id <= 0 {
-					createAuthority := &sysmdel.Authority{
-						Pid:               Authority.Id,
-						AppId:             AppId,
-						Name:              value.MainHandlerName, //simple.Split(value.MainHandlerName, "."),
-						Description:       value.Description,
-						RegisterFileName:  value.RegisterFileName,
-						MainHandlerName:   value.MainHandlerName,
-						Method:            value.Method,
-						FormattedPath:     value.FormattedPath,
-						StaticPath:        value.StaticPath(),
-						Path:              value.Path,
-						SourceFileName:    value.SourceFileName,
-						RouteName:         value.Name,
-						RouteNameMd5Value: RouteNameMd5Value,
-						Status:            1,
-						Md5Value:          simple.MD5(Md5Value),
-					}
-					db.Create(createAuthority)
+			/*
+				var RouteNameMd5Value string
+				RouteNameMd5ValueFile := fmt.Sprintf("%s", value.Name)
+				RouteNameMd5Value = simple.MD5(RouteNameMd5ValueFile)
+				if value.Name == "" {
+					RouteNameMd5Value = ""
 				}
-			}
+				AuthorityMain := sysmdel.Authority{
+					Description:       value.Description,
+					Pid:               0,
+					AppId:             AppId,
+					SourceFileName:    value.SourceFileName,
+					RouteName:         value.Name,
+					RouteNameMd5Value: RouteNameMd5Value,
+				}
+				db.Model(&sysmdel.Authority{}).FirstOrCreate(&AuthorityMain, sysmdel.Authority{Description: value.Description, Pid: 0, SourceFileName: value.SourceFileName})
+				var Authority sysmdel.Authority
+				var isAuthority sysmdel.Authority
+				db.Where(&sysmdel.Authority{Description: value.Description}).First(&Authority)
+				if Authority.Id > 0 {
+					Md5ValueFile := fmt.Sprintf("%s_%s", value.MainHandlerName, value.RegisterFileName)
+					Md5Value := simple.MD5(Md5ValueFile)
+					db.Where("pid > ? and md5_value = ?", 0, simple.MD5(Md5Value)).Find(&isAuthority)
+
+					if isAuthority.Id <= 0 {
+						createAuthority := &sysmdel.Authority{
+							Pid:               Authority.Id,
+							AppId:             AppId,
+							Name:              value.MainHandlerName, //simple.Split(value.MainHandlerName, "."),
+							Description:       value.Description,
+							RegisterFileName:  value.RegisterFileName,
+							MainHandlerName:   value.MainHandlerName,
+							Method:            value.Method,
+							FormattedPath:     value.FormattedPath,
+							StaticPath:        value.StaticPath(),
+							Path:              value.Path,
+							SourceFileName:    value.SourceFileName,
+							RouteName:         value.Name,
+							RouteNameMd5Value: RouteNameMd5Value,
+							Status:            1,
+							Md5Value:          simple.MD5(Md5Value),
+						}
+						db.Create(createAuthority)
+					}
+				}
+			*/
+
 			consoleSTR := ""
 			consoleSTR = consoleSTR + console.Sprintf(console.CODE_SUCCESS, "%-4d", index)
 			consoleSTR = consoleSTR + console.Sprintf(console.CODE_SUCCESS, "%-70s", value.MainHandlerName)

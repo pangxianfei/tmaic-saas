@@ -40,16 +40,16 @@ AppPort:
 AppNo:
   Sys: 1
   User: 2
-  Product: 4
   Order: 3
-  Srm: 8
+  Product: 4
   Pd: 5
-  Wd: 6
+  Wm: 6
   Supplier: 7
+  Srm: 8
+  Nbom: 11
   Fms: 10
-  Nbom: 9
   Login: 1000001
-  Oa: 11
+  Oa: 9
 
 DatabaseType:
   UseDbType: "mysql"

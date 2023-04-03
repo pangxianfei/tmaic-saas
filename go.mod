@@ -3,15 +3,16 @@ module tmaic
 go 1.20
 
 require (
-	gitee.com/pangxianfei/framework v1.0.34
-	gitee.com/pangxianfei/library v1.0.9
-	gitee.com/pangxianfei/saas v1.0.5
-	gitee.com/pangxianfei/simple v1.0.11
+	gitee.com/pangxianfei/framework v1.1.1
+	gitee.com/pangxianfei/library v1.0.10
+	gitee.com/pangxianfei/saas v1.0.6
+	gitee.com/pangxianfei/simple v1.0.12
 	github.com/go-playground/validator/v10 v10.12.0
 	github.com/goburrow/cache v0.1.4
 	github.com/golang/protobuf v1.5.3
 	github.com/iris-contrib/middleware/cors v0.0.0-20230311205048-b568fe9b470f
 	github.com/kataras/iris/v12 v12.2.0
+	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cast v1.5.0
 	github.com/urfave/cli v1.22.12
@@ -117,7 +118,6 @@ require (
 	github.com/onsi/gomega v1.27.5 // indirect
 	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
-	github.com/pkg/errors v0.9.1 // indirect
 	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5 // indirect
 	github.com/robfig/cron v1.2.0 // indirect
 	github.com/rs/xid v1.4.0 // indirect

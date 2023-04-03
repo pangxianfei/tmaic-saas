@@ -382,8 +382,8 @@ cloud.google.com/go/workflows v1.7.0/go.mod h1:JhSrZuVZWuiDfKEFxU0/F1PQjmpnpcoIS
 cloud.google.com/go/workflows v1.8.0/go.mod h1:ysGhmEajwZxGn1OhGOGKsTXc5PyxOc0vfKf5Af+to4M=
 cloud.google.com/go/workflows v1.9.0/go.mod h1:ZGkj1aFIOd9c8Gerkjjq7OW7I5+l6cSvT3ujaO/WwSA=
 dmitri.shuralyov.com/gpu/mtl v0.0.0-20190408044501-666a987793e9/go.mod h1:H6x//7gZCb22OMCxBHrMx7a5I7Hp++hsVxbQ4BYO7hU=
-gitee.com/pangxianfei/framework v1.0.34 h1:iQa6QYn9pzaYqNEUe+hIfnWX6EkkFLv/Ru3IPESSyhU=
-gitee.com/pangxianfei/framework v1.0.34/go.mod h1:jR2gLwROVKzSRqpH3edhgvc4ci/qefYtWBS+D0Uoxf4=
+gitee.com/pangxianfei/framework v1.1.1 h1:lp3gL4WHwykc8lXFg1DddI6ST3E+lZ0Hyq6rweH6GwE=
+gitee.com/pangxianfei/framework v1.1.1/go.mod h1:Vfd7rVi/y2Nmc2hNjF5Y2kuAFFddDXFdD9VmIXY8Gkw=
 gitee.com/pangxianfei/library v1.0.9 h1:B+02Hwk0Ij3YxtXC18OQmA0gyvnpFWydLpwKjpNIQfE=
 gitee.com/pangxianfei/library v1.0.9/go.mod h1:DBjh7jQL2vkzBvLw0J70dlzH9YjN+ioLYDbisFf+iUQ=
 gitee.com/pangxianfei/saas v1.0.5 h1:InWODribbqBiGKyB3xNRtcmZ3MmpqVkpKixITqejRWg=

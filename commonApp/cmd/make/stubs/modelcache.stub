@@ -1,0 +1,44 @@
+package buffer
+
+import (
+	"encoding/json"
+
+	"gitee.com/pangxianfei/framework/kernel/cache"
+	"gitee.com/pangxianfei/simple"
+    "tmaic/{{VariablAppName}}/models/{{PackageName}}"
+)
+
+var {{StructName}}Cache = new(new{{StructName}}Cache)
+
+type new{{StructName}}Cache struct {
+}
+
+// Get 获取缓存数据
+func (c *new{{StructName}}Cache) Get(getKey string) (returnData *{{PackageName}}.{{StructName}}) {
+
+	if len(getKey) == 0 || getKey == "" {
+		return nil
+	}
+	getNewKey := simple.MD5(getKey)
+
+	//读取缓存
+	cacheData := cache.GetString(getNewKey)
+
+	if len(cacheData) <= 0 {
+		return nil
+	}
+
+	if err := simple.InterfaceToStruct(cacheData, &returnData); err != nil {
+		return nil
+	}
+	return returnData
+}
+
+func (c *new{{StructName}}Cache) SetCacheData(setKey string, cacheData *{{PackageName}}.{{StructName}}) {
+	newData, _ := json.Marshal(cacheData)
+
+	setNewKey := simple.MD5(setKey)
+
+	cache.AddTokenCache(setNewKey, newData)
+
+}

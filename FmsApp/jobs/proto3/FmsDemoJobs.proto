@@ -1,0 +1,6 @@
+syntax = "proto3";
+option go_package = "./protomodel";
+message FmsDemoJob {
+    string UserName = 1;
+    string Mobile = 2;
+}

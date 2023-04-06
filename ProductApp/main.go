@@ -1,10 +1,13 @@
 package main
 
 import (
-	"gitee.com/pangxianfei/framework/kernel/debug"
-	"golang.org/x/sync/errgroup"
 	"runtime"
 	"time"
+
+	"gitee.com/pangxianfei/framework/facades"
+	"gitee.com/pangxianfei/framework/kernel/debug"
+	"golang.org/x/sync/errgroup"
+
 	"tmaic/commonApp/bootstrap"
 )
 
@@ -19,5 +22,6 @@ func main() {
 	time.Sleep(time.Millisecond * 200)
 	if err := app.Wait(); err != nil {
 		debug.Dd(err.Error())
+		facades.Log.Info(err.Error())
 	}
 }

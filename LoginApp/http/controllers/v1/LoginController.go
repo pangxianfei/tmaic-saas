@@ -2,14 +2,12 @@ package v1
 
 import (
 	"gitee.com/pangxianfei/framework/http/controller"
-	"gitee.com/pangxianfei/framework/work"
 	"gitee.com/pangxianfei/library/response"
 	"gitee.com/pangxianfei/library/tmaic"
 	"gitee.com/pangxianfei/saas/paas"
 	"gitee.com/pangxianfei/saas/requests"
 
-	"tmaic/app/jobs"
-	"tmaic/app/jobs/proto3/protomodel"
+	"tmaic/LoginApp/mq"
 )
 
 type LoginController struct {
@@ -17,36 +15,30 @@ type LoginController struct {
 }
 
 // PostLogin 用户名密码登录
-func (c *LoginController) PostLogin() *response.JsonResult {
+func (this *LoginController) PostLogin() *response.JsonResult {
 	var UserLogin requests.UserLogin
-	if err := c.Context.ReadJSON(&UserLogin); err != nil {
-		return response.JsonErrorMsg(err.Error())
+	if err := this.Context.ReadJSON(&UserLogin); err != nil {
+		return this.JsonErrorMsg(err.Error())
 	}
-	adminInfo, token, err := paas.Auth.Login(c.Context, UserLogin)
+	adminInfo, token, err := paas.Auth.Login(this.Context, UserLogin)
 	if err != nil {
-		return response.JsonErrorMsg(err.Error())
+		return this.JsonErrorMsg(err.Error())
 	}
 
-	//推送登陆消息队列
-	LoginJob := jobs.LoginJob
-	LoginJob.SetParam(&protomodel.LoginJob{
-		UserName: adminInfo.UserName,
-		Mobile:   adminInfo.Mobile,
-		TenantId: adminInfo.TenantId,
-		UserType: int32(adminInfo.UserType),
-	})
-	if jobErr := work.Dispatch(LoginJob); jobErr != nil {
-		return response.JsonErrorMsg(jobErr.Error())
-	}
-
-	return response.JsonData(tmaic.V{"token": token, "adminInfo": adminInfo})
+	MQ.LoginMessage.Dispatch(adminInfo)
+	return this.JsonData(tmaic.V{"token": token, "adminInfo": adminInfo})
 }
 
-// GetSignout 退出登录
-func (c *LoginController) GetSignout() *response.JsonResult {
+// PostSignout 退出登录
+func (this *LoginController) PostSignout() *response.JsonResult {
 
-	if paas.Auth.Logout(c.Context) {
+	if paas.Auth.Logout(this.Context) {
 		return response.JsonSuccess()
 	}
-	return response.JsonErrorMsg("登陆异常")
+	return this.JsonErrorMsg("登陆异常")
+}
+
+// PostJosn 退出登录
+func (this *LoginController) PostJosn() *response.JsonResult {
+	return this.JsonErrorMsg("请求有误")
 }

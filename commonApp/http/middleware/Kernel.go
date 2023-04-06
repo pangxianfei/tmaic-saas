@@ -2,11 +2,19 @@ package middleware
 
 import (
 	"sync"
-	OrderAppMiddleware "tmaic/OrderApp/http/middleware"
-	SysAppiddleware "tmaic/SysApp/http/middleware"
-	UserAppMiddleware "tmaic/UserApp/http/middleware"
 
 	"gitee.com/pangxianfei/saas/middleware"
+
+	FmsAppMiddleware "tmaic/FmsApp/http/middleware"
+	NbomAppMiddleware "tmaic/NbomApp/http/middleware"
+	OaAppMiddleware "tmaic/OaApp/http/middleware"
+	OrderAppMiddleware "tmaic/OrderApp/http/middleware"
+	ProductMiddleware "tmaic/ProductApp/http/middleware"
+	SrmAppMiddleware "tmaic/SrmApp/http/middleware"
+	SupplierAppMiddleware "tmaic/SupplierApp/http/middleware"
+	SysAppiddleware "tmaic/SysApp/http/middleware"
+	UserAppMiddleware "tmaic/UserApp/http/middleware"
+	WmAppMiddleware "tmaic/WmApp/http/middleware"
 )
 
 var once sync.Once
@@ -18,10 +26,17 @@ func init() {
 		initCORS()
 		middleware.GetPermissions()
 		middleware.GetPermissions()
-		//用户定义
 		SysAppiddleware.GetAdminPermissions()
+		//用户定义
 		UserAppMiddleware.UserAppInfo()
 		SysAppiddleware.SysAppInfo()
 		OrderAppMiddleware.OrderAppInfo()
+		ProductMiddleware.ProductAppInfo()
+		SrmAppMiddleware.SrmAppInfo()
+		FmsAppMiddleware.FmsAppInfo()
+		NbomAppMiddleware.NbomAppInfo()
+		WmAppMiddleware.WmAppInfo()
+		OaAppMiddleware.OaAppInfo()
+		SupplierAppMiddleware.SupplierAppInfo()
 	})
 }

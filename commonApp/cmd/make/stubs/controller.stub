@@ -1,0 +1,30 @@
+package v1
+
+import (
+	"gitee.com/pangxianfei/framework/http/controller"
+	"gitee.com/pangxianfei/library/response"
+)
+
+type {{StructNamePlural}}Controller struct {
+    controller.BaseController
+}
+
+func (this *{{StructNamePlural}}Controller) PostIndex() *response.JsonResult{
+   return response.JsonQueryData("查询成功")
+}
+
+func this *{{StructNamePlural}}Controller) PostShow() *response.JsonResult{
+    return response.JsonQueryData("查询成功")
+}
+
+func (this *{{StructNamePlural}}Controller) PostStore() *response.JsonResult{
+     return response.JsonUpdateSuccess("创建成功")
+}
+
+func (this *{{StructNamePlural}}Controller) PostUpdate() *response.JsonResult{
+    return response.JsonUpdateFail("更新失败，请稍后尝试~")
+}
+
+func (this *{{StructNamePlural}}Controller) PostDelete() *response.JsonResult{
+    return response.JsonDeleteFail("删除失败，请稍后尝试~")
+}

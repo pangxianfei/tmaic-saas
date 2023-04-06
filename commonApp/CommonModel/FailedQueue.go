@@ -3,8 +3,8 @@ package CommonModel
 import (
 	"gitee.com/pangxianfei/framework/kernel/pb"
 	"gitee.com/pangxianfei/framework/kernel/zone"
-	"gitee.com/pangxianfei/framework/queue"
-	message "gitee.com/pangxianfei/framework/queue/protocol_buffers"
+	"gitee.com/pangxianfei/framework/queue/producerconsumer"
+	"gitee.com/pangxianfei/framework/queue/protocol_buffers"
 	"gitee.com/pangxianfei/simple"
 )
 
@@ -72,7 +72,7 @@ func (fq *FailedQueue) FailedToDatabase(topicName string, channelName string, ms
 	return simple.DB().Create(&_fq).Error
 }
 
-func (fq *FailedQueue) FailedQueueById(id uint) (failedQueuerPtr queue.FailedQueuer, err error) {
+func (fq *FailedQueue) FailedQueueById(id uint) (failedQueuerPtr producerconsumer.FailedQueuer, err error) {
 	mq := FailedQueue{ID: &id}
 	if err := simple.DB().First(&mq).Error; err != nil {
 		return nil, err

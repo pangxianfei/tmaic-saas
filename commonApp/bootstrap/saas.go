@@ -9,10 +9,9 @@ type bootstrap interface {
 	OrderApp() error
 	ProductApp() error
 	UserApp() error
+	SrmApp() error
 	SetAppConfig(app *iris.Application, Port string) error
 	EnablingScheduledTask()
 	UserRouteNameList(app *iris.Application, AppName string, Port string, AppId int64)
 	SysRouteNameList(app *iris.Application, AppName string, Port string, AppId int64)
-	ApplicationExample(AppInfo AppTypeInfo) func() error
-	StartApplication()
 }

@@ -1,0 +1,58 @@
+[2023-03-28 04:14:15] local.info: POST/events/info
+[2023-03-28 04:14:15] local.info: POST/upload/upload
+[2023-03-28 04:14:15] local.info: POST/app/list
+[2023-03-28 04:14:15] local.info: POST/app/store
+[2023-03-28 04:14:15] local.info: POST/app/permission/apply/for
+[2023-03-28 04:14:15] local.info: POST/authority/delete
+[2023-03-28 04:14:15] local.info: POST/authority/show
+[2023-03-28 04:14:15] local.info: POST/authority/store
+[2023-03-28 04:14:15] local.info: POST/authority/update
+[2023-03-28 04:14:15] local.info: POST/saas/create/db/user
+[2023-03-28 04:14:15] local.info: POST/saas/create/tenant/instance
+[2023-03-28 04:14:15] local.info: POST/saas/syn/tenant/user
+[2023-03-28 04:14:15] local.info: POST/bom/create
+[2023-03-28 04:14:15] local.info: POST/bom/delete/by
+[2023-03-28 04:14:15] local.info: POST/bom/edit/by
+[2023-03-28 04:14:15] local.info: POST/bom/info
+[2023-03-28 04:14:15] local.info: POST/auth/register
+[2023-03-28 04:14:15] local.info: POST/auth/register/test
+[2023-03-28 04:14:15] local.info: POST/auth/login
+[2023-03-28 04:14:15] local.info: POST/auth/signout
+[2023-03-28 04:14:15] local.info: POST/auth/createtable/create
+[2023-03-28 04:14:15] local.info: POST/auth/file/create
+[2023-03-28 04:14:15] local.info: POST/user/edit/by
+[2023-03-28 04:14:15] local.info: POST/user/info
+[2023-03-28 04:14:15] local.info: POST/user/set/email
+[2023-03-28 04:14:15] local.info: POST/user/set/username
+[2023-03-28 04:14:15] local.info: POST/user/store
+[2023-03-28 04:14:15] local.info: POST/user/update/password
+[2023-03-28 04:14:15] local.info: POST/staff/edit
+[2023-03-28 04:14:15] local.info: POST/staff/info
+[2023-03-28 04:14:15] local.info: POST/staff/store
+[2023-03-28 04:14:15] local.info: POST/permission/give/role
+[2023-03-28 04:14:15] local.info: POST/permission/give/user/role
+[2023-03-28 04:14:15] local.info: POST/permission/has/role/authority
+[2023-03-28 04:14:15] local.info: POST/permission/remove/user/role
+[2023-03-28 04:14:15] local.info: POST/permission/revoke/role
+[2023-03-28 04:14:15] local.info: POST/permission/revoke/user
+[2023-03-28 04:14:15] local.info: POST/permission/role
+[2023-03-28 04:14:15] local.info: POST/permission/sync
+[2023-03-28 04:14:15] local.info: POST/role/any
+[2023-03-28 04:14:15] local.info: POST/role/delete
+[2023-03-28 04:14:15] local.info: POST/role/edit
+[2023-03-28 04:14:15] local.info: POST/role/remove
+[2023-03-28 04:14:15] local.info: POST/role/store
+[2023-03-28 04:14:15] local.info: POST/role/update
+[2023-03-28 04:14:15] local.info: POST/saas/db
+[2023-03-28 04:14:16] local.info: POST/order/create
+[2023-03-28 04:14:16] local.info: POST/order/delete/by
+[2023-03-28 04:14:16] local.info: POST/order/edit/by
+[2023-03-28 04:14:16] local.info: POST/order/info
+[2023-03-28 06:48:57] local.info: queue msg receivedmap[msg:{123c7dc9e3c6d000 3 1 seconds:1679957294  nanos:331542700  [10 11 112 97 110 103 120 105 97 110 102 101 105 18 11 49 56 54 56 56 54 55 56 49 56 49] {} [] 0}]
+[2023-03-28 07:02:51] local.info: queue msg receivedmap[msg:{123c80f96206d000 3 1 seconds:1679958171 nanos:959029700  [10 11 112 97 110 103 120 105 97 110 102 101 105 18 11 49 56 54 56 56 54 55 56 49 56 49] {} [] 0}]
+[2023-03-28 07:02:53] local.info: queue msg receivedmap[msg:{123c80faaa46d000 3 1 seconds:1679958173 nanos:340447000  [10 11 112 97 110 103 120 105 97 110 102 101 105 18 11 49 56 54 56 56 54 55 56 49 56 49] {} [] 0}]
+[2023-03-28 07:02:54] local.info: queue msg receivedmap[msg:{123c80fb5246d000 3 1 seconds:1679958174 nanos:44948600  [10 11 112 97 110 103 120 105 97 110 102 101 105 18 11 49 56 54 56 56 54 55 56 49 56 49] {} [] 0}]
+[2023-03-28 07:02:54] local.info: queue msg receivedmap[msg:{123c80fbe2c6d000 3 1 seconds:1679958174 nanos:651739400  [10 11 112 97 110 103 120 105 97 110 102 101 105 18 11 49 56 54 56 56 54 55 56 49 56 49] {} [] 0}]
+[2023-03-28 07:04:55] local.info: queue msg receivedmap[msg:{123c814d3906d000 3 1 seconds:1679958261 nanos:982520700  [10 11 112 97 110 103 120 105 97 110 102 101 105 18 11 49 56 54 56 56 54 55 56 49 56 49] {} [] 0}]
+[2023-03-28 07:04:55] local.info: queue msg receivedmap[msg:{123c814e9dc6d000 3 1 seconds:1679958263 nanos:483359800  [10 11 112 97 110 103 120 105 97 110 102 101 105 18 11 49 56 54 56 56 54 55 56 49 56 49] {} [] 0}]
+[2023-03-28 07:04:55] local.info: queue msg receivedmap[msg:{123c814f57c6d000 3 1 seconds:1679958264 nanos:262977000  [10 11 112 97 110 103 120 105 97 110 102 101 105 18 11 49 56 54 56 56 54 55 56 49 56 49] {} [] 0}]

@@ -4,7 +4,7 @@ package v1
 人事人员信息
 */
 import (
-	"gitee.com/pangxianfei/framework/http/controller"
+	"gitee.com/pangxianfei/framework/http/controller/iriscontroller"
 	"gitee.com/pangxianfei/library/response"
 	"gitee.com/pangxianfei/saas/paas"
 )

@@ -1,7 +1,7 @@
 package v1
 
 import (
-	"gitee.com/pangxianfei/framework/http/controller"
+	"gitee.com/pangxianfei/framework/http/controller/iriscontroller"
 	"gitee.com/pangxianfei/library/response"
 	"gitee.com/pangxianfei/library/tmaic"
 	"gitee.com/pangxianfei/saas/paas"
@@ -17,9 +17,14 @@ type LoginController struct {
 // PostLogin 用户名密码登录
 func (this *LoginController) PostLogin() *response.JsonResult {
 	var UserLogin requests.UserLogin
-	if err := this.Context.ReadJSON(&UserLogin); err != nil {
-		return this.JsonErrorMsg(err.Error())
+	if err, data := this.Validation.Json(this.Context, &UserLogin, nil); err != nil {
+		return this.JsonDataError(data)
 	}
+	/*
+		if err := this.Context.ReadJSON(&UserLogin); err != nil {
+			return this.JsonErrorMsg(err.Error())
+		}
+	*/
 	adminInfo, token, err := paas.Auth.Login(this.Context, UserLogin)
 	if err != nil {
 		return this.JsonErrorMsg(err.Error())

@@ -7,6 +7,7 @@ import (
 	"gitee.com/pangxianfei/framework/kernel/zone"
 	"gitee.com/pangxianfei/framework/log"
 	"gitee.com/pangxianfei/framework/queue/producerconsumer"
+	"gitee.com/pangxianfei/framework/zap"
 
 	"tmaic/LoginApp/events"
 	"tmaic/LoginApp/jobs"
@@ -18,6 +19,7 @@ import (
 func (s *Saas) Initialize() {
 	config.Initialize()
 	log.Initialize()
+	zap.Initialize()
 	database.Initialize()
 	zone.Initialize()
 	lang.Initialize()

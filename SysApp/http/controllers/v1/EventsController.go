@@ -2,7 +2,7 @@ package v1
 
 import (
 	"gitee.com/pangxianfei/framework/facades"
-	"gitee.com/pangxianfei/framework/http/controller"
+	"gitee.com/pangxianfei/framework/http/controller/iriscontroller"
 	"gitee.com/pangxianfei/library/response"
 
 	"gitee.com/pangxianfei/framework/queue/hub"
